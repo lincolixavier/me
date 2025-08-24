@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lincoli | Coming Soon</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: #0e0e0e;
+      color: #f3f3f3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      flex-direction: column;
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      margin: 0.3em 0;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin: 0.5em 0;
+      font-weight: 400;
+      opacity: 0.85;
+    }
+
+    h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #bbb;
+      margin-top: 1em;
+    }
+
+    .highlight {
+      background: linear-gradient(90deg, #d82222, #e81d2e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+    }
+     .gray {
+      background: linear-gradient(90deg, #c5c5c5, #f1f1f1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 400;
+            font-style: italic;
+
+    }
+
+    .pulse {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      margin-left: 4px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, #f12b2b, #e21a46);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.4; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+    <h3>Hello, I’m <span class="highlight">lincoli.xavier</span></h3>
+
+    <h1>Building <br><span class="highlight">Experiences</span></h1>
+
+    <h3>Something new is coming <span class="pulse"></span></h3>
+
+</body>
+</html>
