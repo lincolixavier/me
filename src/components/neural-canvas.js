@@ -9,6 +9,9 @@ const DEFAULT_ORBIT_MIN = 26;
 const DEFAULT_ORBIT_MAX = 26;
 const DEFAULT_AUTO_ROTATE_SPEED = 0.23;
 
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 class NeuralCanvas extends HTMLElement {
   static get observedAttributes() {
     return ["camera-z", "orbit-min", "orbit-max", "auto-rotate-speed", "bloom", "density"];
@@ -71,6 +74,7 @@ class NeuralCanvas extends HTMLElement {
       autoRotateSpeed: num("auto-rotate-speed", DEFAULT_AUTO_ROTATE_SPEED),
       bloom,
       density: num("density", 1),
+      reducedMotion: prefersReducedMotion(),
     };
   }
 

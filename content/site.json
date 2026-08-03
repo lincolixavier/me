@@ -1,0 +1,64 @@
+{
+  "_comment": "Single source of truth for site metadata, navigation and social links. Edit here, never in HTML — every page is generated from this file.",
+
+  "name": "Lincoli Xavier",
+  "url": "https://lincolixavier.com",
+  "lang": "en",
+  "locale": "en_US",
+  "title": "Lincoli Xavier",
+  "tagline": "software engineer • entrepreneur • digital nomad",
+  "description": "Software engineer, entrepreneur and digital nomad. I build products and teams that ship.",
+  "themeColor": "#050508",
+  "twitterHandle": "@lincolixavier",
+
+  "hero": {
+    "kicker": "hello, i'm",
+    "rotatingWords": ["building", "coding", "crafting", "shipping"]
+  },
+
+  "nav": [
+    { "id": "about", "href": "/#about" },
+    { "id": "articles", "href": "/articles/" },
+    { "id": "projects", "href": "/projects/" },
+    { "id": "podcasts", "href": "/podcasts/" },
+    { "id": "gear", "href": "/gear/" },
+    { "id": "life", "href": "/life/" }
+  ],
+
+  "_socialComment": "Confirm each handle before deploying. Remove any entry you do not actually use — the footer renders exactly what is listed here.",
+  "social": [
+    { "label": "email", "href": "mailto:lincolixavier@gmail.com" },
+    { "label": "github", "href": "https://github.com/lincolixavier" },
+    { "label": "linkedin", "href": "https://www.linkedin.com/in/lincolixavier/" },
+    { "label": "twitter", "href": "https://x.com/lincolixavier" },
+    { "label": "instagram", "href": "https://www.instagram.com/lincolixavier/" },
+    { "label": "youtube", "href": "https://www.youtube.com/@lincolixavier" },
+    { "label": "substack", "href": "https://lincolixavier.substack.com" },
+    { "label": "nomad community", "href": "https://gonomadz.com" }
+  ],
+
+  "listings": {
+    "articles": {
+      "title": "articles",
+      "subhead": "Writing on tech, design and building things.",
+      "empty": "No articles yet. Check back soon."
+    },
+    "projects": {
+      "title": "projects",
+      "subhead": "Things I've built, shipped, or contributed to.",
+      "empty": "No projects yet. Check back soon."
+    },
+    "podcasts": {
+      "title": "podcasts",
+      "subhead": "Conversations on building, technology and the road.",
+      "empty": "No episodes yet. Check back soon."
+    },
+    "gear": {
+      "title": "gear",
+      "subhead": "Tools and setup I use to build and create.",
+      "empty": "No gear listed yet. Check back soon."
+    }
+  },
+
+  "pageSize": 6
+}

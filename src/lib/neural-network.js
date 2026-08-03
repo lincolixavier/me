@@ -22,6 +22,9 @@ export function initNeuralNetwork(options = {}, root = null) {
     autoRotateSpeed: 0.23,
     bloom: true,
     density: 1,
+    // When true the scene is drawn but never animates on its own: no auto
+    // rotation, no pulses, no render loop. It redraws only on user interaction.
+    reducedMotion: false,
     ...options
   };
 
@@ -111,7 +114,7 @@ export function initNeuralNetwork(options = {}, root = null) {
     controls.rotateSpeed = 0.55;
   controls.minDistance = opts.orbitMin;
   controls.maxDistance = opts.orbitMax;
-  controls.autoRotate = true;
+  controls.autoRotate = !opts.reducedMotion;
   controls.autoRotateSpeed = opts.autoRotateSpeed;
     controls.enablePan = false;
 
@@ -121,6 +124,16 @@ export function initNeuralNetwork(options = {}, root = null) {
     return t <= 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
   function animateTo(targetOpts, durationMs = 1200, onComplete) {
+    // Reduced motion: jump straight to the target framing, no camera flight.
+    if (opts.reducedMotion) {
+      camera.position.set(0, 2, targetOpts.cameraZ);
+      controls.minDistance = targetOpts.orbitMin;
+      controls.maxDistance = targetOpts.orbitMax;
+      currentOpts = { ...currentOpts, ...targetOpts };
+      draw();
+      onComplete?.();
+      return;
+    }
     tween = {
       startTime: null,
       duration: durationMs,
@@ -761,6 +774,28 @@ export function initNeuralNetwork(options = {}, root = null) {
     const onVisibilityChange = () => { pageVisible = !document.hidden; };
     document.addEventListener("visibilitychange", onVisibilityChange);
 
+    /**
+     * Draws a single frame at time `t`. `pinCameraZ` holds the camera at a
+     * given distance while a tween is in flight, after controls.update() has
+     * had its say.
+     */
+    function draw(t = 0, pinCameraZ = null) {
+      if (nodesMesh) {
+        nodesMesh.material.uniforms.uTime.value = t;
+        nodesMesh.rotation.y = Math.sin(t * 0.04) * 0.05;
+      }
+      if (connectionsMesh) {
+        connectionsMesh.material.uniforms.uTime.value = t;
+        connectionsMesh.rotation.y = Math.sin(t * 0.04) * 0.05;
+      }
+
+      controls.update();
+      if (pinCameraZ != null) camera.position.set(0, 2, pinCameraZ);
+
+      if (composer) composer.render();
+      else renderer.render(scene, camera);
+    }
+
     function animate() {
       requestAnimationFrame(animate);
       if (!inViewport || !pageVisible) return;
@@ -787,20 +822,7 @@ export function initNeuralNetwork(options = {}, root = null) {
         }
       }
 
-      if (nodesMesh) {
-        nodesMesh.material.uniforms.uTime.value = t;
-        nodesMesh.rotation.y = Math.sin(t * 0.04) * 0.05;
-      }
-      if (connectionsMesh) {
-        connectionsMesh.material.uniforms.uTime.value = t;
-        connectionsMesh.rotation.y = Math.sin(t * 0.04) * 0.05;
-      }
-
-      controls.update();
-      if (tween) camera.position.set(0, 2, currentOpts.cameraZ);
-
-      if (composer) composer.render();
-      else renderer.render(scene, camera);
+      draw(t, tween ? currentOpts.cameraZ : null);
     }
 
     function onWindowResize() {
@@ -809,11 +831,20 @@ export function initNeuralNetwork(options = {}, root = null) {
       const h = window.innerHeight;
       if (composer) composer.setSize(w, h);
       if (bloomPass) bloomPass.resolution.set(w, h);
+      if (opts.reducedMotion) draw();
     }
 
     window.addEventListener("resize", onWindowResize);
 
   createNetworkVisualization();
-  animate();
+
+  if (opts.reducedMotion) {
+    // No render loop: one frame now, then only when the user moves the camera.
+    controls.addEventListener("change", () => draw());
+    draw();
+  } else {
+    animate();
+  }
+
   return { animateTo };
 }

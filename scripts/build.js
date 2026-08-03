@@ -1,214 +1,194 @@
-// Build: content/articles/*.md → dist/articles/*.html + articles/index.json (Node only, no deps)
-// Run: node scripts/build.js  |  Watch: node --watch scripts/build.js
+/**
+ * Static site generator for lincolixavier.com — no dependencies.
+ *
+ * Everything under dist/ is generated; nothing in it should ever be edited by
+ * hand. Sources of truth:
+ *   content/site.json       site metadata, navigation, social links
+ *   content/pages/*.html    prose fragments (about, life)
+ *   content/articles/*.md   articles, with YAML front-matter
+ *   content/*.json          projects, podcasts, gear
+ *
+ * Run: node scripts/build.js   (or `bun run build`)
+ */
 
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
 import { parseFrontMatter } from "./lib/front-matter.js";
-import { parseMarkdown } from "./lib/markdown.js";
+import { parseMarkdown, excerpt } from "./lib/markdown.js";
+import { copyDir, renderRobots, renderSitemap, renderFeed } from "./lib/assets.js";
+import {
+  buildHome,
+  buildLife,
+  buildArticlesIndex,
+  buildArticle,
+  buildProjects,
+  buildPodcasts,
+  buildGear,
+  build404,
+} from "./lib/pages.js";
 
-// Paths & config ------------------------------
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const DIST = path.join(ROOT, "dist");
+const CONTENT = path.join(ROOT, "content");
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.resolve(__dirname, "..");
+const warnings = [];
 
-const PATHS = {
-  contentArticles: path.join(ROOT, "content", "articles"),
-  distArticles: path.join(ROOT, "dist", "articles"),
-  articlesIndexJson: path.join(ROOT, "articles", "index.json"),
-};
+// Reading ------------------------------
 
-const BASE_HREF = "../../";
-
-const IMPORT_MAP = {
-  imports: {
-    three: "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/",
-  },
-};
-
-const ARTICLE_SCRIPTS = [
-  "src/components/site-header.js",
-  "src/components/site-footer.js",
-  "src/components/neural-canvas.js",
-];
-
-// HTML & template helpers ------------------------------
-
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-function formatDate(raw) {
-  if (!raw) return "";
-  const d = new Date(raw + "T00:00:00");
-  if (isNaN(d.getTime())) return raw;
-  return `${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
-}
-
-function escapeHtml(value) {
-  if (value == null || value === "") return "";
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-function renderArticlePage({ title, description, date, body }) {
-  const safeTitle = escapeHtml(title);
-  const safeDescription = escapeHtml(description ?? "");
-  const safeDate = escapeHtml(date ?? "");
-  const formattedDate = formatDate(date);
-  const dateBlock =
-    safeDate !== ""
-      ? `<time class="article-date" datetime="${safeDate}">${escapeHtml(formattedDate)}</time>`
-      : "";
-
-  const scriptTags = ARTICLE_SCRIPTS.map(
-    (src) => `<script type="module" src="${BASE_HREF}${src}"></script>`
-  ).join("\n  ");
-
-  return `<!DOCTYPE html>
-            <html lang="en">
-            <head>
-              <meta charset="UTF-8" />
-              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-              <title>${safeTitle}</title>
-              <meta name="description" content="${safeDescription}" />
-              <link rel="preconnect" href="https://fonts.googleapis.com" />
-              <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-              <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
-              <link href="${BASE_HREF}src/styles/main.css" rel="stylesheet" />
-            </head>
-            <body>
-              <neural-canvas camera-z="14" orbit-min="14" orbit-max="24" bloom="false" auto-rotate-speed="0.1" density="0.45"></neural-canvas>
-              <div class="left-fade" aria-hidden="true"></div>
-
-              <div class="page">
-                <div class="scroll-fade scroll-fade--top" aria-hidden="true"></div>
-                <div class="scroll-fade scroll-fade--bottom" aria-hidden="true"></div>
-                <site-header active="articles" home-href="${BASE_HREF}index.html"></site-header>
-
-                <main class="article-page">
-                  <article class="article-content">
-                    <header class="article-header">
-                      <h1 class="page-title">${safeTitle}</h1>
-                      ${dateBlock}
-                    </header>
-                    <div class="prose article-body">
-            ${body}
-                    </div>
-                  </article>
-                </main>
-
-                <site-footer></site-footer>
-              </div>
-
-              <script type="importmap">
-                ${JSON.stringify(IMPORT_MAP, null, 2)}
-              </script>
-              ${scriptTags}
-            </body>
-            </html>
-            `;
-  }
-
-// Article metadata ------------------------------
-
-function buildArticleMetadata(attributes, slug) {
-  const tags = Array.isArray(attributes?.tags) ? attributes.tags : [];
-  return {
-    slug,
-    title: (attributes?.title ?? slug),
-    date: attributes?.date ?? null,
-    description: attributes?.description ?? null,
-    tags,
-  };
-}
-
-function sortByDateDesc(metadata) {
-  metadata.sort((a, b) => {
-    const dateA = a.date ?? "";
-    const dateB = b.date ?? "";
-    return dateB.localeCompare(dateA);
-  });
-}
-
-// I/O and pipeline ------------------------------
-
-async function ensureDirectories() {
-  await fs.mkdir(PATHS.contentArticles, { recursive: true });
-  await fs.mkdir(PATHS.distArticles, { recursive: true });
-  await fs.mkdir(path.dirname(PATHS.articlesIndexJson), { recursive: true });
-}
-
-async function listMarkdownFiles() {
+async function readJson(relPath, fallback = null) {
   try {
-    const entries = await fs.readdir(PATHS.contentArticles, {
-      withFileTypes: true,
-    });
-    return entries.filter((e) => e.isFile() && e.name.endsWith(".md"));
+    return JSON.parse(await fs.readFile(path.join(ROOT, relPath), "utf-8"));
+  } catch (err) {
+    if (err.code === "ENOENT" && fallback !== null) {
+      warnings.push(`${relPath} not found — using an empty list.`);
+      return fallback;
+    }
+    throw new Error(`Could not read ${relPath}: ${err.message}`);
+  }
+}
+
+async function readFragment(relPath) {
+  try {
+    return await fs.readFile(path.join(ROOT, relPath), "utf-8");
   } catch (err) {
     if (err.code === "ENOENT") {
-      await fs.mkdir(PATHS.contentArticles, { recursive: true });
-      return [];
+      warnings.push(`${relPath} not found — that section will be empty.`);
+      return "";
     }
     throw err;
   }
 }
 
-async function readAndParseArticle(filePath, slug) {
-  const raw = await fs.readFile(filePath, "utf-8");
-  const { attributes, body } = parseFrontMatter(raw);
-  const metadata = buildArticleMetadata(attributes ?? {}, slug);
-  const htmlBody = parseMarkdown(body);
-  return { metadata, htmlBody: String(htmlBody) };
+async function exists(absPath) {
+  try {
+    await fs.access(absPath);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
-async function buildOneArticle(dirent) {
-  const slug = path.basename(dirent.name, ".md");
-  const filePath = path.join(PATHS.contentArticles, dirent.name);
+/** Parses every article, newest first. Missing descriptions fall back to an excerpt. */
+async function readArticles() {
+  const dir = path.join(CONTENT, "articles");
+  let files = [];
+  try {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    files = entries.filter((e) => e.isFile() && e.name.endsWith(".md"));
+  } catch (err) {
+    if (err.code !== "ENOENT") throw err;
+    warnings.push("content/articles/ not found — no articles were built.");
+    return [];
+  }
 
-  const { metadata, htmlBody } = await readAndParseArticle(filePath, slug);
-  const html = renderArticlePage({
-    title: metadata.title,
-    description: metadata.description,
-    date: metadata.date,
-    body: htmlBody,
-  });
+  const articles = await Promise.all(
+    files.map(async (file) => {
+      const slug = path.basename(file.name, ".md");
+      const raw = await fs.readFile(path.join(dir, file.name), "utf-8");
+      const { attributes, body } = parseFrontMatter(raw);
 
-  const outPath = path.join(PATHS.distArticles, `${slug}.html`);
-  await fs.writeFile(outPath, html, "utf-8");
+      if (!attributes.title) warnings.push(`${file.name} has no "title" in its front-matter.`);
+      if (!attributes.date) warnings.push(`${file.name} has no "date" — it will sort last.`);
 
-  return metadata;
-}
-
-/**
- * Writes articles/index.json with the given metadata array.
- * @param {ArticleMetadata[]} metadata
- */
-async function writeArticlesIndex(metadata) {
-  await fs.writeFile(
-    PATHS.articlesIndexJson,
-    JSON.stringify({ articles: metadata }, null, 2),
-    "utf-8"
+      return {
+        slug,
+        title: attributes.title ?? slug,
+        date: attributes.date ?? null,
+        description: attributes.description ?? excerpt(body),
+        tags: Array.isArray(attributes.tags) ? attributes.tags : [],
+        body: parseMarkdown(body),
+      };
+    })
   );
+
+  return articles.sort((a, b) => String(b.date ?? "").localeCompare(String(a.date ?? "")));
 }
 
-// Main build ------------------------------
+// Writing ------------------------------
+
+async function writeFile(relPath, contents) {
+  const target = path.join(DIST, relPath);
+  await fs.mkdir(path.dirname(target), { recursive: true });
+  await fs.writeFile(target, contents, "utf-8");
+}
+
+// Build ------------------------------
 
 async function build() {
-  await ensureDirectories();
+  const started = Date.now();
 
-  const mdFiles = await listMarkdownFiles();
-  const metadata = await Promise.all(mdFiles.map(buildOneArticle));
+  const site = await readJson("content/site.json");
+  const ogImagePath = path.join(ROOT, "assets", "og.png");
+  site.ogImage = (await exists(ogImagePath)) ? "/assets/og.png" : null;
+  if (!site.ogImage) {
+    warnings.push(
+      "assets/og.png missing — social previews will show no image. Export assets/og.svg to a 1200×630 PNG."
+    );
+  }
 
-  sortByDateDesc(metadata);
-  await writeArticlesIndex(metadata);
+  const [aboutHtml, lifeHtml, articles, projectsData, podcastsData, gearData] = await Promise.all([
+    readFragment("content/pages/about.html"),
+    readFragment("content/pages/life.html"),
+    readArticles(),
+    readJson("content/projects.json", { projects: [] }),
+    readJson("content/podcasts.json", { podcasts: [] }),
+    readJson("content/gear.json", { categories: [] }),
+  ]);
 
-  console.log(
-    `Built ${metadata.length} article(s) → dist/articles/*.html, articles/index.json`
+  // Start from a clean slate so deleted content cannot linger in dist/.
+  await fs.rm(DIST, { recursive: true, force: true });
+  await fs.mkdir(DIST, { recursive: true });
+
+  const pages = [
+    buildHome({ site, aboutHtml }),
+    buildLife({ site, lifeHtml }),
+    buildArticlesIndex({ site, articles }),
+    buildProjects({ site, projects: projectsData.projects ?? [] }),
+    buildPodcasts({ site, podcasts: podcastsData.podcasts ?? [] }),
+    buildGear({ site, categories: gearData.categories ?? [] }),
+    build404({ site }),
+    ...articles.map((article) => buildArticle({ site, article, body: article.body })),
+  ];
+
+  await Promise.all(pages.map((page) => writeFile(page.path, page.html)));
+
+  // Static assets the pages reference.
+  await copyDir(path.join(ROOT, "src"), path.join(DIST, "src"));
+  if (await exists(path.join(ROOT, "assets"))) {
+    await copyDir(path.join(ROOT, "assets"), path.join(DIST, "assets"));
+  }
+
+  const newest = articles.find((a) => a.date)?.date;
+  await writeFile("robots.txt", renderRobots(site));
+  await writeFile("feed.xml", renderFeed(site, articles));
+  await writeFile(
+    "sitemap.xml",
+    renderSitemap(site, [
+      { path: "/", priority: "1.0" },
+      { path: "/articles/", lastmod: newest, priority: "0.8" },
+      { path: "/projects/", priority: "0.8" },
+      { path: "/podcasts/", priority: "0.6" },
+      { path: "/gear/", priority: "0.5" },
+      { path: "/life/", priority: "0.5" },
+      ...articles.map((a) => ({
+        path: `/articles/${a.slug}/`,
+        lastmod: a.date ?? undefined,
+        priority: "0.7",
+      })),
+    ])
   );
+
+  const elapsed = Date.now() - started;
+  console.log(
+    `Built ${pages.length} pages (${articles.length} articles) → dist/ in ${elapsed}ms`
+  );
+
+  if (warnings.length) {
+    console.warn(`\n${warnings.length} warning(s):`);
+    for (const warning of warnings) console.warn(`  · ${warning}`);
+  }
 }
 
 build().catch((err) => {

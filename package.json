@@ -1,8 +1,11 @@
 {
   "name": "lincoli-xavier-site",
   "type": "module",
+  "private": true,
   "scripts": {
     "build": "node scripts/build.js",
-    "dev": "bunx serve . -p 3000"
+    "dev": "node scripts/build.js && bunx serve dist -p 3000",
+    "watch": "node --watch-path=./content --watch-path=./src --watch-path=./scripts scripts/build.js",
+    "test": "node --test \"scripts/test/*.test.js\""
   }
 }
