@@ -229,6 +229,7 @@ ${body}
       canvas: CANVAS.article,
       scripts: ["/src/pages/article.js"],
       type: "article",
+      ogImage: article.ogImage,
       published: article.date || undefined,
       jsonLd: {
         "@context": "https://schema.org",

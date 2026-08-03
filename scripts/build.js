@@ -92,12 +92,15 @@ async function readArticles() {
       if (!attributes.title) warnings.push(`${file.name} has no "title" in its front-matter.`);
       if (!attributes.date) warnings.push(`${file.name} has no "date" — it will sort last.`);
 
+      const ogFile = path.join(ROOT, "assets", "og", `${slug}.png`);
+
       return {
         slug,
         title: attributes.title ?? slug,
         date: attributes.date ?? null,
         description: attributes.description ?? excerpt(body),
         tags: Array.isArray(attributes.tags) ? attributes.tags : [],
+        ogImage: (await exists(ogFile)) ? `/assets/og/${slug}.png` : null,
         body: parseMarkdown(body),
       };
     })
@@ -157,12 +160,19 @@ async function build() {
   const started = Date.now();
 
   const site = await readJson("content/site.json");
-  const ogImagePath = path.join(ROOT, "assets", "og.png");
-  site.ogImage = (await exists(ogImagePath)) ? "/assets/og.png" : null;
+
+  /**
+   * Social previews are pre-rendered by `bun run og` and committed, so a
+   * deploy never depends on a browser being available to draw them. Whatever
+   * is on disk gets linked; anything missing falls back to the default rather
+   * than advertising an image that would 404.
+   */
+  site.ogImage = (await exists(path.join(ROOT, "assets", "og", "default.png")))
+    ? "/assets/og/default.png"
+    : null;
+
   if (!site.ogImage) {
-    warnings.push(
-      "assets/og.png missing — social previews will show no image. Export assets/og.svg to a 1200×630 PNG."
-    );
+    warnings.push("assets/og/default.png missing — run `bun run og`.");
   }
 
   const [aboutHtml, lifeHtml, articles, projectsData, podcastsData, gearData] = await Promise.all([

@@ -80,7 +80,7 @@ function renderFooter(site) {
 </footer>`;
 }
 
-function renderMeta(site, { path, title, description, type = "website", published, modified }) {
+function renderMeta(site, { path, title, description, type = "website", published, modified, ogImage }) {
   const canonical = absoluteUrl(site.url, path);
   const desc = description || site.description;
   const tags = [
@@ -106,9 +106,11 @@ function renderMeta(site, { path, title, description, type = "website", publishe
   }
 
   // Only advertise a preview image when one actually exists on disk — a broken
-  // og:image is worse than none at all.
-  if (site.ogImage) {
-    const image = absoluteUrl(site.url, site.ogImage);
+  // og:image is worse than none at all. Pages can bring their own.
+  const preview = ogImage || site.ogImage;
+
+  if (preview) {
+    const image = absoluteUrl(site.url, preview);
     tags.push(
       "",
       `<meta property="og:image" content="${escape(image)}" />`,
@@ -154,6 +156,7 @@ export function renderPage({
   type = "website",
   published,
   modified,
+  ogImage = null,
 }) {
   const scriptTags = [
     "/src/pages/splash.js",
@@ -180,7 +183,7 @@ export function renderPage({
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${escape(title)}</title>
-  ${renderMeta(site, { path, title, description, type, published, modified })}
+  ${renderMeta(site, { path, title, description, type, published, modified, ogImage })}
 
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-400.woff2" crossorigin />

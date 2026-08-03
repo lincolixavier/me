@@ -6,6 +6,7 @@
     "build": "node scripts/build.js",
     "dev": "node scripts/build.js && bunx serve dist -p 3000",
     "watch": "node --watch-path=./content --watch-path=./src --watch-path=./scripts scripts/build.js",
-    "test": "node --test \"scripts/test/*.test.js\""
+    "test": "node --test \"scripts/test/*.test.js\"",
+    "og": "node scripts/og.js"
   }
 }
