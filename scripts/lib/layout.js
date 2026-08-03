@@ -173,6 +173,15 @@ export function renderPage({
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" />
   <link rel="stylesheet" href="/src/styles/main.css" />
   <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} — articles" href="/feed.xml" />${structuredData}
+  <script>
+    // Every navigation is a fresh document, so without this the splash would
+    // replay on each one and sit in front of the page the reader just asked
+    // for. Inline and before paint, so the second page never flashes it.
+    try {
+      if (sessionStorage.getItem("splash-seen")) document.documentElement.dataset.splash = "seen";
+      else sessionStorage.setItem("splash-seen", "1");
+    } catch (e) {}
+  </script>
 </head>
 <body>
   <div class="splash" data-splash aria-hidden="true">
