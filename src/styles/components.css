@@ -704,6 +704,17 @@
    * .main-content sets its two columns there, unscoped, and a later rule of
    * equal specificity beats an earlier one inside a media query.
    */
+  /**
+   * The desktop composition indents content 80px from its container so the
+   * text sits clear of the 3D backdrop. On a phone the container already has
+   * the page padding, so this stacked on top of it: every wrapper that uses
+   * the variable — about, life, gear, articles, the hero — lost 80px off the
+   * left and ran narrow. Zeroing it once fixes all of them.
+   */
+  :root {
+    --content-padding-left: 0px;
+  }
+
   .page {
     height: auto;
     min-height: 100svh;
@@ -966,8 +977,9 @@
   .hero {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     min-height: 100svh;
-    padding-top: 78px;
+    padding-top: 104px;
     padding-bottom: 34px;
   }
 
@@ -980,14 +992,18 @@
   .hero-content {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     flex: 1;
     padding-left: 0;
     padding-right: 0;
     width: 100%;
   }
 
+  /* Sits with the headline rather than being held at the fold. The footer
+     links are right below it, so pinning it down there separated it from the
+     sentence it belongs to. */
   .subhead {
-    margin-top: auto;
+    margin-top: 18px;
   }
 
   .kicker {
