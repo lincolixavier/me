@@ -660,6 +660,51 @@
   color: var(--color-accent);
 }
 
+.article-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.metric {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-btn {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 7px 12px;
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+  transition: border-color var(--transition-base), color var(--transition-base),
+    background var(--transition-base);
+}
+
+.metric-btn:hover:not(:disabled),
+.metric-btn:focus-visible {
+  color: var(--color-text);
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.metric-btn--on {
+  color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.metric-btn:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
 .share-btn {
   font-family: var(--font-sans);
   font-size: 0.8125rem;

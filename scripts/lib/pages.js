@@ -185,11 +185,17 @@ export function buildArticle({ site, article, body }) {
     <div class="prose article-body">
 ${body}
     </div>
-    <footer class="article-footer">
+    <footer class="article-footer" data-slug="${escape(article.slug)}">
       <a class="back-link" href="/articles/">← all articles</a>
-      <button class="share-btn" type="button" hidden data-share data-title="${escape(article.title)}">
-        <span data-share-label>share</span>
-      </button>
+      <div class="article-actions">
+        <span class="metric" hidden data-views><span data-views-count>0</span> views</span>
+        <button class="metric-btn" type="button" hidden data-like aria-pressed="false">
+          <span aria-hidden="true">♥</span> <span data-likes-count>0</span>
+        </button>
+        <button class="share-btn" type="button" hidden data-share data-title="${escape(article.title)}">
+          <span data-share-label>share</span>
+        </button>
+      </div>
     </footer>
   </article>
 </main>`;
