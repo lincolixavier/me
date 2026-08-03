@@ -3,14 +3,14 @@
   "podcasts": [
     {
       "id": "product-gurus-ai",
-      "title": "AI won't steal your job (even if your CTO thinks so)",
+      "title": "A IA não vai roubar seu trabalho (mesmo que seu CTO acredite nisso)",
       "description": "A talk on what AI actually changes in engineering work, and what it does not.",
       "show": "Product Guru's",
       "date": "2025-04-16",
       "duration": "49m",
       "url": "https://www.youtube.com/watch?v=E7y9twcaOIA",
       "platform": "youtube",
-      "lang": "en"
+      "lang": "pt"
     },
     {
       "id": "augusto-galego-nomad",
@@ -188,6 +188,5 @@
       "platform": "spotify",
       "lang": "pt"
     }
-  ],
-  "_langComment": "lang drives the flag on the card. product-gurus-ai is marked en — confirm, YouTube shows that video with both a Portuguese and an English title."
+  ]
 }
