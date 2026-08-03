@@ -1,6 +1,5 @@
 {
   "_comment": "Sorted newest first at build time. `show` renders as the accent pill, `platform` as the secondary one.",
-
   "podcasts": [
     {
       "id": "product-gurus-ai",
@@ -10,7 +9,8 @@
       "date": "2025-04-16",
       "duration": "49m",
       "url": "https://www.youtube.com/watch?v=E7y9twcaOIA",
-      "platform": "youtube"
+      "platform": "youtube",
+      "lang": "en"
     },
     {
       "id": "augusto-galego-nomad",
@@ -20,7 +20,8 @@
       "date": "2025-03-27",
       "duration": "45m",
       "url": "https://www.youtube.com/watch?v=ImbRHHlY6qs",
-      "platform": "youtube"
+      "platform": "youtube",
+      "lang": "pt"
     },
     {
       "id": "engineering-sessions-efficiency",
@@ -30,7 +31,8 @@
       "date": "2023-06-26",
       "duration": "51m",
       "url": "https://www.youtube.com/watch?v=-ViLUFLtfZU",
-      "platform": "youtube"
+      "platform": "youtube",
+      "lang": "pt"
     },
     {
       "id": "dev-amigo-12",
@@ -40,7 +42,8 @@
       "date": "2023-05-10",
       "duration": "2h 19m",
       "url": "https://www.youtube.com/watch?v=4pG-IC5N3MY",
-      "platform": "youtube"
+      "platform": "youtube",
+      "lang": "pt"
     },
     {
       "id": "devariacast-12",
@@ -50,7 +53,8 @@
       "date": "2022-09-07",
       "duration": "1h 51m",
       "url": "https://www.youtube.com/watch?v=0Aiw7asbCRg",
-      "platform": "youtube"
+      "platform": "youtube",
+      "lang": "pt"
     },
     {
       "id": "pilhacheia-10",
@@ -60,7 +64,8 @@
       "date": "2022-04-27",
       "duration": "1h 27m",
       "url": "https://open.spotify.com/episode/5p0OjPpYRMdiADj54Hv6bg",
-      "platform": "spotify"
+      "platform": "spotify",
+      "lang": "pt"
     },
     {
       "id": "pilhacheia-09",
@@ -70,7 +75,8 @@
       "date": "2022-01-05",
       "duration": "1h 14m",
       "url": "https://open.spotify.com/episode/37o1utMzSjoSRXD5g0bHHD",
-      "platform": "spotify"
+      "platform": "spotify",
+      "lang": "pt"
     },
     {
       "id": "pilhacheia-08",
@@ -80,7 +86,8 @@
       "date": "2021-11-09",
       "duration": "1h 5m",
       "url": "https://open.spotify.com/episode/4Nvp8huz7inO0O7ogGSJkO",
-      "platform": "spotify"
+      "platform": "spotify",
+      "lang": "pt"
     },
     {
       "id": "pilhacheia-07",
@@ -90,7 +97,8 @@
       "date": "2021-10-16",
       "duration": "1h 6m",
       "url": "https://open.spotify.com/episode/7zEHm4nYUWF2yQgQsJfLdP",
-      "platform": "spotify"
+      "platform": "spotify",
+      "lang": "pt"
     },
     {
       "id": "pilhacheia-06",
@@ -100,7 +108,8 @@
       "date": "2021-08-23",
       "duration": "1h 17m",
       "url": "https://open.spotify.com/episode/16WoN3cpj8Ahqh4XBgz5tx",
-      "platform": "spotify"
+      "platform": "spotify",
+      "lang": "pt"
     },
     {
       "id": "pilhacheia-05",
@@ -110,7 +119,8 @@
       "date": "2021-08-04",
       "duration": "1h 15m",
       "url": "https://open.spotify.com/episode/6pK9SpwBNshavOSNNDvmbD",
-      "platform": "spotify"
+      "platform": "spotify",
+      "lang": "pt"
     },
     {
       "id": "pilhacheia-04",
@@ -120,7 +130,8 @@
       "date": "2021-07-19",
       "duration": "1h 19m",
       "url": "https://open.spotify.com/episode/1mnQ0qmuUppcPspvrjSzAX",
-      "platform": "spotify"
+      "platform": "spotify",
+      "lang": "pt"
     },
     {
       "id": "pilhacheia-03",
@@ -130,7 +141,8 @@
       "date": "2021-07-02",
       "duration": "1h 28m",
       "url": "https://open.spotify.com/episode/3Ihi1YgZjoM5VNDmD2ZH7A",
-      "platform": "spotify"
+      "platform": "spotify",
+      "lang": "pt"
     },
     {
       "id": "pilhacheia-02",
@@ -140,7 +152,8 @@
       "date": "2021-06-19",
       "duration": "1h 31m",
       "url": "https://open.spotify.com/episode/1190LN3hmoD3sWelvO3pPo",
-      "platform": "spotify"
+      "platform": "spotify",
+      "lang": "pt"
     },
     {
       "id": "pilhacheia-01",
@@ -150,7 +163,8 @@
       "date": "2021-06-05",
       "duration": "1h 17m",
       "url": "https://open.spotify.com/episode/6KSXuFyuE7kHpSiloHy2Q5",
-      "platform": "spotify"
+      "platform": "spotify",
+      "lang": "pt"
     },
     {
       "id": "sinform-2021",
@@ -160,7 +174,8 @@
       "date": "2021-05-22",
       "duration": "50m",
       "url": "https://www.youtube.com/watch?v=iFuAKdxpzqE",
-      "platform": "youtube"
+      "platform": "youtube",
+      "lang": "pt"
     },
     {
       "id": "pilhacheia-00",
@@ -170,7 +185,9 @@
       "date": "2021-05-22",
       "duration": "58m",
       "url": "https://open.spotify.com/episode/21HFVxa8HpGUseuxRnSK7b",
-      "platform": "spotify"
+      "platform": "spotify",
+      "lang": "pt"
     }
-  ]
+  ],
+  "_langComment": "lang drives the flag on the card. product-gurus-ai is marked en — confirm, YouTube shows that video with both a Portuguese and an English title."
 }

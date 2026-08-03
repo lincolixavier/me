@@ -180,7 +180,26 @@ export function buildArticle({ site, article, body }) {
         .join("")}</div>`
     : "";
 
+  // The rail rides alongside the text and stays put while it scrolls, so the
+  // counters and the share button are reachable from anywhere in a long read
+  // instead of only once someone has made it to the end.
+  const rail = `<aside class="article-rail" data-slug="${escape(article.slug)}" aria-label="Article actions">
+    <span class="rail-metric" hidden data-views>
+      <span class="rail-value" data-views-count>0</span>
+      <span class="rail-label">views</span>
+    </span>
+    <button class="rail-btn" type="button" hidden data-like aria-pressed="false" aria-label="Like this article">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5 4.2 13a4.6 4.6 0 1 1 6.5-6.5l1.3 1.3 1.3-1.3A4.6 4.6 0 1 1 19.8 13z"/></svg>
+      <span class="rail-value" data-likes-count>0</span>
+    </button>
+    <button class="rail-btn" type="button" hidden data-share data-title="${escape(article.title)}" aria-label="Share this article">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
+      <span class="rail-label" data-share-label>share</span>
+    </button>
+  </aside>`;
+
   const main = `<main class="article-page">
+  ${rail}
   <article class="article-content">
     <header class="article-header">
       <h1 class="page-title" data-article-hero>${escape(article.title)}</h1>
@@ -190,17 +209,8 @@ export function buildArticle({ site, article, body }) {
     <div class="prose article-body">
 ${body}
     </div>
-    <footer class="article-footer" data-slug="${escape(article.slug)}">
+    <footer class="article-footer">
       <a class="back-link" href="/articles/">← all articles</a>
-      <div class="article-actions">
-        <span class="metric" hidden data-views><span data-views-count>0</span> views</span>
-        <button class="metric-btn" type="button" hidden data-like aria-pressed="false">
-          <span aria-hidden="true">♥</span> <span data-likes-count>0</span>
-        </button>
-        <button class="share-btn" type="button" hidden data-share data-title="${escape(article.title)}">
-          <span data-share-label>share</span>
-        </button>
-      </div>
     </footer>
   </article>
 </main>`;
@@ -293,19 +303,12 @@ ${renderListing({
 export function buildGear({ site, categories }) {
   const config = site.listings.gear;
 
-  const sections = categories.length
-    ? categories
-        .map((cat) => {
-          const id = `gear-${String(cat.name || "gear").replace(/\s+/g, "-").toLowerCase()}`;
-          const items = (cat.items || []).map(renderGearCard).join("\n");
-          return `<section class="gear-category" aria-labelledby="${escape(id)}">
-  <h2 class="gear-category-title" id="${escape(id)}">${escape(cat.name || "Gear")}</h2>
-  <div class="gear-list">
-${items}
-  </div>
-</section>`;
-        })
-        .join("\n")
+  // One flat list. The categories exist in the data, but splitting six items
+  // across two headed sections made the page look emptier than it is.
+  const items = categories.flatMap((cat) => cat.items || []);
+
+  const sections = items.length
+    ? `<div class="gear-list">\n${items.map(renderGearCard).join("\n")}\n</div>`
     : `<p class="listing-empty">${escape(config.empty)}</p>`;
 
   const main = `<main class="listing-page">

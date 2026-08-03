@@ -417,31 +417,65 @@
     transform 180ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-/* A thin accent edge that wipes in from the left on hover. */
+/**
+ * On hover a hairline of accent travels around the whole card. It is a 1px
+ * ring built from a conic gradient masked to the border box, so the border
+ * stays exactly as thin as it is at rest — nothing shifts, nothing thickens.
+ */
+@property --card-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 .card::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 10px;
-  bottom: 10px;
-  width: 2px;
-  border-radius: 2px;
-  background: var(--gradient-accent);
-  transform: scaleY(0);
-  transform-origin: 50% 0;
-  transition: transform 260ms cubic-bezier(0.32, 0.72, 0, 1);
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--card-angle),
+    transparent 0deg,
+    var(--color-accent) 55deg,
+    transparent 130deg,
+    transparent 230deg,
+    var(--color-accent) 295deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 240ms ease;
+  pointer-events: none;
 }
 
 .card:hover,
 .card:focus-visible {
-  border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
   background: rgba(255, 255, 255, 0.055);
   transform: translateY(-2px);
 }
 
 .card:hover::before,
 .card:focus-visible::before {
-  transform: scaleY(1);
+  opacity: 1;
+  animation: card-border 2.6s linear infinite;
+}
+
+@keyframes card-border {
+  to {
+    --card-angle: 360deg;
+  }
+}
+
+/* Browsers without @property cannot animate the angle; they get the ring
+   without the travel, which still reads as a highlight rather than nothing. */
+@supports not (background: conic-gradient(from 0deg, red, blue)) {
+  .card:hover {
+    border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  }
 }
 
 .card:active {
@@ -543,6 +577,21 @@
   gap: 0.375rem;
 }
 
+.flag {
+  display: inline-flex;
+  width: 20px;
+  flex: 0 0 auto;
+  border-radius: 2.5px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+.flag svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .tag,
 .pill,
 .status {
@@ -620,19 +669,19 @@
 }
 
 .pagination-btn:hover:not(:disabled) {
-  border-color: rgba(255, 45, 109, 0.5);
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--color-accent, #ff2d6d);
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--color-accent);
 }
 
 .pagination-btn:disabled {
-  opacity: 0.3;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
 .pagination-info {
   font-size: 0.875rem;
-  color: var(--color-muted);
+  color: rgba(255, 255, 255, 0.75);
   letter-spacing: 0.04em;
   font-variant-numeric: tabular-nums;
 }
@@ -845,6 +894,32 @@
   .life-title {
     font-size: clamp(34px, 11vw, 56px);
   }
+
+  /* No margin to ride in on a phone, so the rail lies down above the text. */
+  .article-rail {
+    position: static;
+    float: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.625rem;
+    width: 100%;
+    margin: 0 0 1.75rem;
+    padding-top: 0;
+  }
+
+  .rail-metric {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 5px;
+  }
+
+  .rail-btn {
+    flex-direction: row;
+    width: auto;
+    gap: 6px;
+    padding: 8px 13px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -935,6 +1010,136 @@
   width: min(680px, 100%);
   padding-left: var(--content-padding-left);
   pointer-events: auto;
+}
+
+/**
+ * ----- Code highlighting -----
+ * Tokens are added at build time (scripts/lib/highlight.js). The palette is
+ * the site's own: the accent for what carries meaning, muted whites for
+ * everything structural, so a code block reads as part of the page rather
+ * than as a themed rectangle dropped into it.
+ */
+.article-body .tok-comment {
+  color: rgba(255, 255, 255, 0.32);
+  font-style: italic;
+}
+
+.article-body .tok-string {
+  color: #ff8fab;
+}
+
+.article-body .tok-keyword,
+.article-body .tok-tag,
+.article-body .tok-selector {
+  color: var(--color-accent);
+  font-weight: var(--font-weight-medium);
+}
+
+.article-body .tok-number,
+.article-body .tok-literal {
+  color: #d7a1ff;
+}
+
+.article-body .tok-fn,
+.article-body .tok-attr,
+.article-body .tok-property {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.article-body .tok-type {
+  color: #8fd0ff;
+}
+
+.article-body .tok-flag {
+  color: #ffc37a;
+}
+
+.article-body .tok-punct {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ----- Article rail ----- */
+.article-rail {
+  position: sticky;
+  top: 0;
+  float: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: var(--content-padding-left);
+  margin-left: calc(var(--content-padding-left) * -1);
+  padding-top: 4px;
+}
+
+.rail-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  font-variant-numeric: tabular-nums;
+}
+
+.rail-value {
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.rail-label {
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.rail-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 46px;
+  padding: 9px 0;
+  font-family: var(--font-sans);
+  color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: color var(--transition-base), border-color var(--transition-base),
+    background var(--transition-base);
+}
+
+.rail-btn svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rail-btn:hover,
+.rail-btn:focus-visible {
+  color: var(--color-text);
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.rail-btn[aria-pressed="true"] {
+  color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.rail-btn[aria-pressed="true"] svg {
+  fill: currentColor;
+}
+
+.rail-btn:disabled {
+  opacity: 0.5;
+  cursor: progress;
 }
 
 /* Fade gradients – cover content above/below, kept under nav/footer */

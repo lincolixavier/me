@@ -9,8 +9,8 @@
  * localStorage. Nothing identifying is sent to the server, which only ever
  * moves a counter. That also means no cookie banner.
  */
-const footer = document.querySelector(".article-footer");
-const slug = footer?.dataset.slug;
+const rail = document.querySelector(".article-rail");
+const slug = rail?.dataset.slug;
 
 // ----- Share -----------------------------------------------------------
 
@@ -32,7 +32,7 @@ if (shareButton) {
       clearTimeout(resetTimer);
       resetTimer = setTimeout(() => {
         label.textContent = "share";
-        shareButton.classList.remove("share-btn--done");
+        shareButton.classList.remove("rail-btn--done");
       }, 2000);
     };
 
@@ -52,7 +52,7 @@ if (shareButton) {
 
       try {
         await navigator.clipboard.writeText(url);
-        shareButton.classList.add("share-btn--done");
+        shareButton.classList.add("rail-btn--done");
         flash("link copied");
       } catch {
         flash("could not copy");
@@ -129,7 +129,6 @@ if (slug && viewsEl && likeButton) {
     const paint = (count) => {
       likesCount.textContent = format(count);
       likeButton.setAttribute("aria-pressed", String(liked));
-      likeButton.classList.toggle("metric-btn--on", liked);
       likeButton.setAttribute("aria-label", liked ? "Remove like" : "Like this article");
     };
 

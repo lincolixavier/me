@@ -10,6 +10,8 @@
  * emphasis runs, so `snake_case` and https://x.com/a_b_c survive intact.
  */
 
+import { highlight } from "./highlight.js";
+
 const PLACEHOLDER = "\u0000";
 const UNSAFE_URL = /^\s*(javascript|data|vbscript):/i;
 
@@ -149,7 +151,10 @@ function parseBlocks(lines) {
       }
       i++; // closing fence (or EOF)
       const cls = lang ? ` class="language-${escapeHtml(lang)}"` : "";
-      out.push(`<pre><code${cls}>${escapeHtml(body.join("\n"))}</code></pre>`);
+      // Highlighting happens here, at build time, so no parser ships to the
+      // browser. It only ever wraps already-escaped text in spans.
+      const code = highlight(escapeHtml(body.join("\n")), lang);
+      out.push(`<pre><code${cls}>${code}</code></pre>`);
       continue;
     }
 

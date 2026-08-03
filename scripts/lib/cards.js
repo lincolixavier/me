@@ -58,8 +58,30 @@ export function renderProjectCard(project) {
 </${tag}>`;
 }
 
+/**
+ * Small flags marking the language an episode is in. Inline SVG rather than
+ * emoji: flag emoji do not render at all on Windows, which is exactly where a
+ * reader most needs to know before committing to two hours of audio.
+ */
+const FLAGS = {
+  pt: {
+    label: "In Portuguese",
+    svg: `<svg viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" rx="2.5" fill="#009b3a"/><path d="M14 3.2 25 10l-11 6.8L3 10z" fill="#fedf00"/><circle cx="14" cy="10" r="4" fill="#002776"/></svg>`,
+  },
+  en: {
+    label: "In English",
+    svg: `<svg viewBox="0 0 28 20" aria-hidden="true"><rect width="28" height="20" rx="2.5" fill="#012169"/><path d="M0 0l28 20M28 0L0 20" stroke="#fff" stroke-width="4"/><path d="M0 0l28 20M28 0L0 20" stroke="#c8102e" stroke-width="2"/><path d="M14 0v20M0 10h28" stroke="#fff" stroke-width="6.5"/><path d="M14 0v20M0 10h28" stroke="#c8102e" stroke-width="3.5"/></svg>`,
+  },
+};
+
+function renderFlag(lang) {
+  const flag = FLAGS[lang];
+  if (!flag) return "";
+  return `<span class="flag" role="img" aria-label="${escape(flag.label)}">${flag.svg}</span>`;
+}
+
 export function renderPodcastCard(episode) {
-  const { title, description, date, duration, url, show, platform } = episode;
+  const { title, description, date, duration, url, show, platform, lang } = episode;
   const dateEl = date
     ? `<time class="card-date" datetime="${escape(date)}">${escape(formatDateShort(date))}</time>`
     : "";
@@ -75,7 +97,7 @@ export function renderPodcastCard(episode) {
   })}>
   <h3 class="card-title">${escape(title)}</h3>
   ${description ? `<p class="card-description">${escape(description)}</p>` : ""}
-  ${cardFooter(dateEl + showEl + durationEl + platformEl)}
+  ${cardFooter(dateEl + renderFlag(lang) + showEl + durationEl + platformEl)}
 </a>`;
 }
 
