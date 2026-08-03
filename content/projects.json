@@ -33,6 +33,14 @@
       "status": "wip"
     },
     {
+      "id": "arki",
+      "name": "Arki",
+      "description": "Fullstack SaaS starter kit — auth, payments, emails and dashboard already wired up.",
+      "url": "https://www.usearki.dev",
+      "tags": ["saas", "devtools"],
+      "status": "active"
+    },
+    {
       "id": "talkbud",
       "name": "TalkBud",
       "description": "AI-powered language learning companion.",

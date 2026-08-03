@@ -187,6 +187,9 @@ ${body}
     </div>
     <footer class="article-footer">
       <a class="back-link" href="/articles/">← all articles</a>
+      <button class="share-btn" type="button" hidden data-share data-title="${escape(article.title)}">
+        <span data-share-label>share</span>
+      </button>
     </footer>
   </article>
 </main>`;
@@ -203,6 +206,7 @@ ${body}
       main,
       active: "articles",
       canvas: CANVAS.article,
+      scripts: ["/src/pages/article.js"],
       type: "article",
       published: article.date || undefined,
       jsonLd: {
