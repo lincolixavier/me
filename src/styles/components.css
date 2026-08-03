@@ -245,12 +245,18 @@
   vertical-align: middle;
 }
 
+/**
+ * The window, the word boxes and the animation steps all share one value.
+ * At exactly 1em the descenders of the word below poked into the window —
+ * "shipping" showed the tail of the next word above it — so the slot is a
+ * little taller than the type and each word is centred in its own slot.
+ */
 .headline .rotating-words {
+  --word-step: 1.18em;
   display: inline-block;
-  height: 1em;
+  height: var(--word-step);
   overflow: hidden;
   vertical-align: middle;
-  line-height: var(--line-height-tight);
 }
 
 .headline .rotating-words-inner {
@@ -263,8 +269,8 @@
 
 .headline .rotating-words .word {
   display: block;
-  height: 1em;
-  line-height: var(--line-height-tight);
+  height: var(--word-step);
+  line-height: var(--word-step);
   font-weight: var(--font-weight-bold);
   letter-spacing: var(--letter-spacing-normal);
   background: var(--gradient-accent);
@@ -275,9 +281,9 @@
 
 @keyframes rotateWords {
   0%, 13% { transform: translate3d(0, 0, 0); }
-  18%, 31% { transform: translate3d(0, -1em, 0); }
-  36%, 49% { transform: translate3d(0, -2em, 0); }
-  54%, 67% { transform: translate3d(0, -3em, 0); }
+  18%, 31% { transform: translate3d(0, calc(var(--word-step) * -1), 0); }
+  36%, 49% { transform: translate3d(0, calc(var(--word-step) * -2), 0); }
+  54%, 67% { transform: translate3d(0, calc(var(--word-step) * -3), 0); }
   90%, 100% { transform: translate3d(0, 0, 0); }
 }
 
@@ -687,6 +693,89 @@
 }
 
 @media (max-width: 900px) {
+  /**
+   * The desktop layout is an app shell: a fixed-height flex column whose
+   * panes scroll internally, with the hero and the about view stacked as
+   * absolutely positioned siblings. None of that survives a phone, and
+   * patching it pane by pane was the wrong approach. Here it becomes an
+   * ordinary flowing document that the body scrolls.
+   *
+   * These rules live in components.css rather than layout.css because
+   * .main-content sets its two columns there, unscoped, and a later rule of
+   * equal specificity beats an earlier one inside a media query.
+   */
+  .page {
+    height: auto;
+    min-height: 100svh;
+  }
+
+  /* The home page is one screen and does not scroll: the hero takes whatever
+     is left after the footer instead of demanding a full viewport of its own
+     and pushing the footer past the fold. */
+  .page:has(.content-swap) {
+    height: 100svh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .content-swap {
+    min-height: 0;
+    flex: 1;
+    display: flex;
+  }
+
+  .content-swap > * {
+    flex: 1;
+  }
+
+  .page:has(.content-swap) .hero,
+  .page:has(.content-swap) .main-content.page-section {
+    min-height: 0;
+  }
+
+  .content-swap .hero,
+  .content-swap .main-content.page-section {
+    position: static;
+    inset: auto;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Hidden with visibility, the about view still contributed its full height
+     to the scrollable area, which is where the home page's phantom scroll
+     came from. It has to leave the flow entirely. */
+  .content-swap .main-content.page-section {
+    display: none;
+  }
+
+  .page.view-about .content-swap .main-content.page-section {
+    display: grid;
+  }
+
+  .page.view-about .content-swap .hero {
+    display: none;
+  }
+
+  .main-content {
+    height: auto;
+    grid-template-columns: 1fr;
+    padding-top: 96px;
+    padding-bottom: 56px;
+  }
+
+  .about-content {
+    width: 100%;
+  }
+
+  /* Panes scroll with the document, not inside themselves. */
+  .listing-page,
+  .article-page {
+    overflow: visible;
+    min-height: 0;
+    height: auto;
+    flex: none;
+  }
+
   .cards-grid {
     grid-template-columns: 1fr;
     padding-left: 0;
@@ -791,7 +880,7 @@
     transform: rotate(-90deg);
   }
 
-  .nav {
+  #site-nav {
     position: fixed;
     top: 0;
     left: 0;
@@ -813,12 +902,12 @@
     z-index: 19;
   }
 
-  [data-nav-open] .nav {
+  [data-nav-open] #site-nav {
     clip-path: inset(0 0 0 0);
     pointer-events: auto;
   }
 
-  .nav .link {
+  #site-nav .link {
     padding: 11px 0;
     font-size: 17px;
     letter-spacing: 0.04em;
@@ -828,19 +917,19 @@
     transition: opacity 260ms ease, transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
   }
 
-  [data-nav-open] .nav .link {
+  [data-nav-open] #site-nav .link {
     opacity: 1;
     transform: none;
   }
 
-  [data-nav-open] .nav .link:nth-child(1) { transition-delay: 60ms; }
-  [data-nav-open] .nav .link:nth-child(2) { transition-delay: 100ms; }
-  [data-nav-open] .nav .link:nth-child(3) { transition-delay: 140ms; }
-  [data-nav-open] .nav .link:nth-child(4) { transition-delay: 180ms; }
-  [data-nav-open] .nav .link:nth-child(5) { transition-delay: 220ms; }
-  [data-nav-open] .nav .link:nth-child(6) { transition-delay: 260ms; }
-  [data-nav-open] .nav .link:nth-child(7) { transition-delay: 300ms; }
-  [data-nav-open] .nav .link:nth-child(8) { transition-delay: 340ms; }
+  [data-nav-open] #site-nav .link:nth-child(1) { transition-delay: 60ms; }
+  [data-nav-open] #site-nav .link:nth-child(2) { transition-delay: 100ms; }
+  [data-nav-open] #site-nav .link:nth-child(3) { transition-delay: 140ms; }
+  [data-nav-open] #site-nav .link:nth-child(4) { transition-delay: 180ms; }
+  [data-nav-open] #site-nav .link:nth-child(5) { transition-delay: 220ms; }
+  [data-nav-open] #site-nav .link:nth-child(6) { transition-delay: 260ms; }
+  [data-nav-open] #site-nav .link:nth-child(7) { transition-delay: 300ms; }
+  [data-nav-open] #site-nav .link:nth-child(8) { transition-delay: 340ms; }
 
   .footer {
     position: static;
@@ -929,10 +1018,11 @@
     bottom: 0;
   }
 
+  /* No margin-top here: it would land after the rule that pushes this to the
+     bottom of the fold and quietly undo it. */
   .subhead {
     font-size: clamp(13px, 3.6vw, 16px);
     letter-spacing: 0.06em;
-    margin-top: 20px;
   }
 
   .about-content .page-title,
