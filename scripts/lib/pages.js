@@ -131,7 +131,7 @@ ${lifeHtml.trimEnd()}
       site,
       path: "/life/",
       title: `Life · ${site.name}`,
-      description: "On gratitude and living in the present.",
+      description: "On staying present without giving up ambition.",
       main,
       active: "life",
     }),
