@@ -111,6 +111,26 @@ export function initNeuralNetwork(options = {}, root = null) {
     renderer.setClearColor(background, 1);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
+    /**
+     * Some environments have no GPU and fall back to a software rasteriser —
+     * SwiftShader, llvmpipe, Mesa's software path. Every pixel of every frame
+     * is then drawn by the CPU, which turns a decorative background into
+     * seconds of blocking work and would stutter regardless. Where that is the
+     * case the scene is drawn once and left still.
+     */
+    const isSoftwareRenderer = (() => {
+      try {
+        const gl = renderer.getContext();
+        const info = gl.getExtension("WEBGL_debug_renderer_info");
+        const name = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : "";
+        return /swiftshader|llvmpipe|software|basic render|paravirtual/i.test(name);
+      } catch {
+        return false;
+      }
+    })();
+
+    const staticScene = opts.reducedMotion || isSoftwareRenderer;
+
     // Phones have the densest screens and the weakest GPUs, and there the
     // network is a 55%-opacity backdrop. Rendering it at 2x or 3x is spending
     // the frame budget on pixels nobody is looking at.
@@ -155,7 +175,7 @@ export function initNeuralNetwork(options = {}, root = null) {
     controls.rotateSpeed = 0.55;
   controls.minDistance = opts.orbitMin;
   controls.maxDistance = opts.orbitMax;
-  controls.autoRotate = !opts.reducedMotion;
+  controls.autoRotate = !staticScene;
   controls.autoRotateSpeed = opts.autoRotateSpeed;
     controls.enablePan = false;
 
@@ -166,7 +186,7 @@ export function initNeuralNetwork(options = {}, root = null) {
   }
   function animateTo(targetOpts, durationMs = 1200, onComplete) {
     // Reduced motion: jump straight to the target framing, no camera flight.
-    if (opts.reducedMotion) {
+    if (staticScene) {
       camera.position.set(0, 2, targetOpts.cameraZ);
       controls.minDistance = targetOpts.orbitMin;
       controls.maxDistance = targetOpts.orbitMax;
@@ -851,6 +871,9 @@ export function initNeuralNetwork(options = {}, root = null) {
     const MIN_PIXEL_RATIO = 0.75;
     let slowFrames = 0;
     let lastFrameTime = 0;
+    let parked = false;
+
+    const redraw = () => draw();
 
     function considerQuality(now) {
       if (lastFrameTime) {
@@ -860,15 +883,27 @@ export function initNeuralNetwork(options = {}, root = null) {
       }
       lastFrameTime = now;
 
-      if (slowFrames < 20 || pixelRatio <= MIN_PIXEL_RATIO) return;
-
+      if (slowFrames < 20) return;
       slowFrames = 0;
-      pixelRatio = Math.max(MIN_PIXEL_RATIO, pixelRatio - 0.25);
-      renderer.setPixelRatio(pixelRatio);
-      onWindowResize();
+
+      if (pixelRatio > MIN_PIXEL_RATIO) {
+        pixelRatio = Math.max(MIN_PIXEL_RATIO, pixelRatio - 0.25);
+        renderer.setPixelRatio(pixelRatio);
+        onWindowResize();
+        return;
+      }
+
+      // Already at the lowest resolution and still missing the budget: this
+      // machine cannot animate the scene. Continuing would only take the frame
+      // budget away from the page itself, so the loop stops and the last frame
+      // stays on screen. Dragging still redraws it.
+      parked = true;
+      controls.autoRotate = false;
+      controls.addEventListener("change", redraw);
     }
 
     function animate(now = 0) {
+      if (parked) return;
       requestAnimationFrame(animate);
       if (!inViewport || !pageVisible) return;
 
@@ -905,14 +940,14 @@ export function initNeuralNetwork(options = {}, root = null) {
       if (bloomPass) {
         bloomPass.resolution.set(renderWidth * BLOOM_SCALE, renderHeight * BLOOM_SCALE);
       }
-      if (opts.reducedMotion) draw();
+      if (staticScene) draw();
     }
 
     window.addEventListener("resize", onWindowResize);
 
   createNetworkVisualization();
 
-  if (opts.reducedMotion) {
+  if (staticScene) {
     // No render loop: one frame now, then only when the user moves the camera.
     controls.addEventListener("change", () => draw());
     draw();
