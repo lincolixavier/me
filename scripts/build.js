@@ -114,6 +114,28 @@ async function writeFile(relPath, contents) {
   await fs.writeFile(target, contents, "utf-8");
 }
 
+/**
+ * Concatenates the stylesheets into the single file the pages link to.
+ *
+ * They used to be pulled in with @import, which costs a serial round trip per
+ * file — the browser cannot even discover them until main.css has arrived and
+ * parsed — and leaves a window where the document is rendering but custom
+ * properties are not readable yet. The sources stay split; only the output is
+ * joined.
+ */
+const STYLE_ORDER = ["tokens.css", "base.css", "layout.css", "components.css"];
+
+async function bundleStyles() {
+  const parts = await Promise.all(
+    STYLE_ORDER.map(async (name) => {
+      const css = await fs.readFile(path.join(ROOT, "src", "styles", name), "utf-8");
+      return `/* ${name} */\n${css.trim()}`;
+    })
+  );
+
+  await writeFile("src/styles/main.css", `${parts.join("\n\n")}\n`);
+}
+
 // Build ------------------------------
 
 async function build() {
@@ -156,6 +178,7 @@ async function build() {
 
   // Static assets the pages reference.
   await copyDir(path.join(ROOT, "src"), path.join(DIST, "src"));
+  await bundleStyles();
   if (await exists(path.join(ROOT, "assets"))) {
     await copyDir(path.join(ROOT, "assets"), path.join(DIST, "assets"));
   }

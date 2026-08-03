@@ -122,24 +122,22 @@ export function initNeuralNetwork(options = {}, root = null) {
      * The layout deliberately pushes the network off the right edge, so part
      * of the frustum is never on screen. Rather than render those pixels and
      * throw them away, the canvas covers only the visible strip and
-     * setViewOffset renders exactly that sub-rectangle of the original, wider
-     * frustum — same framing, fewer pixels.
+     * setViewOffset renders exactly that sub-rectangle of the original,
+     * viewport-wide frustum — same framing, fewer pixels.
      *
-     * --canvas-overscan is how many times wider the full frustum is than the
-     * visible strip, and lives in CSS next to the layout it describes.
+     * The full frustum is the viewport width, which is what the canvas used to
+     * span. Deriving it from layout rather than from a CSS custom property
+     * keeps this correct even before stylesheets finish applying.
      */
     const updateRendererSize = () => {
-      const overscan =
-        parseFloat(getComputedStyle(canvasWrapper).getPropertyValue("--canvas-overscan")) || 1;
-
-      renderWidth = canvasWrapper.offsetWidth;
+      renderWidth = canvasWrapper.offsetWidth || window.innerWidth;
       renderHeight = window.innerHeight;
-      const frustumWidth = renderWidth * overscan;
+      const frustumWidth = Math.max(window.innerWidth, renderWidth);
 
       renderer.setSize(renderWidth, renderHeight);
       camera.aspect = frustumWidth / renderHeight;
 
-      if (overscan > 1) {
+      if (frustumWidth > renderWidth) {
         camera.setViewOffset(frustumWidth, renderHeight, 0, 0, renderWidth, renderHeight);
       } else {
         camera.clearViewOffset();
