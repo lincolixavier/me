@@ -728,6 +728,15 @@
     );
   }
 
+  /* The panel is a child of the header, so it shares the header's stacking
+     context — at z-index 19 it painted over the wordmark and the toggle,
+     which is why the close X went missing. Both need to sit above it. */
+  .wordmark,
+  .nav-toggle {
+    position: relative;
+    z-index: 21;
+  }
+
   .wordmark {
     display: block;
     font-size: 19px;
@@ -791,7 +800,9 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 0;
-    padding: 84px var(--content-padding-x) 32px;
+    /* Clears the header bar and no more — 84px left a hole above the first
+       link that read as a mistake. */
+    padding: 62px var(--content-padding-x) 26px;
     background: rgba(var(--color-bg-rgb), 0.97);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     /* Flowing down: the panel unrolls from the top edge. clip-path animates
@@ -857,9 +868,12 @@
    * .hero-content. Now it sits low and left, and the type is sized to the
    * viewport so it actually fills the screen.
    */
+  /* Centred, not pinned to the bottom: anchoring it low left most of the
+     screen empty above the only content on the page. */
   .hero {
-    align-items: end;
-    padding-bottom: 12vh;
+    align-items: center;
+    padding-top: 96px;
+    padding-bottom: 72px;
   }
 
   .hero-content {
@@ -869,19 +883,31 @@
   }
 
   .kicker {
-    font-size: clamp(15px, 4.4vw, 20px);
-    margin-bottom: 10px;
-  }
-
-  .headline {
-    font-size: clamp(38px, 13vw, 82px);
+    font-size: clamp(18px, 5.6vw, 26px);
     margin-bottom: 14px;
   }
 
+  /**
+   * One word per line. Side by side, "always" plus the pill could not fit a
+   * phone at any size worth reading, so the rotating word ran off the edge.
+   * Stacking them also lets the type be much larger.
+   */
+  .headline {
+    font-size: clamp(44px, 15vw, 82px);
+    margin-bottom: 14px;
+  }
+
+  .headline .headline-line {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
   .headline .highlight {
-    padding: 0 8px;
-    border-radius: 14px;
-    bottom: 4px;
+    padding: 0 12px;
+    border-radius: 16px;
+    bottom: 0;
   }
 
   .subhead {
