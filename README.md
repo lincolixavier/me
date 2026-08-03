@@ -7,15 +7,20 @@ is a Three.js neural network background, loaded lazily from a CDN.
 ## Commands
 
 ```bash
-bun install          # only needed for `bunx serve` in dev
 bun run build        # content/ + src/ → dist/
 bun run dev          # build, then serve dist/ at http://localhost:3000
 bun run watch        # rebuild on changes to content/, src/ or scripts/
 bun run test         # markdown parser tests
 ```
 
-Deploy the contents of `dist/`. Nothing else needs to be uploaded, and `dist/`
-is git-ignored — it is rebuilt from source every time.
+The build has no dependencies — `node scripts/build.js` is enough. Only `dev`
+reaches the network, for `bunx serve`.
+
+## Deploy
+
+Vercel, configured in `vercel.json`: it runs the build and serves `dist/`.
+Pushing to `main` deploys. `dist/` is git-ignored and rebuilt every time, so
+there is nothing to commit after a content change other than the content.
 
 ## Where things live
 
