@@ -106,7 +106,7 @@ Simulate a real purchase.
 
 Even as an MVP, this signals safety and saves you headaches.
 
-- Generate them with Termly, Iubenda or [Privacidade Digital](https://privacidadedigital.com.br).
+- Generate them with Termly, Iubenda or Privacidade Digital.
 - Be transparent and direct.
 
 ---

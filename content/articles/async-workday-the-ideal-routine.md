@@ -71,4 +71,4 @@ Follow this model every day, refine it together with your team, and the work wil
 Want to talk? I am around:
 
 - [Nomadz community](https://gonomadz.com)
-- [Arki — ship your SaaS faster](https://usearki.com)
+- [Arki — ship your SaaS faster](https://www.usearki.dev)

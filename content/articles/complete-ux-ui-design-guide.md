@@ -30,7 +30,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 ## References
 
 - [*The Design of Everyday Things*](https://amzn.to/44i4nOE) — Don Norman
-- [Nielsen Norman Group — What is UX?](https://www.nngroup.com/videos/ux-definition/)
+- [Nielsen Norman Group — the definition of UX](https://www.nngroup.com/articles/definition-user-experience/)
 - [*Don't Make Me Think*](https://amzn.to/42mH1F1) — Steve Krug
 
 ## Exercises
@@ -87,7 +87,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 - [*UX Research*](https://amzn.to/425p1QF) — Brad Nunnally and David Farkas
 - [*Validating Product Ideas*](https://amzn.to/3RbrXFa) — Tomer Sharon
-- [UX Research Methods — NNGroup](https://www.nngroup.com/topic/user-research-methods/)
+- *UX research methods* — NNGroup
 
 ## Exercises
 
@@ -169,7 +169,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 - [*Rocket Surgery Made Easy*](https://amzn.to/3RFSudM) — Steve Krug
 - [*Handbook of Usability Testing*](https://amzn.to/3YqxPOJ) — Jeffrey Rubin
-- [Heuristic Evaluation — NNGroup](https://www.nngroup.com/articles/heuristic-evaluation/)
+- [Nielsen's usability heuristics — NNGroup](https://www.nngroup.com/articles/ten-usability-heuristics/)
 
 ## Exercises
 

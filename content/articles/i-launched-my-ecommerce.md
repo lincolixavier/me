@@ -30,7 +30,7 @@ Research markets and execute. There is not really such a thing as a saturated ma
 
 ---
 
-My store: [horizontesquadros.com](https://horizontesquadros.com)
+My store: Horizontes
 
 I have travelled and photographed since 2016. They are my two great passions. Every place has a story, a particular light, a moment worth making permanent — and that is what I am doing. Now those images become exclusive works of art.
 
