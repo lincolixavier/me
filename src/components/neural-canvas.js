@@ -46,11 +46,27 @@ class NeuralCanvas extends HTMLElement {
         this._loaded = true;
         this._observer?.disconnect();
         this._observer = null;
-        this._loadAndInit();
+        this._scheduleInit();
       },
       { rootMargin: "50px", threshold: 0 }
     );
     this._observer.observe(this);
+  }
+
+  /**
+   * The canvas is decoration behind the text, so it must never compete with
+   * the page for the main thread. Downloading and compiling Three, generating
+   * the graph and compiling shaders all wait until the document has finished
+   * loading and the browser reports itself idle.
+   */
+  _scheduleInit() {
+    const start = () => {
+      const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
+      idle(() => this._loadAndInit(), { timeout: 2000 });
+    };
+
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
   }
 
   disconnectedCallback() {
@@ -67,13 +83,19 @@ class NeuralCanvas extends HTMLElement {
     };
     const bloomAttr = this.getAttribute("bloom");
     const bloom = bloomAttr == null ? true : bloomAttr !== "false";
+    // On phones the network sits at 55% opacity behind the text. It is not
+    // worth a full-density graph and a bloom pass there — the difference is
+    // invisible and the cost is not.
+    const isCompact = window.matchMedia("(max-width: 900px)").matches;
+
     return {
       cameraZ: num("camera-z", DEFAULT_CAMERA_Z),
       orbitMin: num("orbit-min", DEFAULT_ORBIT_MIN),
       orbitMax: num("orbit-max", DEFAULT_ORBIT_MAX),
       autoRotateSpeed: num("auto-rotate-speed", DEFAULT_AUTO_ROTATE_SPEED),
-      bloom,
-      density: num("density", 1),
+      bloom: bloom && !isCompact,
+      density: num("density", 1) * (isCompact ? 0.4 : 1),
+      maxPixelRatio: isCompact ? 1 : 1.5,
       reducedMotion: prefersReducedMotion(),
     };
   }

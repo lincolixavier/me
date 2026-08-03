@@ -9,7 +9,9 @@ import { escape, attrs, absoluteUrl, indent } from "./html.js";
 
 const IMPORT_MAP = {
   imports: {
-    three: "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+    // The .min build, not the development one: same code, ~70KB less to
+    // download and parse on the main thread.
+    three: "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.min.js",
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/",
   },
 };

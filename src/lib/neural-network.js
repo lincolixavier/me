@@ -111,7 +111,10 @@ export function initNeuralNetwork(options = {}, root = null) {
     renderer.setClearColor(background, 1);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-    const MAX_PIXEL_RATIO = 1.5;
+    // Phones have the densest screens and the weakest GPUs, and there the
+    // network is a 55%-opacity backdrop. Rendering it at 2x or 3x is spending
+    // the frame budget on pixels nobody is looking at.
+    const MAX_PIXEL_RATIO = opts.maxPixelRatio ?? 1.5;
     let pixelRatio = Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO);
     renderer.setPixelRatio(pixelRatio);
 
@@ -857,7 +860,7 @@ export function initNeuralNetwork(options = {}, root = null) {
       }
       lastFrameTime = now;
 
-      if (slowFrames < 45 || pixelRatio <= MIN_PIXEL_RATIO) return;
+      if (slowFrames < 20 || pixelRatio <= MIN_PIXEL_RATIO) return;
 
       slowFrames = 0;
       pixelRatio = Math.max(MIN_PIXEL_RATIO, pixelRatio - 0.25);

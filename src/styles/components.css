@@ -209,7 +209,10 @@
   line-height: var(--line-height-tight);
   letter-spacing: var(--letter-spacing-tight);
   font-weight: var(--font-weight-bold);
-  font-size: clamp(56px, 6.8vw, 82px);
+  /* The floor used to be 56px, which overflowed every phone: the pill around
+     the rotating word cannot shrink, so "always [crafting] something" ran off
+     a 375px screen. Scaling with the viewport keeps it on one line. */
+  font-size: clamp(34px, 9vw, 82px);
   margin-bottom: 18px;
 }
 

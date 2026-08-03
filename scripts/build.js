@@ -133,7 +133,22 @@ async function bundleStyles() {
     })
   );
 
-  await writeFile("src/styles/main.css", `${parts.join("\n\n")}\n`);
+  await writeFile("src/styles/main.css", minifyCss(parts.join("\n\n")));
+}
+
+/**
+ * Conservative CSS minifier: strips comments and collapses the whitespace the
+ * parser does not need. It deliberately leaves everything else alone — this is
+ * a build for one small stylesheet, not a reason to take on a dependency.
+ */
+function minifyCss(css) {
+  return css
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\s+/g, " ")
+    .replace(/\s*([{}:;,>])\s*/g, "$1")
+    // A trailing semicolon before a closing brace is redundant.
+    .replace(/;}/g, "}")
+    .trim();
 }
 
 // Build ------------------------------
