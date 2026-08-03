@@ -1,0 +1,29 @@
+/**
+ * Base styles – reset, box-sizing, typography defaults, link base.
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  background: #000;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

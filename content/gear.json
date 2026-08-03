@@ -1,0 +1,30 @@
+{
+  "categories": [
+    {
+      "name": "Hardware",
+      "items": [
+        {
+          "id": "macbook-m1",
+          "name": "MacBook Pro M1",
+          "description": "Daily driver for everything — code, design, travel.",
+          "url": "https://www.apple.com/macbook-pro/",
+          "image": ""
+        },
+        {
+          "id": "xm4",
+          "name": "Sony WH-1000XM4",
+          "description": "Best noise-cancelling headphones I've used. Airports, cafés, flights.",
+          "url": "https://electronics.sony.com/audio/headphones/headband/p/wh1000xm4-b",
+          "image": ""
+        },
+        {
+          "id": "kindle",
+          "name": "Kindle",
+          "description": "Reading without the distractions of a backlit screen. Travels light.",
+          "url": "https://www.amazon.com/kindle",
+          "image": ""
+        }
+      ]
+    }
+  ]
+}

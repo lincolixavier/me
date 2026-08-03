@@ -1,0 +1,22 @@
+{
+  "podcasts": [
+    {
+      "id": "ep-001",
+      "title": "Static Sites and the Indie Web",
+      "description": "A conversation about building simple, fast websites without heavy frameworks.",
+      "date": "2026-03-01",
+      "duration": "32:15",
+      "url": "https://example.com/podcast/static-sites",
+      "platform": "spotify"
+    },
+    {
+      "id": "ep-002",
+      "title": "Design Tokens in Practice",
+      "description": "How to use CSS variables and design tokens to keep your UI consistent.",
+      "date": "2026-02-15",
+      "duration": "28:40",
+      "url": "https://example.com/podcast/design-tokens",
+      "platform": "youtube"
+    }
+  ]
+}

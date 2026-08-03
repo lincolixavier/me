@@ -1,0 +1,55 @@
+/**
+ * Design tokens – single source of truth for colors, typography, spacing, motion.
+ */
+
+:root {
+  /* Colors */
+  --color-bg: #050508;
+  --color-text: rgba(255, 255, 255, 0.92);
+  --color-muted: rgba(255, 255, 255, 0.6);
+  --color-soft: rgba(255, 255, 255, 0.12);
+  --color-accent: #ff2d6d;
+  /* Legacy aliases (used by existing components) */
+  --bg: var(--color-bg);
+  --text: var(--color-text);
+  --muted: var(--color-muted);
+  --soft: var(--color-soft);
+  --accent: var(--color-accent);
+
+  /* Gradient accent (headline, name, etc.) */
+  --gradient-accent: linear-gradient(136deg, #ff416c 0%, #aa003a 100%);
+
+  /* Typography */
+  --font-sans: "Outfit", system-ui, sans-serif;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 20px;
+  --font-size-2xl: 26px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --letter-spacing-tight: -0.045em;
+  --letter-spacing-normal: -0.02em;
+  --letter-spacing-wide: 0.1em;
+  --line-height-tight: 0.96;
+  --line-height-prose: 1.7;
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+  --nav-gap: 44px;
+  --nav-top: 44px;
+  --footer-padding: 20px 24px 44px;
+  --content-padding-x: clamp(24px, 5vw, 72px);
+  --content-padding-left: 80px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-nav: 0.3s;
+}

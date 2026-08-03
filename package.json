@@ -1,0 +1,8 @@
+{
+  "name": "lincoli-xavier-site",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "bunx serve . -p 3000"
+  }
+}

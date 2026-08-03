@@ -1,0 +1,44 @@
+{
+  "projects": [
+    {
+      "id": "bellagestao",
+      "name": "BellaGestão",
+      "description": "Platform for salon and beauty business management.",
+      "url": "https://www.bellagestao.com.br/",
+      "tags": ["saas", "beauty"],
+      "status": "active"
+    },
+    {
+      "id": "nomadz",
+      "name": "Nomadz",
+      "description": "Community and tools for digital nomads on the road.",
+      "url": "https://gonomadz.com",
+      "tags": ["community", "travel"],
+      "status": "active"
+    },
+    {
+      "id": "macroinsight",
+      "name": "MacroInsight",
+      "description": "Macro-economic analysis platform for investors.",
+      "url": "https://github.com/lincolixavier",
+      "tags": ["finance", "data"],
+      "status": "active"
+    },
+    {
+      "id": "guiddly",
+      "name": "Guiddly",
+      "description": "Platform for guided experiences and local tourism.",
+      "url": "https://github.com/lincolixavier",
+      "tags": ["travel", "saas"],
+      "status": "active"
+    },
+    {
+      "id": "talkbud",
+      "name": "TalkBud",
+      "description": "AI-powered language learning companion.",
+      "url": "https://github.com/lincolixavier",
+      "tags": ["ai", "education"],
+      "status": "wip"
+    }
+  ]
+}

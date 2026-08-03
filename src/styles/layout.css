@@ -1,0 +1,151 @@
+/**
+ * Layout – page structure, grid, canvas wrapper, content swap, responsive breakpoints.
+ */
+
+/* Page shell */
+.page {
+  position: relative;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.page .nav,
+.page .hero-content,
+.page .main-content,
+.page .footer {
+  pointer-events: auto;
+}
+
+/* Content swap (home vs about overlay) */
+.content-swap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.content-swap .hero,
+.content-swap .main-content.page-section {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Section toggle – overlay, no reflow */
+.content-swap .main-content.page-section {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.page.view-about .content-swap .hero {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.page.view-about .content-swap .main-content.page-section {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Canvas wrapper */
+.canvas-wrapper {
+  position: fixed;
+  right: -33%;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.canvas-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 100%;
+  pointer-events: none;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  position: absolute;
+  inset: 0;
+}
+
+canvas:active {
+  cursor: grabbing;
+}
+
+/* Left fade overlay */
+.left-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 5, 8, 0.35) 0%,
+    rgba(5, 5, 8, 0.08) 35%,
+    transparent 52%
+  );
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  body {
+    overflow: auto;
+  }
+
+  .canvas-wrapper {
+    width: 100%;
+    right: 0;
+    opacity: 0.55;
+  }
+
+  .canvas-wrapper::after {
+    background: linear-gradient(to right, rgba(5, 5, 8, 0.85) 0%, transparent 40%);
+  }
+
+  .left-fade {
+    background: linear-gradient(180deg, rgba(5, 5, 8, 0.4) 0%, transparent 30%);
+  }
+
+  .content-swap {
+    min-height: 100vh;
+  }
+
+  .hero,
+  .main-content {
+    grid-template-columns: 1fr;
+    padding-top: 110px;
+    padding-bottom: 56px;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .hero-content,
+  .about-content {
+    padding-left: var(--content-padding-x);
+    padding-right: var(--content-padding-x);
+  }
+
+  .left-fade {
+    background: linear-gradient(
+      180deg,
+      rgba(5, 5, 8, 0.9),
+      rgba(5, 5, 8, 0.4) 50%,
+      rgba(5, 5, 8, 0.9)
+    );
+  }
+}

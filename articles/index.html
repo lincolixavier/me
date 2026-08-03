@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Articles · Lincoli Xavier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="../src/styles/main.css" rel="stylesheet" />
+</head>
+<body>
+  <neural-canvas camera-z="14" orbit-min="14" orbit-max="24" bloom="false" auto-rotate-speed="0.15" density="0.5"></neural-canvas>
+  <div class="left-fade" aria-hidden="true"></div>
+
+  <div class="page">
+    <div class="scroll-fade scroll-fade--top" aria-hidden="true"></div>
+    <div class="scroll-fade scroll-fade--bottom" aria-hidden="true"></div>
+    <site-header active="articles" home-href="../index.html"></site-header>
+
+    <main class="listing-page">
+      <header class="listing-header">
+        <h1 class="page-title">articles</h1>
+        <p class="listing-subhead">Writing on tech, design and building things.</p>
+      </header>
+
+      <div id="articles-grid" class="articles-grid" aria-busy="true" aria-live="polite">
+        <p class="listing-loading" id="articles-loading">Loading…</p>
+      </div>
+
+      <nav class="pagination" id="articles-pagination" aria-label="Pagination" hidden>
+        <button class="pagination-btn" id="prev-btn" type="button" aria-label="Previous page">←</button>
+        <span class="pagination-info" id="pagination-info"></span>
+        <button class="pagination-btn" id="next-btn" type="button" aria-label="Next page">→</button>
+      </nav>
+    </main>
+
+    <site-footer></site-footer>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="../src/components/index.js"></script>
+  <script type="module">
+    (function () {
+      const gridEl = document.getElementById("articles-grid");
+      const loadingEl = document.getElementById("articles-loading");
+      const paginationEl = document.getElementById("articles-pagination");
+      const prevBtn = document.getElementById("prev-btn");
+      const nextBtn = document.getElementById("next-btn");
+      const infoEl = document.getElementById("pagination-info");
+      const BASE = "../dist/articles";
+      const PAGE_SIZE = 6;
+
+      let articles = [];
+      let currentPage = 0;
+
+      const totalPages = () => Math.max(1, Math.ceil(articles.length / PAGE_SIZE));
+
+      function renderPage() {
+        gridEl.innerHTML = "";
+        const start = currentPage * PAGE_SIZE;
+        const slice = articles.slice(start, start + PAGE_SIZE);
+
+        slice.forEach((a) => {
+          const card = document.createElement("article-card");
+          card.setAttribute("title", a.title || "");
+          if (a.date) card.setAttribute("date", a.date);
+          if (a.description) card.setAttribute("description", a.description);
+          card.setAttribute("slug", a.slug || "");
+          card.setAttribute("base", BASE);
+          if (Array.isArray(a.tags) && a.tags.length) {
+            card.setAttribute("tags", a.tags.join(", "));
+          }
+          gridEl.appendChild(card);
+        });
+
+        const pages = totalPages();
+        if (pages > 1) {
+          paginationEl.hidden = false;
+          infoEl.textContent = `${currentPage + 1} / ${pages}`;
+          prevBtn.disabled = currentPage === 0;
+          nextBtn.disabled = currentPage === pages - 1;
+        } else {
+          paginationEl.hidden = true;
+        }
+      }
+
+      prevBtn.addEventListener("click", () => {
+        if (currentPage > 0) { currentPage--; renderPage(); }
+      });
+      nextBtn.addEventListener("click", () => {
+        if (currentPage < totalPages() - 1) { currentPage++; renderPage(); }
+      });
+
+      fetch("index.json")
+        .then((r) => {
+          if (!r.ok) throw new Error("Failed to load articles");
+          return r.json();
+        })
+        .then((data) => {
+          articles = data.articles || [];
+          loadingEl.remove();
+          gridEl.removeAttribute("aria-busy");
+
+          if (articles.length === 0) {
+            gridEl.innerHTML = '<p class="listing-empty">No articles yet. Check back soon.</p>';
+            return;
+          }
+
+          renderPage();
+        })
+        .catch(() => {
+          loadingEl.textContent = "Could not load articles.";
+          gridEl.removeAttribute("aria-busy");
+        });
+    })();
+  </script>
+</body>
+</html>

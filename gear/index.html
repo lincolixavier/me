@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gear · Lincoli Xavier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="../src/styles/main.css" rel="stylesheet" />
+</head>
+<body>
+  <neural-canvas camera-z="14" orbit-min="14" orbit-max="24" bloom="false" auto-rotate-speed="0.15" density="0.5"></neural-canvas>
+  <div class="left-fade" aria-hidden="true"></div>
+
+  <div class="page">
+    <div class="scroll-fade scroll-fade--top" aria-hidden="true"></div>
+    <div class="scroll-fade scroll-fade--bottom" aria-hidden="true"></div>
+    <site-header active="gear" home-href="../index.html"></site-header>
+
+    <main class="main-content page-section">
+      <header class="gear-header">
+        <h1 class="page-title">gear</h1>
+        <p class="gear-subhead">Tools and setup I use to build and create.</p>
+      </header>
+      <div id="gear-content" class="gear-content" aria-busy="true" aria-live="polite">
+        <p class="gear-loading" id="gear-loading">Loading…</p>
+      </div>
+    </main>
+
+    <site-footer></site-footer>
+  </div>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module" src="../src/components/index.js"></script>
+  <script type="module">
+    (function () {
+      const contentEl = document.getElementById("gear-content");
+      const loadingEl = document.getElementById("gear-loading");
+
+      fetch("../content/gear.json")
+        .then((r) => {
+          if (!r.ok) throw new Error("Failed to load gear");
+          return r.json();
+        })
+        .then((data) => {
+          const categories = data.categories || [];
+          loadingEl.remove();
+          contentEl.removeAttribute("aria-busy");
+
+          if (categories.length === 0) {
+            contentEl.innerHTML = '<p class="gear-empty">No gear listed yet. Check back soon.</p>';
+            return;
+          }
+
+          categories.forEach((cat) => {
+            const section = document.createElement("section");
+            section.className = "gear-category";
+            section.setAttribute("aria-labelledby", "gear-cat-" + (cat.name || "").replace(/\s+/g, "-").toLowerCase());
+
+            const heading = document.createElement("h2");
+            heading.id = "gear-cat-" + (cat.name || "").replace(/\s+/g, "-").toLowerCase();
+            heading.className = "gear-category-title";
+            heading.textContent = cat.name || "Gear";
+
+            const list = document.createElement("div");
+            list.className = "gear-list";
+
+            const items = cat.items || [];
+            items.forEach((item) => {
+              const card = document.createElement("gear-card");
+              card.setAttribute("name", item.name || "");
+              card.setAttribute("description", item.description || "");
+              card.setAttribute("url", item.url || "#");
+              if (item.image) card.setAttribute("image", item.image);
+              list.appendChild(card);
+            });
+
+            section.appendChild(heading);
+            section.appendChild(list);
+            contentEl.appendChild(section);
+          });
+        })
+        .catch(() => {
+          loadingEl.textContent = "Could not load gear.";
+          contentEl.removeAttribute("aria-busy");
+        });
+    })();
+  </script>
+</body>
+</html>

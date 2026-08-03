@@ -1,0 +1,59 @@
+{
+  "articles": [
+    {
+      "slug": "shipping-beats-perfection",
+      "title": "Shipping Beats Perfection",
+      "date": "2026-04-05",
+      "description": "Why getting things out the door matters more than getting them right the first time.",
+      "tags": [
+        "startups",
+        "mindset",
+        "engineering"
+      ]
+    },
+    {
+      "slug": "remote-work-playbook",
+      "title": "My Remote Work Playbook",
+      "date": "2026-03-20",
+      "description": "Lessons from years of working from anywhere — tools, routines, and the mindset that makes it sustainable.",
+      "tags": [
+        "remote",
+        "productivity",
+        "nomad"
+      ]
+    },
+    {
+      "slug": "hello-static-sites",
+      "title": "Why I Still Love Static Sites",
+      "date": "2026-03-01",
+      "description": "A short take on keeping the web simple with HTML, CSS, and a bit of JavaScript.",
+      "tags": [
+        "tech",
+        "web",
+        "design"
+      ]
+    },
+    {
+      "slug": "design-tokens-in-practice",
+      "title": "Design Tokens in Practice",
+      "date": "2026-02-10",
+      "description": "How CSS custom properties can replace a design system framework and keep your UI consistent.",
+      "tags": [
+        "css",
+        "design",
+        "frontend"
+      ]
+    },
+    {
+      "slug": "building-in-public",
+      "title": "Building in Public",
+      "date": "2026-01-18",
+      "description": "What I learned from sharing the process, not just the product.",
+      "tags": [
+        "indie",
+        "startups",
+        "transparency"
+      ]
+    }
+  ]
+}
