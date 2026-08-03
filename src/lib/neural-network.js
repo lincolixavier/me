@@ -82,9 +82,18 @@ export function initNeuralNetwork(options = {}, root = null) {
       uPulseStrength: { value: 0.55 }
     };
 
+    // The page background is the scene background. Read from --color-bg so the
+    // design token stays the single source of truth: change it once and the
+    // canvas, the fog and the page all follow.
+    const cssBackground = getComputedStyle(document.documentElement)
+      .getPropertyValue("--color-bg")
+      .trim();
+    const background = new THREE.Color(cssBackground || "#121212");
+
     const scene = new THREE.Scene();
-    // Matches --color-bg so distant nodes fade into the page, not into black.
-    scene.fog = new THREE.FogExp2(0x121212, 0.002);
+    scene.background = background;
+    // Same colour as the background, so distant nodes fade into the page.
+    scene.fog = new THREE.FogExp2(background, 0.002);
 
   const camera = new THREE.PerspectiveCamera(65, 2, 0.1, 1000);
   camera.position.set(0, 2, opts.cameraZ);
@@ -96,7 +105,7 @@ export function initNeuralNetwork(options = {}, root = null) {
       alpha: true
     });
 
-    renderer.setClearColor(0x121212, 0);
+    renderer.setClearColor(background, 1);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
