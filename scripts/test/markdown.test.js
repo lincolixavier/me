@@ -44,6 +44,15 @@ test("ordered lists are supported", () => {
   assert.match(html, /<li>um<\/li>/);
 });
 
+test("an indented line under a list item stays in that item", () => {
+  const html = parseMarkdown("1. **Livro A**\n   Uma descrição.\n2. **Livro B**\n   Outra descrição.");
+  // One list, not one per item.
+  assert.equal(html.match(/<ol>/g).length, 1);
+  assert.equal(html.match(/<li>/g).length, 2);
+  assert.match(html, /<li><strong>Livro A<\/strong> Uma descrição\.<\/li>/);
+  assert.doesNotMatch(html, /<p>Uma descrição/);
+});
+
 test("headings, bold, italic and strike still work", () => {
   assert.match(parseMarkdown("## Título"), /<h2>Título<\/h2>/);
   assert.match(parseMarkdown("**forte**"), /<strong>forte<\/strong>/);

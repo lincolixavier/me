@@ -59,12 +59,14 @@ export function renderProjectCard(project) {
 }
 
 export function renderPodcastCard(episode) {
-  const { title, description, date, duration, url, platform } = episode;
+  const { title, description, date, duration, url, show, platform } = episode;
   const dateEl = date
     ? `<time class="card-date" datetime="${escape(date)}">${escape(formatDateShort(date))}</time>`
     : "";
   const durationEl = duration ? `<span class="pill">${escape(duration)}</span>` : "";
-  const platformEl = platform ? `<span class="pill pill--accent">${escape(platform)}</span>` : "";
+  const platformEl = platform ? `<span class="pill">${escape(platform)}</span>` : "";
+  // The show carries more meaning than the platform, so it takes the accent.
+  const showEl = show ? `<span class="pill pill--accent">${escape(show)}</span>` : "";
 
   return `<a class="card"${attrs({
     href: url || "#",
@@ -73,7 +75,7 @@ export function renderPodcastCard(episode) {
   })}>
   <h3 class="card-title">${escape(title)}</h3>
   ${description ? `<p class="card-description">${escape(description)}</p>` : ""}
-  ${cardFooter(dateEl + durationEl + platformEl)}
+  ${cardFooter(dateEl + showEl + durationEl + platformEl)}
 </a>`;
 }
 

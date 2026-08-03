@@ -248,11 +248,14 @@ ${renderListing({
 
 export function buildPodcasts({ site, podcasts }) {
   const config = site.listings.podcasts;
+  const sorted = [...podcasts].sort((a, b) =>
+    String(b.date ?? "").localeCompare(String(a.date ?? ""))
+  );
   const main = `<main class="listing-page">
 ${renderListing({
   heading: config.title,
   subhead: config.subhead,
-  cards: podcasts.map(renderPodcastCard),
+  cards: sorted.map(renderPodcastCard),
   empty: config.empty,
   pageSize: site.pageSize,
 })}

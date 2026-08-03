@@ -187,6 +187,20 @@ function parseBlocks(lines) {
         const match = lines[i].match(pattern);
         items.push(listType === "ul" ? match[1] : match[2]);
         i++;
+
+        // Lazy continuation: an indented line that is not itself an item
+        // belongs to the item above it, so a list with a description under
+        // each entry stays one list.
+        while (
+          i < lines.length &&
+          !RE.blank.test(lines[i]) &&
+          /^\s+\S/.test(lines[i]) &&
+          !RE.ul.test(lines[i]) &&
+          !RE.ol.test(lines[i])
+        ) {
+          items[items.length - 1] += ` ${lines[i].trim()}`;
+          i++;
+        }
       }
       const lis = items.map((t) => `  <li>${parseInline(t.trim())}</li>`).join("\n");
       const startMatch = listType === "ol" ? line.match(RE.ol) : null;

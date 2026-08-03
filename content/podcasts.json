@@ -1,22 +1,176 @@
 {
+  "_comment": "Sorted newest first at build time. `show` renders as the accent pill, `platform` as the secondary one.",
+
   "podcasts": [
     {
-      "id": "ep-001",
-      "title": "Static Sites and the Indie Web",
-      "description": "A conversation about building simple, fast websites without heavy frameworks.",
-      "date": "2026-03-01",
-      "duration": "32:15",
-      "url": "https://example.com/podcast/static-sites",
+      "id": "product-gurus-ai",
+      "title": "AI won't steal your job (even if your CTO thinks so)",
+      "description": "A talk on what AI actually changes in engineering work, and what it does not.",
+      "show": "Product Guru's",
+      "date": "2025-04-16",
+      "duration": "49m",
+      "url": "https://www.youtube.com/watch?v=E7y9twcaOIA",
+      "platform": "youtube"
+    },
+    {
+      "id": "augusto-galego-nomad",
+      "title": "O dev que viaja o mundo com R$5.000 por mês",
+      "description": "On the numbers behind full-time travel as a developer.",
+      "show": "Augusto Galego",
+      "date": "2025-03-27",
+      "duration": "45m",
+      "url": "https://www.youtube.com/watch?v=ImbRHHlY6qs",
+      "platform": "youtube"
+    },
+    {
+      "id": "engineering-sessions-efficiency",
+      "title": "Efficiency — Engineering Sessions S02E06",
+      "description": "A conversation about engineering efficiency and how teams actually measure it.",
+      "show": "Engineering Sessions",
+      "date": "2023-06-26",
+      "duration": "51m",
+      "url": "https://www.youtube.com/watch?v=-ViLUFLtfZU",
+      "platform": "youtube"
+    },
+    {
+      "id": "dev-amigo-12",
+      "title": "Tech Lead e Nômade Digital — Dev Amigo #12",
+      "description": "Leading a team while living on the road.",
+      "show": "Dev Amigo",
+      "date": "2023-05-10",
+      "duration": "2h 19m",
+      "url": "https://www.youtube.com/watch?v=4pG-IC5N3MY",
+      "platform": "youtube"
+    },
+    {
+      "id": "devariacast-12",
+      "title": "Dev e nômade: como é viver trabalhando remotamente?",
+      "description": "What remote work looks like when it is not tied to one address.",
+      "show": "Devariacast",
+      "date": "2022-09-07",
+      "duration": "1h 51m",
+      "url": "https://www.youtube.com/watch?v=0Aiw7asbCRg",
+      "platform": "youtube"
+    },
+    {
+      "id": "pilhacheia-10",
+      "title": "O verdadeiro pilhacheia — do Junior ao Senior",
+      "description": "With Entria Tech, on what actually moves a developer from junior to senior.",
+      "show": "PilhaCheia",
+      "date": "2022-04-27",
+      "duration": "1h 27m",
+      "url": "https://open.spotify.com/episode/5p0OjPpYRMdiADj54Hv6bg",
       "platform": "spotify"
     },
     {
-      "id": "ep-002",
-      "title": "Design Tokens in Practice",
-      "description": "How to use CSS variables and design tokens to keep your UI consistent.",
-      "date": "2026-02-15",
-      "duration": "28:40",
-      "url": "https://example.com/podcast/design-tokens",
+      "id": "pilhacheia-09",
+      "title": "Sandy & Junior — início da carreira dev",
+      "description": "On the first steps of a development career.",
+      "show": "PilhaCheia",
+      "date": "2022-01-05",
+      "duration": "1h 14m",
+      "url": "https://open.spotify.com/episode/37o1utMzSjoSRXD5g0bHHD",
+      "platform": "spotify"
+    },
+    {
+      "id": "pilhacheia-08",
+      "title": "Ensinando programação na academia",
+      "description": "Teaching programming inside universities.",
+      "show": "PilhaCheia",
+      "date": "2021-11-09",
+      "duration": "1h 5m",
+      "url": "https://open.spotify.com/episode/4Nvp8huz7inO0O7ogGSJkO",
+      "platform": "spotify"
+    },
+    {
+      "id": "pilhacheia-07",
+      "title": "Fazer um pouco de tudo, ou tudo de um pouco?",
+      "description": "Specialist or generalist, and the cost of each.",
+      "show": "PilhaCheia",
+      "date": "2021-10-16",
+      "duration": "1h 6m",
+      "url": "https://open.spotify.com/episode/7zEHm4nYUWF2yQgQsJfLdP",
+      "platform": "spotify"
+    },
+    {
+      "id": "pilhacheia-06",
+      "title": "A beleza dos paradigmas de programação",
+      "description": "Programming paradigms and why more than one is worth knowing.",
+      "show": "PilhaCheia",
+      "date": "2021-08-23",
+      "duration": "1h 17m",
+      "url": "https://open.spotify.com/episode/16WoN3cpj8Ahqh4XBgz5tx",
+      "platform": "spotify"
+    },
+    {
+      "id": "pilhacheia-05",
+      "title": "Será que a pilha está cheia demais? Dev workaholic",
+      "description": "On overwork, burnout and knowing when the stack is too full.",
+      "show": "PilhaCheia",
+      "date": "2021-08-04",
+      "duration": "1h 15m",
+      "url": "https://open.spotify.com/episode/6pK9SpwBNshavOSNNDvmbD",
+      "platform": "spotify"
+    },
+    {
+      "id": "pilhacheia-04",
+      "title": "Quanto tempo vai levar? O terror de estimar",
+      "description": "Estimates, and why they are so consistently wrong.",
+      "show": "PilhaCheia",
+      "date": "2021-07-19",
+      "duration": "1h 19m",
+      "url": "https://open.spotify.com/episode/1mnQ0qmuUppcPspvrjSzAX",
+      "platform": "spotify"
+    },
+    {
+      "id": "pilhacheia-03",
+      "title": "O caminho do dev pilhacheia — lógica de programação",
+      "description": "Where to start: programming logic as the foundation.",
+      "show": "PilhaCheia",
+      "date": "2021-07-02",
+      "duration": "1h 28m",
+      "url": "https://open.spotify.com/episode/3Ihi1YgZjoM5VNDmD2ZH7A",
+      "platform": "spotify"
+    },
+    {
+      "id": "pilhacheia-02",
+      "title": "Dev pilhacheia, desenvolvimento de ponta a ponta",
+      "description": "End-to-end development, from the database to the interface.",
+      "show": "PilhaCheia",
+      "date": "2021-06-19",
+      "duration": "1h 31m",
+      "url": "https://open.spotify.com/episode/1190LN3hmoD3sWelvO3pPo",
+      "platform": "spotify"
+    },
+    {
+      "id": "pilhacheia-01",
+      "title": "Deixando o acampamento mais limpo — refactoring",
+      "description": "Refactoring, and leaving the codebase better than you found it.",
+      "show": "PilhaCheia",
+      "date": "2021-06-05",
+      "duration": "1h 17m",
+      "url": "https://open.spotify.com/episode/6KSXuFyuE7kHpSiloHy2Q5",
+      "platform": "spotify"
+    },
+    {
+      "id": "sinform-2021",
+      "title": "SINFORM 2021.1 — Palestra Lincoli Xavier",
+      "description": "A talk given at SINFORM 2021.1.",
+      "show": "SINFORM",
+      "date": "2021-05-22",
+      "duration": "50m",
+      "url": "https://www.youtube.com/watch?v=iFuAKdxpzqE",
       "platform": "youtube"
+    },
+    {
+      "id": "pilhacheia-00",
+      "title": "Piloto — sejam bem-vindos!",
+      "description": "The pilot episode, and what the show set out to be.",
+      "show": "PilhaCheia",
+      "date": "2021-05-22",
+      "duration": "58m",
+      "url": "https://open.spotify.com/episode/21HFVxa8HpGUseuxRnSK7b",
+      "platform": "spotify"
     }
   ]
 }

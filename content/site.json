@@ -25,7 +25,7 @@
     { "id": "life", "href": "/life/" }
   ],
 
-  "_socialComment": "twitter and substack are still unconfirmed guesses — fix or delete them. The footer renders exactly what is listed here.",
+  "_socialComment": "substack is still an unconfirmed guess — fix or delete it. The footer renders exactly what is listed here.",
   "social": [
     { "label": "email", "href": "mailto:hi@lincoli.me" },
     { "label": "github", "href": "https://github.com/lincolixavier" },
