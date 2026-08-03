@@ -774,8 +774,11 @@
 }
 
 .life-closing {
-  margin-top: 2rem !important;
-  padding-top: 1.5rem;
+  /* The rule already separates the closing — the old 2rem + 1.5rem on top of
+     it read as a blank line. Nothing else sets margin-top here, so the
+     !important this carried was doing no work. */
+  margin-top: 1rem;
+  padding-top: 0.625rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   font-size: 1.0625rem;
   color: rgba(255, 255, 255, 0.82);
