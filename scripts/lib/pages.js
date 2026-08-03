@@ -131,7 +131,7 @@ ${lifeHtml.trimEnd()}
       site,
       path: "/life/",
       title: `Life · ${site.name}`,
-      description: "On attention, stillness, and what is actually scarce.",
+      description: "On gratitude and living in the present.",
       main,
       active: "life",
     }),
