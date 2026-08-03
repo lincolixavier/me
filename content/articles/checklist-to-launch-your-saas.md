@@ -34,7 +34,7 @@ Your SaaS does not need to be complete, but it does need to **minimally work**.
 
 Your app needs to run reliably.
 
-- Hosting: Vercel, Netlify, Fly.io or Railway for lightweight backends.
+- Hosting: Vercel, Netlify, Fly.io or Railway for lightweight backends. Start on a PaaS; move to a VPS once it gains traction.
 - Database: Supabase, PlanetScale, Neon, or SQLite to start.
 - Add monitoring for uptime and errors. [UptimeRobot](https://uptimerobot.com) is a fine starting point.
 
@@ -53,7 +53,7 @@ Avoid odd extensions. Aim for something simple and memorable.
 
 It signals credibility and helps with deliverability, particularly for onboarding and support.
 
-- Zoho Mail is free for one account on your own domain.
+- Zoho Mail and Umbler are free for one account on your own domain.
 - Google Workspace is worth it once you have validated the idea.
 
 ---
@@ -63,8 +63,10 @@ It signals credibility and helps with deliverability, particularly for onboardin
 You need to know what to charge **before you start promoting**.
 
 - Choose between free, freemium, trial or paid outright.
+- Offer monthly plans, usage-based pricing, or both.
+- Work out what the infrastructure and APIs actually cost you — OpenAI tokens, for instance — before setting a price.
 - Avoid "price on request" early on.
-- Use Stripe, Mercado Pago or Gumroad for checkout.
+- Use Stripe, Mercado Pago, AbacatePay or Gumroad for checkout.
 
 ---
 
@@ -116,6 +118,8 @@ Marketing is not optional.
 - Create a profile that looks professional.
 - Post behind the scenes, updates, and content that teaches something.
 - Put the landing page link in the bio.
+- A LinkedIn page is optional, but it helps for B2B.
+- Write a short onboarding guide, or record a brief video. It helps retention more than it looks like it will.
 
 ---
 
@@ -123,9 +127,16 @@ Marketing is not optional.
 
 What is not measured does not improve.
 
-- Install Google Analytics, Plausible or Umami.
-- Track visits, conversions and behaviour.
+- Install Google Analytics, Plausible, Umami, Amplitude, Clarity or Hotjar.
+- Track visits, conversions and behaviour, on the landing page *and* inside the product.
 - Use the data to improve your messaging and your product.
+
+---
+
+## Useful, if not essential
+
+- A contact or quick support form, such as Tawk.to or Crisp.
+- A waiting list or basic email marketing, such as ConvertKit or Buttondown.
 
 ---
 
