@@ -868,18 +868,37 @@
    * .hero-content. Now it sits low and left, and the type is sized to the
    * viewport so it actually fills the screen.
    */
-  /* Centred, not pinned to the bottom: anchoring it low left most of the
-     screen empty above the only content on the page. */
+  /**
+   * The name and headline sit just under the header, and the tagline is held
+   * at the bottom of the fold. svh rather than vh: on phones vh is the height
+   * with the URL bar hidden, so the tagline would be pushed below the fold
+   * until the reader scrolled.
+   */
   .hero {
-    align-items: center;
-    padding-top: 96px;
-    padding-bottom: 72px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    padding-top: 78px;
+    padding-bottom: 34px;
+  }
+
+  /* The hero grid carries an empty second cell for the desktop two-column
+     layout. In a single column it is just a gap. */
+  .hero > div:empty {
+    display: none;
   }
 
   .hero-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     padding-left: 0;
     padding-right: 0;
     width: 100%;
+  }
+
+  .subhead {
+    margin-top: auto;
   }
 
   .kicker {
