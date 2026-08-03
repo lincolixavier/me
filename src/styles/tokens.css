@@ -1,4 +1,44 @@
 /**
+ * Outfit, self-hosted. Fetching it from Google cost a DNS lookup, a TLS
+ * handshake and a stylesheet round trip on a third-party origin before a
+ * single glyph could be requested — 780ms of render blocking on mobile.
+ * Served from our own origin it is one request on an already-open connection.
+ * Outfit is licensed under the SIL Open Font License, which permits this.
+ * Only the four weights the site actually uses are shipped.
+ */
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/outfit-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/fonts/outfit-500.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/fonts/outfit-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/assets/fonts/outfit-700.woff2") format("woff2");
+}
+
+/**
  * Design tokens – single source of truth for colors, typography, spacing, motion.
  */
 

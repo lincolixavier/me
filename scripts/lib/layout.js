@@ -48,8 +48,21 @@ function renderNav(site, active) {
     })
     .join("");
 
-  return `<header class="site-header">
-  <nav class="nav" aria-label="Primary">${links}</nav>
+  // The wordmark and the toggle only surface on small screens, where the seven
+  // links cannot sit on one line. On desktop the nav is unchanged.
+  return `<header class="site-header" data-header>
+  <a class="wordmark" href="/" aria-label="${escape(site.name)} — home">LX</a>
+  <button
+    class="nav-toggle"
+    type="button"
+    data-nav-toggle
+    aria-expanded="false"
+    aria-controls="site-nav"
+    aria-label="Open menu"
+  >
+    <span class="nav-toggle-bars" aria-hidden="true"></span>
+  </button>
+  <nav class="nav" id="site-nav" aria-label="Primary">${links}</nav>
 </header>`;
 }
 
@@ -144,6 +157,7 @@ export function renderPage({
 }) {
   const scriptTags = [
     "/src/pages/splash.js",
+    "/src/pages/nav.js",
     "/src/components/neural-canvas.js",
     "/src/pages/transitions.js",
     ...scripts,
@@ -169,10 +183,8 @@ export function renderPage({
   ${renderMeta(site, { path, title, description, type, published, modified })}
 
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-400.woff2" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-700.woff2" crossorigin />
   <link rel="stylesheet" href="/src/styles/main.css" />
   <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} — articles" href="/feed.xml" />${structuredData}
   <script>
