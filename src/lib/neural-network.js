@@ -100,20 +100,50 @@ export function initNeuralNetwork(options = {}, root = null) {
 
     const renderer = new THREE.WebGLRenderer({
       canvas: canvasElement,
-      antialias: true,
+      // MSAA only applies to the default framebuffer. With bloom on, the
+      // composer renders into its own target and antialias here would cost a
+      // multisampled backbuffer for nothing.
+      antialias: !opts.bloom,
       powerPreference: "high-performance",
       alpha: true
     });
 
     renderer.setClearColor(background, 1);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
+    const MAX_PIXEL_RATIO = 1.5;
+    let pixelRatio = Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO);
+    renderer.setPixelRatio(pixelRatio);
+
+    let renderWidth = 0;
+    let renderHeight = 0;
+
+    /**
+     * The layout deliberately pushes the network off the right edge, so part
+     * of the frustum is never on screen. Rather than render those pixels and
+     * throw them away, the canvas covers only the visible strip and
+     * setViewOffset renders exactly that sub-rectangle of the original, wider
+     * frustum — same framing, fewer pixels.
+     *
+     * --canvas-overscan is how many times wider the full frustum is than the
+     * visible strip, and lives in CSS next to the layout it describes.
+     */
     const updateRendererSize = () => {
-      const w = canvasWrapper.offsetWidth;
-      const h = window.innerHeight;
-      renderer.setSize(w, h);
-      camera.aspect = w / h;
+      const overscan =
+        parseFloat(getComputedStyle(canvasWrapper).getPropertyValue("--canvas-overscan")) || 1;
+
+      renderWidth = canvasWrapper.offsetWidth;
+      renderHeight = window.innerHeight;
+      const frustumWidth = renderWidth * overscan;
+
+      renderer.setSize(renderWidth, renderHeight);
+      camera.aspect = frustumWidth / renderHeight;
+
+      if (overscan > 1) {
+        camera.setViewOffset(frustumWidth, renderHeight, 0, 0, renderWidth, renderHeight);
+      } else {
+        camera.clearViewOffset();
+      }
       camera.updateProjectionMatrix();
     };
     updateRendererSize();
@@ -171,13 +201,18 @@ export function initNeuralNetwork(options = {}, root = null) {
     currentOpts = { cameraZ: cz, orbitMin: omin, orbitMax: omax, autoRotateSpeed: ars };
   }
 
+    const BLOOM_SCALE = 0.5;
+
     let composer = null;
     let bloomPass = null;
     if (opts.bloom) {
       composer = new EffectComposer(renderer);
       composer.addPass(new RenderPass(scene, camera));
+      // Bloom is a low-frequency effect, so it is blurry by definition.
+      // Running its mip chain at half resolution is visually indistinguishable
+      // and costs roughly a quarter of the fill rate.
       bloomPass = new UnrealBloomPass(
-        new THREE.Vector2(canvasWrapper.offsetWidth, window.innerHeight),
+        new THREE.Vector2(renderWidth * BLOOM_SCALE, renderHeight * BLOOM_SCALE),
         0.45,
         0.5,
         0.55
@@ -806,9 +841,37 @@ export function initNeuralNetwork(options = {}, root = null) {
       else renderer.render(scene, camera);
     }
 
-    function animate() {
+    /**
+     * Adaptive resolution. Rather than guess what a device can handle, watch
+     * the frames: if enough of them miss the budget, step the pixel ratio down
+     * once. Machines that hold 60fps never lose any quality.
+     */
+    const FRAME_BUDGET_MS = 1000 / 50;
+    const MIN_PIXEL_RATIO = 0.75;
+    let slowFrames = 0;
+    let lastFrameTime = 0;
+
+    function considerQuality(now) {
+      if (lastFrameTime) {
+        const delta = now - lastFrameTime;
+        // Ignore the huge deltas that follow a tab coming back into focus.
+        if (delta < 500) slowFrames = delta > FRAME_BUDGET_MS ? slowFrames + 1 : 0;
+      }
+      lastFrameTime = now;
+
+      if (slowFrames < 45 || pixelRatio <= MIN_PIXEL_RATIO) return;
+
+      slowFrames = 0;
+      pixelRatio = Math.max(MIN_PIXEL_RATIO, pixelRatio - 0.25);
+      renderer.setPixelRatio(pixelRatio);
+      onWindowResize();
+    }
+
+    function animate(now = 0) {
       requestAnimationFrame(animate);
       if (!inViewport || !pageVisible) return;
+
+      considerQuality(now);
 
       const t = clock.getElapsedTime();
 
@@ -837,10 +900,10 @@ export function initNeuralNetwork(options = {}, root = null) {
 
     function onWindowResize() {
       updateRendererSize();
-      const w = canvasWrapper.offsetWidth;
-      const h = window.innerHeight;
-      if (composer) composer.setSize(w, h);
-      if (bloomPass) bloomPass.resolution.set(w, h);
+      if (composer) composer.setSize(renderWidth, renderHeight);
+      if (bloomPass) {
+        bloomPass.resolution.set(renderWidth * BLOOM_SCALE, renderHeight * BLOOM_SCALE);
+      }
       if (opts.reducedMotion) draw();
     }
 

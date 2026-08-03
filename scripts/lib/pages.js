@@ -20,8 +20,13 @@ function renderListing({ heading, subhead, cards, empty, pageSize }) {
     return `<div class="cards-grid"><p class="listing-empty">${escape(empty)}</p></div>`;
   }
 
+  // The entrance stagger is capped so the tail of a long list is not left
+  // waiting several seconds for its turn.
   const items = cards
-    .map((html, i) => `<div class="card-slot" data-index="${i}">\n${html}\n</div>`)
+    .map(
+      (html, i) =>
+        `<div class="card-slot" data-index="${i}" style="--card-index: ${Math.min(i, 8)}">\n${html}\n</div>`
+    )
     .join("\n");
 
   const pagination =
@@ -178,7 +183,7 @@ export function buildArticle({ site, article, body }) {
   const main = `<main class="article-page">
   <article class="article-content">
     <header class="article-header">
-      <h1 class="page-title">${escape(article.title)}</h1>
+      <h1 class="page-title" data-article-hero>${escape(article.title)}</h1>
       ${dateEl}
       ${tagsEl}
     </header>

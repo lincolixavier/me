@@ -46,6 +46,27 @@ a {
 }
 
 /**
+ * Cross-document view transitions. Browsers without support simply navigate
+ * as before — nothing here is required for the site to work.
+ */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The article title morphs out of the card that was clicked. */
+::view-transition-old(article-hero),
+::view-transition-new(article-hero) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/**
  * Reduced motion: no looping animations, no smooth scrolling. The rotating
  * headline settles on its first word instead of cycling, and <neural-canvas>
  * drops its render loop (see src/lib/neural-network.js).
@@ -63,5 +84,10 @@ a {
   .headline .rotating-words-inner {
     animation: none;
     transform: none;
+  }
+
+  /* Navigating should not animate at all. */
+  @view-transition {
+    navigation: none;
   }
 }

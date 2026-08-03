@@ -140,7 +140,12 @@ export function renderPage({
   published,
   modified,
 }) {
-  const scriptTags = ["/src/components/neural-canvas.js", ...scripts]
+  const scriptTags = [
+    "/src/pages/splash.js",
+    "/src/components/neural-canvas.js",
+    "/src/pages/transitions.js",
+    ...scripts,
+  ]
     .map((src) => `<script type="module" src="${escape(src)}"></script>`)
     .join("\n  ");
 
@@ -170,6 +175,13 @@ export function renderPage({
   <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} — articles" href="/feed.xml" />${structuredData}
 </head>
 <body>
+  <div class="splash" data-splash aria-hidden="true">
+    <svg class="splash-mark" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M20 16v26h16" pathLength="1" />
+      <circle cx="44" cy="42" r="4" />
+    </svg>
+  </div>
+
   <neural-canvas${attrs(canvas)}></neural-canvas>
   <div class="left-fade" aria-hidden="true"></div>
 

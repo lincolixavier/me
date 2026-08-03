@@ -2,6 +2,78 @@
  * Component styles – nav, footer, hero, main content, cards, rotating words.
  */
 
+/**
+ * ----- Splash -----
+ * The mark draws itself, then the whole panel lifts away. Hiding is driven by
+ * the CSS animation, not by JavaScript, so a script that never runs can never
+ * leave a reader staring at a covered page. JS only shortens the wait.
+ */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: var(--color-bg);
+  animation: splash-out 420ms cubic-bezier(0.4, 0, 0.2, 1) 1500ms both;
+}
+
+.splash--ready {
+  animation-delay: 0ms;
+}
+
+.splash-mark {
+  width: 84px;
+  height: 84px;
+  overflow: visible;
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.splash-mark path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: splash-draw 900ms cubic-bezier(0.65, 0, 0.35, 1) 120ms forwards;
+}
+
+.splash-mark circle {
+  fill: var(--color-accent);
+  stroke: none;
+  transform-origin: 44px 42px;
+  scale: 0;
+  animation: splash-dot 380ms cubic-bezier(0.34, 1.56, 0.64, 1) 780ms forwards;
+}
+
+@keyframes splash-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes splash-dot {
+  to {
+    scale: 1;
+  }
+}
+
+@keyframes splash-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The global rule zeroes durations but not delays — without this the page
+     would still sit behind a blank panel for a second and a half. */
+  .splash {
+    animation-delay: 0ms !important;
+  }
+}
+
 /* ----- Nav ----- */
 .nav {
   position: absolute;
@@ -320,19 +392,71 @@
    design tokens instead of hardcoding the accent in a shadow root. */
 .card {
   display: block;
+  position: relative;
   padding: 1rem 1.125rem;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.07);
   color: inherit;
   text-decoration: none;
-  transition: border-color var(--transition-base), background var(--transition-base);
+  transition: border-color var(--transition-base), background var(--transition-base),
+    transform 180ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* A thin accent edge that wipes in from the left on hover. */
+.card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--gradient-accent);
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+  transition: transform 260ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
 .card:hover,
 .card:focus-visible {
   border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
   background: rgba(255, 255, 255, 0.055);
+  transform: translateY(-2px);
+}
+
+.card:hover::before,
+.card:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.card:active {
+  transform: translateY(0);
+  transition-duration: 60ms;
+}
+
+.card:hover .card-title {
+  color: #fff;
+}
+
+/* Cards fade up on arrival, offset by position, capped so a long list does
+   not leave the last card waiting. The delay is set inline by the build. */
+@media (prefers-reduced-motion: no-preference) {
+  .card-slot {
+    animation: card-enter 420ms cubic-bezier(0.32, 0.72, 0, 1) both;
+    animation-delay: calc(var(--card-index, 0) * 45ms);
+  }
+}
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Cards with nowhere to link (unreleased work) should not look clickable. */
@@ -515,6 +639,69 @@
   }
   .gear-content {
     padding-left: 0;
+  }
+
+  /* The nav and footer were laid out for the desktop composition only: the
+     nav started 150px in with a 44px gap between eight links, and the footer
+     was pinned 130px from the left. Both overflowed every phone. */
+  .nav {
+    left: var(--content-padding-x);
+    right: var(--content-padding-x);
+    flex-wrap: wrap;
+    gap: 14px 22px;
+  }
+
+  .footer {
+    position: static;
+    left: auto;
+    padding: 32px var(--content-padding-x) 40px;
+  }
+
+  .footer .nav {
+    left: auto;
+    right: auto;
+    justify-content: flex-start;
+    gap: 12px 20px;
+  }
+
+  .article-page,
+  .listing-page {
+    padding-left: var(--content-padding-x);
+    padding-right: var(--content-padding-x);
+  }
+}
+
+@media (max-width: 560px) {
+  :root {
+    --nav-top: 28px;
+  }
+
+  .nav {
+    gap: 10px 16px;
+  }
+
+  .nav .link {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+  }
+
+  .listing-page {
+    padding-top: 96px;
+  }
+
+  .article-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .article-actions {
+    flex-wrap: wrap;
+  }
+
+  .splash-mark {
+    width: 64px;
+    height: 64px;
   }
 }
 

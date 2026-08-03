@@ -51,11 +51,18 @@
 }
 
 /* Canvas wrapper */
+/**
+ * The network is framed off to the right. The canvas covers only the strip
+ * that is actually on screen, and --canvas-overscan tells the renderer how
+ * much wider the intended frustum is, so the framing is unchanged while a
+ * third of the pixels stop being drawn. See src/lib/neural-network.js.
+ */
 .canvas-wrapper {
+  --canvas-overscan: 1.5;
   position: fixed;
-  right: -33%;
+  right: 0;
+  left: 33%;
   top: 0;
-  width: 100%;
   height: 100%;
   z-index: 1;
   overflow: hidden;
@@ -108,7 +115,9 @@ canvas:active {
   }
 
   .canvas-wrapper {
-    width: 100%;
+    /* Full bleed on small screens, so nothing is rendered off-frame. */
+    --canvas-overscan: 1;
+    left: 0;
     right: 0;
     opacity: 0.55;
   }
