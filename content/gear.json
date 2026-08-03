@@ -25,6 +25,25 @@
           "image": ""
         }
       ]
+    },
+    {
+      "name": "Camera",
+      "items": [
+        {
+          "id": "sony-a7ii",
+          "name": "Sony α7 II",
+          "description": "Full frame, small body, in-body stabilisation. Enough camera to stop thinking about the camera.",
+          "url": "https://electronics.sony.com/imaging/interchangeable-lens-cameras/full-frame/p/ilce7m2-b",
+          "image": ""
+        },
+        {
+          "id": "samyang-35mm",
+          "name": "Samyang 35mm f/1.4",
+          "description": "Manual prime. Wide enough for a room, fast enough for a night street.",
+          "url": "https://www.samyanglensglobal.com/",
+          "image": ""
+        }
+      ]
     }
   ]
 }

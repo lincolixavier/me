@@ -131,7 +131,7 @@ ${lifeHtml.trimEnd()}
       site,
       path: "/life/",
       title: `Life · ${site.name}`,
-      description: "On stillness, focus, and building things that serve life instead of replacing it.",
+      description: "On attention, stillness, and what is actually scarce.",
       main,
       active: "life",
     }),

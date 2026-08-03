@@ -6,9 +6,9 @@
   "lang": "en",
   "locale": "en_US",
   "title": "Lincoli Xavier",
-  "tagline": "software engineer • entrepreneur • digital nomad",
-  "description": "Software engineer, entrepreneur and digital nomad. I build products and teams that ship.",
-  "themeColor": "#050508",
+  "tagline": "software engineer • digital nomad",
+  "description": "Software engineer and digital nomad. I build products and teams that ship.",
+  "themeColor": "#121212",
   "twitterHandle": "@lincolixavier",
 
   "hero": {
@@ -25,14 +25,14 @@
     { "id": "life", "href": "/life/" }
   ],
 
-  "_socialComment": "Confirm each handle before deploying. Remove any entry you do not actually use — the footer renders exactly what is listed here.",
+  "_socialComment": "twitter and substack are still unconfirmed guesses — fix or delete them. The footer renders exactly what is listed here.",
   "social": [
-    { "label": "email", "href": "mailto:lincolixavier@gmail.com" },
+    { "label": "email", "href": "mailto:hi@lincoli.me" },
     { "label": "github", "href": "https://github.com/lincolixavier" },
-    { "label": "linkedin", "href": "https://www.linkedin.com/in/lincolixavier/" },
+    { "label": "linkedin", "href": "https://www.linkedin.com/in/lincoli-xavier/" },
     { "label": "twitter", "href": "https://x.com/lincolixavier" },
-    { "label": "instagram", "href": "https://www.instagram.com/lincolixavier/" },
-    { "label": "youtube", "href": "https://www.youtube.com/@lincolixavier" },
+    { "label": "instagram", "href": "https://www.instagram.com/lincoli.xavier/" },
+    { "label": "youtube", "href": "https://www.youtube.com/@lincoli.xavier" },
     { "label": "substack", "href": "https://lincolixavier.substack.com" },
     { "label": "nomad community", "href": "https://gonomadz.com" }
   ],

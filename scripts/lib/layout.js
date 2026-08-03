@@ -14,25 +14,22 @@ const IMPORT_MAP = {
   },
 };
 
-/** Canvas tuning per page type — the home hero pulls back, inner pages sit closer. */
+/**
+ * Canvas tuning per page type. The home hero pulls the camera back; every other
+ * page uses the closer framing of the about view, with bloom and full density,
+ * so the network looks alive everywhere instead of only on about.
+ */
+const CLOSE_FRAMING = {
+  "camera-z": 14,
+  "orbit-min": 14,
+  "orbit-max": 24,
+  "auto-rotate-speed": "0.2",
+};
+
 export const CANVAS = {
   home: { "camera-z": 22 },
-  inner: {
-    "camera-z": 14,
-    "orbit-min": 14,
-    "orbit-max": 24,
-    bloom: "false",
-    "auto-rotate-speed": "0.15",
-    density: "0.5",
-  },
-  article: {
-    "camera-z": 14,
-    "orbit-min": 14,
-    "orbit-max": 24,
-    bloom: "false",
-    "auto-rotate-speed": "0.1",
-    density: "0.45",
-  },
+  inner: CLOSE_FRAMING,
+  article: CLOSE_FRAMING,
 };
 
 function renderNav(site, active) {

@@ -95,8 +95,8 @@ canvas:active {
   pointer-events: none;
   background: linear-gradient(
     90deg,
-    rgba(5, 5, 8, 0.35) 0%,
-    rgba(5, 5, 8, 0.08) 35%,
+    rgba(var(--color-bg-rgb), 0.35) 0%,
+    rgba(var(--color-bg-rgb), 0.08) 35%,
     transparent 52%
   );
 }
@@ -114,11 +114,11 @@ canvas:active {
   }
 
   .canvas-wrapper::after {
-    background: linear-gradient(to right, rgba(5, 5, 8, 0.85) 0%, transparent 40%);
+    background: linear-gradient(to right, rgba(var(--color-bg-rgb), 0.85) 0%, transparent 40%);
   }
 
   .left-fade {
-    background: linear-gradient(180deg, rgba(5, 5, 8, 0.4) 0%, transparent 30%);
+    background: linear-gradient(180deg, rgba(var(--color-bg-rgb), 0.4) 0%, transparent 30%);
   }
 
   .content-swap {
@@ -143,9 +143,9 @@ canvas:active {
   .left-fade {
     background: linear-gradient(
       180deg,
-      rgba(5, 5, 8, 0.9),
-      rgba(5, 5, 8, 0.4) 50%,
-      rgba(5, 5, 8, 0.9)
+      rgba(var(--color-bg-rgb), 0.9),
+      rgba(var(--color-bg-rgb), 0.4) 50%,
+      rgba(var(--color-bg-rgb), 0.9)
     );
   }
 }

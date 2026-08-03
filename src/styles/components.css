@@ -335,6 +335,14 @@
   background: rgba(255, 255, 255, 0.055);
 }
 
+/* Cards with nowhere to link (unreleased work) should not look clickable. */
+.card--static,
+.card--static:hover {
+  border-color: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.03);
+  cursor: default;
+}
+
 .card:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
@@ -579,10 +587,10 @@
   height: 140px;
   background: linear-gradient(
     to bottom,
-    rgba(5, 5, 8, 0.98) 0%,
-    rgba(5, 5, 8, 0.92) 40%,
-    rgba(5, 5, 8, 0.6) 70%,
-    rgba(5, 5, 8, 0) 100%
+    rgba(var(--color-bg-rgb), 0.98) 0%,
+    rgba(var(--color-bg-rgb), 0.92) 40%,
+    rgba(var(--color-bg-rgb), 0.6) 70%,
+    rgba(var(--color-bg-rgb), 0) 100%
   );
 }
 .scroll-fade--bottom {
@@ -590,10 +598,10 @@
   height: 140px;
   background: linear-gradient(
     to top,
-    rgba(5, 5, 8, 0.98) 0%,
-    rgba(5, 5, 8, 0.92) 40%,
-    rgba(5, 5, 8, 0.6) 70%,
-    rgba(5, 5, 8, 0) 100%
+    rgba(var(--color-bg-rgb), 0.98) 0%,
+    rgba(var(--color-bg-rgb), 0.92) 40%,
+    rgba(var(--color-bg-rgb), 0.6) 70%,
+    rgba(var(--color-bg-rgb), 0) 100%
   );
 }
 

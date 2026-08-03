@@ -25,20 +25,20 @@
       "status": "active"
     },
     {
-      "id": "guiddly",
-      "name": "Guiddly",
+      "id": "voyaudio",
+      "name": "Voyaudio",
       "description": "Platform for guided experiences and local tourism.",
-      "url": "https://github.com/lincolixavier",
+      "url": "",
       "tags": ["travel", "saas"],
-      "status": "active"
+      "status": "wip"
     },
     {
       "id": "talkbud",
       "name": "TalkBud",
       "description": "AI-powered language learning companion.",
-      "url": "https://github.com/lincolixavier",
+      "url": "https://talkbud.app",
       "tags": ["ai", "education"],
-      "status": "wip"
+      "status": "active"
     }
   ]
 }

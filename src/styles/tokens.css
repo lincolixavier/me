@@ -4,7 +4,9 @@
 
 :root {
   /* Colors */
-  --color-bg: #050508;
+  --color-bg: #121212;
+  /* Same colour split into channels, for the fades and gradients that need alpha. */
+  --color-bg-rgb: 18, 18, 18;
   --color-text: rgba(255, 255, 255, 0.92);
   --color-muted: rgba(255, 255, 255, 0.6);
   --color-soft: rgba(255, 255, 255, 0.12);

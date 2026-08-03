@@ -44,15 +44,18 @@ export function renderProjectCard(project) {
     ? `<span class="status status--${escape(String(status).toLowerCase().replace(/\s+/g, "-"))}">${escape(status)}</span>`
     : "";
 
-  return `<a class="card"${attrs({
-    href: url || "#",
-    target: url ? "_blank" : false,
-    rel: url ? "noopener noreferrer" : false,
-  })}>
+  // Something not shipped yet has nowhere to link — render it as a plain card
+  // rather than an anchor pointing at "#".
+  const tag = url ? "a" : "div";
+  const linkAttrs = url
+    ? attrs({ href: url, target: "_blank", rel: "noopener noreferrer" })
+    : "";
+
+  return `<${tag} class="card${url ? "" : " card--static"}"${linkAttrs}>
   <h3 class="card-title">${escape(name)}</h3>
   ${description ? `<p class="card-description">${escape(description)}</p>` : ""}
   ${cardFooter(statusEl + tagList(tags))}
-</a>`;
+</${tag}>`;
 }
 
 export function renderPodcastCard(episode) {

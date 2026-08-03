@@ -83,7 +83,8 @@ export function initNeuralNetwork(options = {}, root = null) {
     };
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x000000, 0.002);
+    // Matches --color-bg so distant nodes fade into the page, not into black.
+    scene.fog = new THREE.FogExp2(0x121212, 0.002);
 
   const camera = new THREE.PerspectiveCamera(65, 2, 0.1, 1000);
   camera.position.set(0, 2, opts.cameraZ);
@@ -95,7 +96,7 @@ export function initNeuralNetwork(options = {}, root = null) {
       alpha: true
     });
 
-    renderer.setClearColor(0x070709 , 0);
+    renderer.setClearColor(0x121212, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
