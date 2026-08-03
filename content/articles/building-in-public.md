@@ -1,5 +1,5 @@
 ---
-title: "Building in Public"
+title: "Building in public"
 date: "2026-01-18"
 description: "What I learned from sharing the process, not just the product."
 tags: ["indie", "startups", "transparency"]

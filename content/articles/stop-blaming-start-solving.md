@@ -1,5 +1,5 @@
 ---
-title: "Stop Blaming and Start Solving"
+title: "Stop blaming and start solving"
 date: 2024-01-12
 description: "Blame and elaborate justifications are a straight line to failure, for your career and for your team."
 tags: ["career", "softskills", "engineering"]

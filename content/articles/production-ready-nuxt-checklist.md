@@ -1,5 +1,5 @@
 ---
-title: "Checklist for a Complete, Production-Ready Nuxt Project"
+title: "Checklist for a complete, production-ready Nuxt project"
 date: 2025-03-04
 description: "Fifteen areas worth settling before a Nuxt project grows: structure, state, performance, testing, security."
 tags: ["nuxt", "webdev", "checklist"]

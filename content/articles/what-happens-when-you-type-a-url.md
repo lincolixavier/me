@@ -1,5 +1,5 @@
 ---
-title: "What Happens When You Type a URL Into the Browser"
+title: "What happens when you type a URL into the browser"
 date: 2024-11-18
 description: "From parsing the URL to painting the page: the steps between pressing Enter and seeing a site."
 tags: ["webdev", "browser", "web"]

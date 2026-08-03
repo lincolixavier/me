@@ -1,5 +1,5 @@
 ---
-title: "Building a SaaS Starter Kit"
+title: "Building a SaaS starter kit"
 date: 2025-09-16
 description: "LLMs made it easy to start a product and just as easy to skip the infrastructure. That gap is what Arki is for."
 tags: ["saas", "webdev", "productivity"]

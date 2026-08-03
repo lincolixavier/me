@@ -1,5 +1,5 @@
 ---
-title: "A Complete Checklist to Launch Your SaaS From Zero"
+title: "A complete checklist to launch your SaaS from zero"
 date: 2025-04-30
 description: "Twelve things to have in place to get out of idea mode and put a product in front of people who can pay for it."
 tags: ["saas", "startup", "checklist"]

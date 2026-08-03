@@ -1,5 +1,5 @@
 ---
-title: "A Day of Async Work — The Ideal Routine"
+title: "A day of async work — the ideal routine"
 date: 2024-01-02
 description: "Remote work is not the office with a webcam. What a day actually looks like when async comes first."
 tags: ["async", "remote", "workflow"]

@@ -1,5 +1,5 @@
 ---
-title: "20 Books to Add to Your Reading List as a Tech Professional"
+title: "20 books to add to your reading list as a tech professional"
 date: 2025-08-15
 description: "Algorithms, architecture, data, design and a bit of history — twenty books worth your time, with a line on each."
 tags: ["books", "career", "programming"]

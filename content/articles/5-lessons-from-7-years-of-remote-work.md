@@ -1,5 +1,5 @@
 ---
-title: "5 Lessons From 7 Years of Remote Work"
+title: "5 lessons from 7 years of remote work"
 date: 2024-12-05
 description: "What actually makes remote work function, learned across companies of nearly every size and niche."
 tags: ["remote", "career", "workplace"]

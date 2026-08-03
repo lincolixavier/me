@@ -1,5 +1,5 @@
 ---
-title: "Shipping Beats Perfection"
+title: "Shipping beats perfection"
 date: "2026-04-05"
 description: "Why getting things out the door matters more than getting them right the first time."
 tags: ["startups", "mindset", "engineering"]

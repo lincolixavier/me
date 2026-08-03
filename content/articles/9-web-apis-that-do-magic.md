@@ -1,5 +1,5 @@
 ---
-title: "9 Web APIs That Do Actual Magic"
+title: "9 Web APIs that do actual magic"
 date: 2024-03-28
 description: "Light sensors, Bluetooth, cross-tab messaging, screen capture and more — things the browser can do that it has no business doing."
 tags: ["webapis", "javascript", "webdev"]

@@ -1,5 +1,5 @@
 ---
-title: "Let's Talk About Shadows on the Web: Shadow DOM"
+title: "Let's talk about shadows on the web: Shadow DOM"
 date: 2024-09-12
 description: "Encapsulated styles and behaviour, what the isolation buys you, what it costs, and how it differs from the Virtual DOM."
 tags: ["programming", "html", "webdev"]

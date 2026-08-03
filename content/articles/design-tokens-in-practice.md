@@ -1,5 +1,5 @@
 ---
-title: "Design Tokens in Practice"
+title: "Design tokens in practice"
 date: "2026-02-10"
 description: "How CSS custom properties can replace a design system framework and keep your UI consistent."
 tags: ["css", "design", "frontend"]

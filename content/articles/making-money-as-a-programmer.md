@@ -1,5 +1,5 @@
 ---
-title: "How Do You Make Money as a Programmer?"
+title: "How do you make money as a programmer?"
 date: 2020-01-20
 description: "There is no recipe. But in a field the world revolves around, money is an inevitable consequence."
 tags: ["career", "motivation"]

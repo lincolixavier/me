@@ -1,5 +1,5 @@
 ---
-title: "A Complete UX/UI Design Guide, From Zero to Advanced"
+title: "A complete UX/UI design guide, from zero to advanced"
 date: 2025-04-10
 description: "A study path for digital product design: eight modules with lessons, references and exercises at every step."
 tags: ["design", "ux", "ui", "career"]
@@ -11,7 +11,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 0 — Introduction to UX/UI Design
+# Module 0 — introduction to UX/UI design
 
 ## Goals
 
@@ -40,7 +40,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 1 — Psychology Fundamentals and Cognitive Design
+# Module 1 — psychology fundamentals and cognitive design
 
 ## Goals
 
@@ -67,7 +67,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 2 — UX Research
+# Module 2 — UX research
 
 ## Goals
 
@@ -96,7 +96,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 3 — Information Architecture and UX Writing
+# Module 3 — information architecture and UX writing
 
 ## Goals
 
@@ -123,7 +123,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 4 — UI Design and Visual Design
+# Module 4 — UI design and visual design
 
 ## Goals
 
@@ -150,7 +150,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 5 — Prototyping and Usability Testing
+# Module 5 — prototyping and usability testing
 
 ## Goals
 
@@ -178,7 +178,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 6 — Tools and Professional Workflow
+# Module 6 — tools and professional workflow
 
 ## Goals
 
@@ -205,7 +205,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 7 — Final Project and Portfolio
+# Module 7 — final project and portfolio
 
 ## Goals
 
@@ -232,7 +232,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Final Notes for the Journey
+# Final notes for the journey
 
 - Always validate with users. Intuition comes after experience.
 - Test constantly. Everything is a hypothesis until a user interacts with it.

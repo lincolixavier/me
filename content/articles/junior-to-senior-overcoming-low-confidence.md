@@ -1,5 +1,5 @@
 ---
-title: "Junior to Senior: Overcoming Low Confidence"
+title: "Junior to senior: overcoming low confidence"
 date: 2024-01-17
 description: "The journey is not only technical. Confidence is the part traditional education tends to leave unsolved."
 tags: ["career", "beginners", "development"]

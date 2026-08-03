@@ -1,5 +1,5 @@
 ---
-title: "Why I Still Love Static Sites"
+title: "Why I still love static sites"
 date: "2026-03-01"
 description: "A short take on keeping the web simple with HTML, CSS, and a bit of JavaScript."
 tags: ["tech", "web", "design"]

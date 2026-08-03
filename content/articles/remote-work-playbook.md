@@ -1,5 +1,5 @@
 ---
-title: "My Remote Work Playbook"
+title: "My remote work playbook"
 date: "2026-03-20"
 description: "Lessons from years of working from anywhere — tools, routines, and the mindset that makes it sustainable."
 tags: ["remote", "productivity", "nomad"]
