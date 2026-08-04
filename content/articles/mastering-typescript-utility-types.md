@@ -1,7 +1,7 @@
 ---
 title: "Mastering TypeScript's utility types"
 date: 2024-07-18
-description: "Partial, Required, Readonly, Pick, Omit, Record and friends — what each one does and when to reach for it."
+description: "Partial, Required, Readonly, Pick, Omit, Record and friends: what each one does and when to reach for it."
 tags: ["typescript", "development", "career"]
 ---
 

@@ -46,7 +46,7 @@ async function readJson(relPath, fallback = null) {
     return JSON.parse(await fs.readFile(path.join(ROOT, relPath), "utf-8"));
   } catch (err) {
     if (err.code === "ENOENT" && fallback !== null) {
-      warnings.push(`${relPath} not found — using an empty list.`);
+      warnings.push(`${relPath} not found, using an empty list.`);
       return fallback;
     }
     throw new Error(`Could not read ${relPath}: ${err.message}`);
@@ -58,7 +58,7 @@ async function readFragment(relPath) {
     return await fs.readFile(path.join(ROOT, relPath), "utf-8");
   } catch (err) {
     if (err.code === "ENOENT") {
-      warnings.push(`${relPath} not found — that section will be empty.`);
+      warnings.push(`${relPath} not found, so that section will be empty.`);
       return "";
     }
     throw err;
@@ -99,7 +99,7 @@ async function readArticles() {
     files = entries.filter((e) => e.isFile() && e.name.endsWith(".md"));
   } catch (err) {
     if (err.code !== "ENOENT") throw err;
-    warnings.push("content/articles/ not found — no articles were built.");
+    warnings.push("content/articles/ not found, so no articles were built.");
     return [];
   }
 
@@ -110,7 +110,7 @@ async function readArticles() {
       const { attributes, body } = parseFrontMatter(raw);
 
       if (!attributes.title) warnings.push(`${file.name} has no "title" in its front-matter.`);
-      if (!attributes.date) warnings.push(`${file.name} has no "date" — it will sort last.`);
+      if (!attributes.date) warnings.push(`${file.name} has no "date", so it will sort last.`);
 
       return {
         slug,
@@ -233,7 +233,7 @@ async function build() {
   site.ogImage = await ogImage("default");
 
   if (!site.ogImage) {
-    warnings.push("assets/og/default.* missing — run `bun run og`.");
+    warnings.push("assets/og/default.* missing. Run `bun run og`.");
   }
 
   const styles = await readStyles();

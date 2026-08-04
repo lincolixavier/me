@@ -7,7 +7,7 @@ tags: ["career", "softskills", "engineering"]
 
 *Stop blaming and start solving.*
 
-*Blaming yourself, blaming others, justifying every mistake at length — that is a straight line to failure, both for your career and for the team you are on.*
+*Blaming yourself, blaming others, justifying every mistake at length: that is a straight line to failure, both for your career and for the team you are on.*
 
 Problem solving is an essential skill if you want to stand out at work. A successful professional does not run from challenges, they look for ways past them. Developing that capacity is fundamental to adapting to how constantly the working world changes.
 

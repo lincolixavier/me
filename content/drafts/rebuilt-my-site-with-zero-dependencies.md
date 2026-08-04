@@ -118,7 +118,7 @@ One variable was doing most of the damage. `--content-padding-left` indents cont
 
 Once I started actually looking, the rest fell out quickly.
 
-**A third of every frame was rendered off screen.** The canvas was 100% wide, pushed 33% past the right edge. I did not shrink the design — I sized the canvas to the visible strip and used `camera.setViewOffset()` to render exactly that sub-rectangle of the original frustum. Same framing, a third fewer pixels.
+**A third of every frame was rendered off screen.** The canvas was 100% wide, pushed 33% past the right edge. I did not shrink the design. I sized the canvas to the visible strip and used `camera.setViewOffset()` to render exactly that sub-rectangle of the original frustum. Same framing, a third fewer pixels.
 
 **The stylesheets loaded in a chain.** Four `@import` rules, which the browser cannot even discover until the first file has arrived and parsed. Worse, it left a window where the document was rendering but custom properties were not readable yet, which broke the canvas on cold loads and worked perfectly on every reload. Classic. The build concatenates them now.
 
@@ -130,11 +130,11 @@ Once I started actually looking, the rest fell out quickly.
 
 The site is static, but three things are not: view counts, likes and the newsletter.
 
-Those run as Vercel Functions against Upstash Redis. `INCR` is atomic, which is the entire reason to use Redis here instead of object storage — two people hitting an article at the same time cannot lose a count.
+Those run as Vercel Functions against Upstash Redis. `INCR` is atomic, which is the entire reason to use Redis here instead of object storage: two people hitting an article at the same time cannot lose a count.
 
 No dependency for that either. Upstash and Resend both have REST APIs, so it is `fetch`.
 
-And nothing identifying is stored. Whether *you* viewed or liked something lives in your own `localStorage`; the server only ever moves a number. Clearing your storage lets you like twice. For a personal blog that is a much better trade than tracking people, and it means no cookie banner — by design, not by omission.
+And nothing identifying is stored. Whether *you* viewed or liked something lives in your own `localStorage`; the server only ever moves a number. Clearing your storage lets you like twice. For a personal blog that is a much better trade than tracking people, and it means no cookie banner, by design and not by omission.
 
 While auditing this I found a real hole: **the counters had no rate limit.** Eight consecutive requests took a post from 1 like to 8. Anyone with a loop could have written any number they wanted. Writes are limited per address now; reads stay open.
 
@@ -150,7 +150,7 @@ I only found it because I sat down and tried to break my own endpoints. Do that.
 
 ## The actual takeaway
 
-I got the architecture right on instinct. Static generation, no dependencies, content in Markdown — none of that needed measuring, and none of it caused a single problem.
+I got the architecture right on instinct. Static generation, no dependencies, content in Markdown. None of that needed measuring, and none of it caused a single problem.
 
 Every real bug was in the layer where I assumed instead of checked. The parser I trusted. The performance I measured on the wrong machine. The CSS I fixed by adjusting padding until it looked right on my screen.
 

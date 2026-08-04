@@ -69,7 +69,7 @@ export function renderFeed(site, articles) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${escape(site.name)} — articles</title>
+    <title>${escape(site.name)} · articles</title>
     <link>${escape(absoluteUrl(site.url, "/articles/"))}</link>
     <description>${escape(site.description)}</description>
     <language>${escape(site.lang)}</language>

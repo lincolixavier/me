@@ -23,7 +23,7 @@ Flexibility is one of the advantages of remote work, but do not become its hosta
 
 **4. Remote work is collaborative**
 
-Working remotely does not mean isolation. Regular communication between team members is fundamental. Small gestures — greeting your colleagues at the start of the day, asking about what they are into — strengthen the bonds and make the team feel closer.
+Working remotely does not mean isolation. Regular communication between team members is fundamental. Small gestures (greeting your colleagues at the start of the day, asking about what they are into) strengthen the bonds and make the team feel closer.
 
 **5. Create rituals to replace the office**
 

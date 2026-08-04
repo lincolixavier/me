@@ -5,13 +5,13 @@ description: "The journey is not only technical. Confidence is the part traditio
 tags: ["career", "beginners", "development"]
 ---
 
-*The journey from junior to senior does not only involve technical feats. It is equally about developing the interpersonal skills that matter, and one crucial piece is dealing with a lack of confidence — an obstacle that traditional education tends to leave unsolved.*
+*The journey from junior to senior does not only involve technical feats. It is equally about developing the interpersonal skills that matter, and one crucial piece is dealing with a lack of confidence, an obstacle that traditional education tends to leave unsolved.*
 
 Confidence underpins professional success, and yet it is the part of personal development that many people in tech struggle with, especially early in their careers. It shows up in different ways, from hesitating to voice an opinion in a team discussion to second-guessing technical decisions.
 
 Understanding where confidence problems come from is essential to designing strategies against them. You may find yourself in unfamiliar territory, facing complex challenges and working alongside experienced professionals. That exposure can trigger feelings of inadequacy and insecurity. Recognise that those feelings are not unusual and are in fact an inherent part of the learning curve.
 
-One important thing is building a support network. Connecting with mentors, both inside and outside your organisation, gives you valuable insight and reassurance. The already-balding devs — some of them — who probably faced similar challenges in the past can offer guidance grounded in real experience. That mentoring dynamic creates a safe space for juniors to voice concerns and get constructive feedback, which gradually builds confidence. There are plenty of communities on Twitter, Discord and Facebook. Join the ones where you feel comfortable.
+One important thing is building a support network. Connecting with mentors, both inside and outside your organisation, gives you valuable insight and reassurance. The already-balding devs (some of them) who probably faced similar challenges in the past can offer guidance grounded in real experience. That mentoring dynamic creates a safe space for juniors to voice concerns and get constructive feedback, which gradually builds confidence. There are plenty of communities on Twitter, Discord and Facebook. Join the ones where you feel comfortable.
 
 Confidence is intrinsically tied to competence, and keeping up with the latest trends and technologies matters. But do not misread that: **you do not need to follow every new thing**. Just keep a steady interest in them, read an article here and there. Investing time in expanding your technical knowledge sharpens your skills and also gives you the confidence to apply what you know in real scenarios. Learn proactively.
 

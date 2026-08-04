@@ -9,7 +9,7 @@ The temptation when you reach a leadership position is to start proposing change
 
 We should do the opposite.
 
-Understand how decisions really get made, who genuinely has influence — not just on the org chart — and what happens when someone makes a mistake.
+Understand how decisions really get made, who genuinely has influence (not just on the org chart) and what happens when someone makes a mistake.
 
 There are five things worth looking at:
 

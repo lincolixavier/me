@@ -9,7 +9,7 @@ Setting new year goals, for me, is not about achieving everything. It is about h
 
 Here are mine for this year.
 
-**Improve the HTML parsing — Nami**
+**Improve the HTML parsing: Nami**
 
 I am building a browser from scratch in Rust (or trying to), and it has been a real challenge. This year I want to keep working through HTML parsing following the spec, and polish a few things.
 

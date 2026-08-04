@@ -11,7 +11,7 @@ SPIN Selling is a sales technique created by Neil Rackham. The idea is simple bu
 
 Those questions fall into four types: **Situation**, **Problem**, **Implication** and **Need-payoff**. Hence SPIN.
 
-The magic happens when, in answering them, the customer starts to see that they need your solution — not because you pushed it, but because they understood the value.
+The magic happens when, in answering them, the customer starts to see that they need your solution, not because you pushed it, but because they understood the value.
 
 In short, SPIN Selling is:
 
@@ -40,7 +40,7 @@ In short, SPIN Selling is:
 
 ## Why it works so well
 
-- **It creates a real connection.** No generic conversation — you step into the customer's world.
+- **It creates a real connection.** No generic conversation. You step into the customer's world.
 - **It shows value without forcing it.** The customer sees the importance of the solution on their own.
 - **It reduces objections.** You already understand their pain and bring something tailored.
 - **It improves your chances of closing**, because the proposal makes far more sense to the person on the other side.

@@ -19,7 +19,7 @@ That is the knot.
 
 Every language app demands that you build a new routine. Open the app, start the lesson, complete the exercise, do not break the streak.
 
-WhatsApp is different. You already open it more than forty times a day. There is no friction at all. It is where you already are — now with an expert partner who does not judge, who corrects, who explains, and who expands your vocabulary at your pace.
+WhatsApp is different. You already open it more than forty times a day. There is no friction at all. It is where you already are, now with an expert partner who does not judge, who corrects, who explains, and who expands your vocabulary at your pace.
 
 We are at launch. 50% off forever for anyone joining now.
 

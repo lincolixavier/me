@@ -11,7 +11,7 @@ Then I started shipping.
 
 ## The feedback loop
 
-The moment real users touch your product, your assumptions collapse. That beautiful architecture? Irrelevant — they needed a different feature entirely. That edge case you spent two days on? Never triggered.
+The moment real users touch your product, your assumptions collapse. That beautiful architecture? Irrelevant. They needed a different feature entirely. That edge case you spent two days on? Never triggered.
 
 Shipping is the fastest way to learn what actually matters.
 

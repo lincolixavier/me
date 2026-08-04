@@ -5,7 +5,7 @@ description: "How CSS custom properties can replace a design system framework an
 tags: ["css", "design", "frontend"]
 ---
 
-Design tokens are the smallest decisions in a design system — colors, spacing, font sizes, border radii. They're the atoms that everything else is built from.
+Design tokens are the smallest decisions in a design system: colors, spacing, font sizes, border radii. They're the atoms that everything else is built from.
 
 ## Why tokens matter
 

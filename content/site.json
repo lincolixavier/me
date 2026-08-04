@@ -1,5 +1,5 @@
 {
-  "_comment": "Single source of truth for site metadata, navigation and social links. Edit here, never in HTML — every page is generated from this file.",
+  "_comment": "Single source of truth for site metadata, navigation and social links. Edit here, never in HTML; every page is generated from this file.",
   "name": "Lincoli Xavier",
   "url": "https://www.lincoli.me",
   "lang": "en",
@@ -48,7 +48,7 @@
       "href": "/contact/"
     }
   ],
-  "_socialComment": "substack is still an unconfirmed guess — fix or delete it. The footer renders exactly what is listed here.",
+  "_socialComment": "substack is still an unconfirmed guess, so fix or delete it. The footer renders exactly what is listed here.",
   "social": [
     {
       "label": "github",
@@ -87,7 +87,7 @@
     },
     "projects": {
       "title": "projects",
-      "subhead": "Things I've built, shipped, contributed to — and a few that did not make it.",
+      "subhead": "Things I've built, shipped, contributed to, plus a few that did not make it.",
       "empty": "No projects yet. Check back soon."
     },
     "podcasts": {
@@ -106,37 +106,37 @@
     {
       "role": "Founder & Lead Engineer",
       "company": "Unlocd Solutions",
-      "period": "2024 — now"
+      "period": "since 2024"
     },
     {
       "role": "Technical Lead",
       "company": "O Novo Mercado",
-      "period": "2023 — 2024"
+      "period": "2023-2024"
     },
     {
       "role": "Head of Frontend",
       "company": "TeamCulture",
-      "period": "2022 — 2023"
+      "period": "2022-2023"
     },
     {
       "role": "Senior Software Engineer",
       "company": "VX Tech",
-      "period": "2019 — 2022"
+      "period": "2019-2022"
     },
     {
       "role": "Frontend Developer",
       "company": "Condusit",
-      "period": "2018 — 2019"
+      "period": "2018-2019"
     },
     {
       "role": "Full-stack Developer",
       "company": "Tao Interativa",
-      "period": "2015 — 2018"
+      "period": "2015-2018"
     },
     {
       "role": "Web Developer",
       "company": "Shopgráfica",
-      "period": "2012 — 2015"
+      "period": "2012-2015"
     }
   ],
   "email": "hi@lincoli.me"

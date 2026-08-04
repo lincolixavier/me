@@ -130,7 +130,7 @@ What you should not do is log the error inside the worker and move on. That is h
 
 ## Picking the number
 
-The default instinct is `runtime.NumCPU()`. That is right for CPU-bound work — parsing, resizing, compressing — where more workers than cores just adds scheduling overhead.
+The default instinct is `runtime.NumCPU()`. That is right for CPU-bound work (parsing, resizing, compressing) where more workers than cores just adds scheduling overhead.
 
 For I/O-bound work it is far too low. A worker waiting on a network response is using no CPU at all, and you can profitably run many more than you have cores.
 

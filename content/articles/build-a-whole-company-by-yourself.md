@@ -11,43 +11,43 @@ Here is a list of AI tools for generating every essential element of a brand.
 
 ## 1. Brand name
 
-- **Namelix** — creative names from keywords and styles.
-- **BrandBucket** — available names, with domains.
-- **Looka Business Name Generator** — names plus an availability check.
-- **Copy.ai** — name ideas.
+- **Namelix**: creative names from keywords and styles.
+- **BrandBucket**: available names, with domains.
+- **Looka Business Name Generator**: names plus an availability check.
+- **Copy.ai**: name ideas.
 
 ## 2. Logo
 
-- **Looka** — generates logos automatically.
-- **Brandmark** — logos with a visual identity around them.
-- **LogoAI** — logo and visual identity generation.
+- **Looka**: generates logos automatically.
+- **Brandmark**: logos with a visual identity around them.
+- **LogoAI**: logo and visual identity generation.
 
 ## 3. Landing page
 
-- **Framer AI** — responsive pages.
-- **Durable** — full sites in seconds.
-- **10Web** — automated WordPress site building.
+- **Framer AI**: responsive pages.
+- **Durable**: full sites in seconds.
+- **10Web**: automated WordPress site building.
 
 ## 4. Promotional video
 
-- **Runway ML** — video generation and editing.
-- **Synthesia** — video with AI avatars.
-- **Pictory** — video from text and images.
-- **InVideo** — automated video for social media.
+- **Runway ML**: video generation and editing.
+- **Synthesia**: video with AI avatars.
+- **Pictory**: video from text and images.
+- **InVideo**: automated video for social media.
 
 ## 5. Images and visual art
 
-- **Midjourney** — ultra-realistic image generation.
-- **DALL·E** — image generation from prompts.
-- **Leonardo.Ai** — digital art generation.
-- **Stockimg.AI** — images and mockups.
+- **Midjourney**: ultra-realistic image generation.
+- **DALL·E**: image generation from prompts.
+- **Leonardo.Ai**: digital art generation.
+- **Stockimg.AI**: images and mockups.
 
 ## 6. Copywriting
 
-- **Copy.ai** — ad copy and descriptions.
-- **Jasper AI** — persuasive and SEO copy.
-- **Writesonic** — copy for ads and blogs.
-- **Hypotenuse AI** — e-commerce and marketing copy.
+- **Copy.ai**: ad copy and descriptions.
+- **Jasper AI**: persuasive and SEO copy.
+- **Writesonic**: copy for ads and blogs.
+- **Hypotenuse AI**: e-commerce and marketing copy.
 
 ---
 

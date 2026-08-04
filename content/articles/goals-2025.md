@@ -9,7 +9,7 @@ Setting new year goals, for me, is not about achieving everything. It is about h
 
 Here are mine for this year.
 
-**Improve the HTML parsing — Nami**
+**Improve the HTML parsing: Nami**
 
 Carrying on from last year. I am building a browser from scratch in Rust (or trying to), and it has been a real challenge. This year I want to keep working through HTML parsing following the spec, and polish a few things.
 
@@ -27,7 +27,7 @@ My focus this year is not subscriber count, it is consistency. In 2023 I created
 
 **Librium MVP**
 
-Last year I got some of the book scripts further along. I hope to push it far enough to launch the MVP this year — my reading social network.
+Last year I got some of the book scripts further along. I hope to push it far enough to launch the MVP this year: my reading social network.
 
 **25 books**
 

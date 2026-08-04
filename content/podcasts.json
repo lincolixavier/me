@@ -25,7 +25,7 @@
     },
     {
       "id": "engineering-sessions-efficiency",
-      "title": "Efficiency — Engineering Sessions S02E06",
+      "title": "Efficiency · Engineering Sessions S02E06",
       "description": "A conversation about engineering efficiency and how teams actually measure it.",
       "show": "Engineering Sessions",
       "date": "2023-06-26",
@@ -36,7 +36,7 @@
     },
     {
       "id": "dev-amigo-12",
-      "title": "Tech Lead e Nômade Digital — Dev Amigo #12",
+      "title": "Tech Lead e Nômade Digital · Dev Amigo #12",
       "description": "Leading a team while living on the road.",
       "show": "Dev Amigo",
       "date": "2023-05-10",
@@ -58,7 +58,7 @@
     },
     {
       "id": "pilhacheia-10",
-      "title": "O verdadeiro pilhacheia — do Junior ao Senior",
+      "title": "O verdadeiro pilhacheia · do Junior ao Senior",
       "description": "With Entria Tech, on what actually moves a developer from junior to senior.",
       "show": "PilhaCheia",
       "date": "2022-04-27",
@@ -69,7 +69,7 @@
     },
     {
       "id": "pilhacheia-09",
-      "title": "Sandy & Junior — início da carreira dev",
+      "title": "Sandy & Junior · início da carreira dev",
       "description": "On the first steps of a development career.",
       "show": "PilhaCheia",
       "date": "2022-01-05",
@@ -135,7 +135,7 @@
     },
     {
       "id": "pilhacheia-03",
-      "title": "O caminho do dev pilhacheia — lógica de programação",
+      "title": "O caminho do dev pilhacheia · lógica de programação",
       "description": "Where to start: programming logic as the foundation.",
       "show": "PilhaCheia",
       "date": "2021-07-02",
@@ -157,7 +157,7 @@
     },
     {
       "id": "pilhacheia-01",
-      "title": "Deixando o acampamento mais limpo — refactoring",
+      "title": "Deixando o acampamento mais limpo · refactoring",
       "description": "Refactoring, and leaving the codebase better than you found it.",
       "show": "PilhaCheia",
       "date": "2021-06-05",
@@ -168,7 +168,7 @@
     },
     {
       "id": "sinform-2021",
-      "title": "SINFORM 2021.1 — Palestra Lincoli Xavier",
+      "title": "SINFORM 2021.1 · Palestra Lincoli Xavier",
       "description": "A talk given at SINFORM 2021.1.",
       "show": "SINFORM",
       "date": "2021-05-22",
@@ -179,7 +179,7 @@
     },
     {
       "id": "pilhacheia-00",
-      "title": "Piloto — sejam bem-vindos!",
+      "title": "Piloto · sejam bem-vindos!",
       "description": "The pilot episode, and what the show set out to be.",
       "show": "PilhaCheia",
       "date": "2021-05-22",

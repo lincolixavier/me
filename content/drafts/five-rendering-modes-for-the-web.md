@@ -9,7 +9,7 @@ Every few months someone asks me which framework to use, and almost always the r
 
 So here are the five, what each one really does, and where I would use it.
 
-## SSR — Server-Side Rendering
+## SSR: Server-Side Rendering
 
 Old but gold. The server builds the HTML and the browser gets a finished page.
 
@@ -19,7 +19,7 @@ Fast first paint, friendly to search engines, and the content is there before an
 
 Frameworks: classic MVC, Next, Nuxt, Angular Universal.
 
-## SPA — Single Page Application
+## SPA: Single Page Application
 
 The app loads once and JavaScript takes over from there. Moving between routes costs nothing because there is no round trip.
 
@@ -29,29 +29,29 @@ The experience is smooth. The cost is the first load, which has to ship and boot
 
 Frameworks: Vue, React, Angular, Svelte.
 
-## SSG — Static Site Generation
+## SSG: Static Site Generation
 
 Every page is rendered once, at build time. What ships is HTML sitting on a CDN.
 
 This is the fastest and the safest of the five, and it needs no application server at all. The catch is obvious: content only changes when you rebuild.
 
-**Use it when** the content changes on a human schedule rather than a machine one — documentation, marketing sites, blogs. This site is SSG, and the whole build takes about a hundred milliseconds.
+**Use it when** the content changes on a human schedule rather than a machine one: documentation, marketing sites, blogs. This site is SSG, and the whole build takes about a hundred milliseconds.
 
 Frameworks: Hugo, Jekyll, Astro, Eleventy, or a script you wrote yourself.
 
-## ISR — Incremental Static Regeneration
+## ISR: Incremental Static Regeneration
 
 The middle ground. Pages are static, but they regenerate in the background at an interval you choose.
 
 A reader gets the old version instantly while the new one is being built, and the next reader gets the new one. You keep static speed and lose the rebuild-for-every-typo problem.
 
-**Use it when** the content updates often but nobody is harmed by being an hour behind. A blog with comments. A product catalogue. It does need a host that supports it — Vercel and Netlify do.
+**Use it when** the content updates often but nobody is harmed by being an hour behind. A blog with comments. A product catalogue. It does need a host that supports it, and Vercel and Netlify do.
 
-## ESR — Edge-Side Rendering
+## ESR: Edge-Side Rendering
 
 Rendering that happens on the CDN itself, physically close to the reader.
 
-The obvious win is latency: the render happens a few hundred kilometres away instead of a few thousand. The interesting win is that you can personalise a response without giving up the edge — geolocation, A/B tests, feature flags.
+The obvious win is latency: the render happens a few hundred kilometres away instead of a few thousand. The interesting win is that you can personalise a response without giving up the edge: geolocation, A/B tests, feature flags.
 
 The constraint is real, though. Edge runtimes are not full Node. No filesystem, limited APIs, tight execution budgets. Code that works locally can fail there for reasons that have nothing to do with your logic.
 
@@ -73,7 +73,7 @@ A worked example: SEO matters, content updates weekly, you would rather not run 
 
 ## One thing worth understanding
 
-Every mode except pure SPA still renders on the client afterwards. The server sends HTML, then the framework boots and takes over the same markup — hydration.
+Every mode except pure SPA still renders on the client afterwards. The server sends HTML, then the framework boots and takes over the same markup, which is hydration.
 
 That is why "SSR" does not mean "no JavaScript". It means the first paint does not wait for it.
 

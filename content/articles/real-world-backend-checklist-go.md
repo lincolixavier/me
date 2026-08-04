@@ -11,7 +11,7 @@ This is the list I actually go through. Not everything applies to every project,
 
 ## 1. Project layout
 
-Group by domain, not by technical role. `user/`, `billing/`, `order/` — not `handlers/`, `services/`, `repositories/` with every feature smeared across all three.
+Group by domain, not by technical role. `user/`, `billing/`, `order/`, not `handlers/`, `services/`, `repositories/` with every feature smeared across all three.
 
 Keep `cmd/` for entry points and `internal/` for anything you do not want imported from outside. `internal/` is enforced by the compiler, which makes it the cheapest architectural boundary Go gives you.
 
@@ -49,7 +49,7 @@ Two rules that save the most pain:
 - Set connection pool limits: `SetMaxOpenConns`, `SetMaxIdleConns`, `SetConnMaxLifetime`. The default max is unlimited, which is how a traffic spike takes down the database instead of the app.
 - Migrations in version control, applied by a tool, never by hand.
 - Prepared statements or a query builder. String concatenation into SQL is how injection happens, and Go makes it easy to avoid.
-- Transactions where you need atomicity, and `defer tx.Rollback()` right after opening — the commit makes it a no-op, and it saves you when an early return would otherwise leak the transaction.
+- Transactions where you need atomicity, and `defer tx.Rollback()` right after opening. The commit makes it a no-op, and it saves you when an early return would otherwise leak the transaction.
 
 ## 7. Graceful shutdown
 
@@ -75,7 +75,7 @@ srv.Shutdown(shutdownCtx)
 
 **Metrics** for the things you would page someone about: request rate, error rate, latency percentiles, pool saturation.
 
-**Health endpoints**, and make them two. Liveness answers "is the process alive". Readiness answers "can it serve traffic" — which is different, and the difference matters the moment your database is down and the orchestrator starts killing healthy pods.
+**Health endpoints**, and make them two. Liveness answers "is the process alive". Readiness answers "can it serve traffic", which is different, and the difference matters the moment your database is down and the orchestrator starts killing healthy pods.
 
 ## 9. Security
 

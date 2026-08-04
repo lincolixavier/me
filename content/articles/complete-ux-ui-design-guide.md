@@ -11,7 +11,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 0 — introduction to UX/UI design
+# Module 0: introduction to UX/UI design
 
 ## Goals
 
@@ -29,9 +29,9 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ## References
 
-- [*The Design of Everyday Things*](https://amzn.to/44i4nOE) — Don Norman
-- [Nielsen Norman Group — the definition of UX](https://www.nngroup.com/articles/definition-user-experience/)
-- [*Don't Make Me Think*](https://amzn.to/42mH1F1) — Steve Krug
+- [*The Design of Everyday Things*](https://amzn.to/44i4nOE), Don Norman
+- [Nielsen Norman Group: the definition of UX](https://www.nngroup.com/articles/definition-user-experience/)
+- [*Don't Make Me Think*](https://amzn.to/42mH1F1), Steve Krug
 
 ## Exercises
 
@@ -40,7 +40,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 1 — psychology fundamentals and cognitive design
+# Module 1: psychology fundamentals and cognitive design
 
 ## Goals
 
@@ -56,9 +56,9 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ## References
 
-- [*100 Things Every Designer Needs to Know About People*](https://amzn.to/3Genzml) — Susan Weinschenk
-- *Laws of UX* — Jon Yablonski (also at [lawsofux.com](https://lawsofux.com/))
-- [Principles of Visual Design — NNGroup](https://www.nngroup.com/articles/principles-visual-design/)
+- [*100 Things Every Designer Needs to Know About People*](https://amzn.to/3Genzml), Susan Weinschenk
+- *Laws of UX*, Jon Yablonski (also at [lawsofux.com](https://lawsofux.com/))
+- [Principles of Visual Design, NNGroup](https://www.nngroup.com/articles/principles-visual-design/)
 
 ## Exercises
 
@@ -67,7 +67,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 2 — UX research
+# Module 2: UX research
 
 ## Goals
 
@@ -85,9 +85,9 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ## References
 
-- [*UX Research*](https://amzn.to/425p1QF) — Brad Nunnally and David Farkas
-- [*Validating Product Ideas*](https://amzn.to/3RbrXFa) — Tomer Sharon
-- *UX research methods* — NNGroup
+- [*UX Research*](https://amzn.to/425p1QF), Brad Nunnally and David Farkas
+- [*Validating Product Ideas*](https://amzn.to/3RbrXFa), Tomer Sharon
+- *UX research methods*, NNGroup
 
 ## Exercises
 
@@ -96,7 +96,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 3 — information architecture and UX writing
+# Module 3: information architecture and UX writing
 
 ## Goals
 
@@ -112,9 +112,9 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ## References
 
-- [*Information Architecture for the Web and Beyond*](https://amzn.to/4jk7iL2) — Louis Rosenfeld
-- [*Strategic Writing for UX*](https://amzn.to/3E2oZQx) — Torrey Podmajersky
-- [UX Writing — UX Collective](https://uxdesign.cc/tagged/ux-writing)
+- [*Information Architecture for the Web and Beyond*](https://amzn.to/4jk7iL2), Louis Rosenfeld
+- [*Strategic Writing for UX*](https://amzn.to/3E2oZQx), Torrey Podmajersky
+- [UX Writing, UX Collective](https://uxdesign.cc/tagged/ux-writing)
 
 ## Exercises
 
@@ -123,7 +123,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 4 — UI design and visual design
+# Module 4: UI design and visual design
 
 ## Goals
 
@@ -140,8 +140,8 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ## References
 
-- [*Design Systems*](https://www.smashingmagazine.com/printed-books/design-systems/) — Alla Kholmatova
-- [Figma Crash Course — freeCodeCamp](https://www.youtube.com/watch?v=FTFaQWZBqQ8)
+- [*Design Systems*](https://www.smashingmagazine.com/printed-books/design-systems/), Alla Kholmatova
+- [Figma Crash Course, freeCodeCamp](https://www.youtube.com/watch?v=FTFaQWZBqQ8)
 
 ## Exercises
 
@@ -150,7 +150,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 5 — prototyping and usability testing
+# Module 5: prototyping and usability testing
 
 ## Goals
 
@@ -167,9 +167,9 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ## References
 
-- [*Rocket Surgery Made Easy*](https://amzn.to/3RFSudM) — Steve Krug
-- [*Handbook of Usability Testing*](https://amzn.to/3YqxPOJ) — Jeffrey Rubin
-- [Nielsen's usability heuristics — NNGroup](https://www.nngroup.com/articles/ten-usability-heuristics/)
+- [*Rocket Surgery Made Easy*](https://amzn.to/3RFSudM), Steve Krug
+- [*Handbook of Usability Testing*](https://amzn.to/3YqxPOJ), Jeffrey Rubin
+- [Nielsen's usability heuristics, NNGroup](https://www.nngroup.com/articles/ten-usability-heuristics/)
 
 ## Exercises
 
@@ -178,7 +178,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 6 — tools and professional workflow
+# Module 6: tools and professional workflow
 
 ## Goals
 
@@ -195,7 +195,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ## References
 
-- [*DesignOps Handbook*](https://stephaniekabi.com/designops-handbook-summary/) — InVision
+- [*DesignOps Handbook*](https://stephaniekabi.com/designops-handbook-summary/), InVision
 - [Figma dev handoff](https://www.figma.com/community/file/864753203644502361)
 
 ## Exercises
@@ -205,7 +205,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ---
 
-# Module 7 — final project and portfolio
+# Module 7: final project and portfolio
 
 ## Goals
 
@@ -222,8 +222,8 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 
 ## References
 
-- *Case Study Manual* — UX Collective
-- [How to build a UX portfolio — UXNOW](https://www.youtube.com/@uxnow)
+- *Case Study Manual*, UX Collective
+- [How to build a UX portfolio, UXNOW](https://www.youtube.com/@uxnow)
 
 ## Exercises
 

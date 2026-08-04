@@ -22,7 +22,7 @@ The Shadow DOM allows hidden DOM trees to be attached to elements in the regular
 
 It can sound complicated, but in practice it is a simple and effective way to create components with isolated CSS and JavaScript.
 
-The Shadow DOM is widely used in everyday web interfaces. A video player on a page uses it to isolate its controls — play, pause, volume. Thanks to the standard, the styles and scripts of those controls do not interfere with the rest of the page.
+The Shadow DOM is widely used in everyday web interfaces. A video player on a page uses it to isolate its controls: play, pause, volume. Thanks to the standard, the styles and scripts of those controls do not interfere with the rest of the page.
 
 ## The benefits
 
@@ -95,7 +95,7 @@ This approach lets you build independent components, keeping styles and behaviou
 
 2. In a single-page application where many components are constantly updating, the Shadow DOM can help the browser focus only on the elements that need re-rendering, avoiding unnecessary updates elsewhere.
 
-3. In an application handling sensitive information, such as payment forms, the Shadow DOM can help protect the internal elements of those components from external manipulation. Every other security measure still applies, of course — sanitising content, for one.
+3. In an application handling sensitive information, such as payment forms, the Shadow DOM can help protect the internal elements of those components from external manipulation. Every other security measure still applies, of course: sanitising content, for one.
 
 ## Shadow DOM vs Virtual DOM
 

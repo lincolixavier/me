@@ -580,7 +580,7 @@ export function build404({ site }) {
   <section class="about-content">
     <h1 class="page-title">404 <span class="accent">_</span></h1>
     <div class="prose">
-      <p>This page does not exist — or it moved.</p>
+      <p>This page does not exist, or it moved.</p>
       <p><a href="/">Back home</a> · <a href="/articles/">Read something instead</a></p>
     </div>
   </section>

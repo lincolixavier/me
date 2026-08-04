@@ -64,7 +64,7 @@ You need to know what to charge **before you start promoting**.
 
 - Choose between free, freemium, trial or paid outright.
 - Offer monthly plans, usage-based pricing, or both.
-- Work out what the infrastructure and APIs actually cost you — OpenAI tokens, for instance — before setting a price.
+- Work out what the infrastructure and APIs actually cost you (OpenAI tokens, for instance) before setting a price.
 - Avoid "price on request" early on.
 - Use Stripe, Mercado Pago, AbacatePay or Gumroad for checkout.
 
@@ -82,7 +82,7 @@ Use that to **differentiate** your SaaS, not just to copy.
 
 ---
 
-## 8. Checkout live — start as a sole trader if you must
+## 8. Checkout live: start as a sole trader if you must
 
 Do not wait until the company paperwork is done. Platforms like Mercado Pago let you take payments as an individual.
 

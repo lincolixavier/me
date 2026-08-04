@@ -11,7 +11,7 @@ Pricing is one of the nightmares of anyone selling anything for the first time. 
 
 Not "what my software does", but "how much money or time this saves or generates for the customer".
 
-If your SaaS automates something an employee would spend two hours a day on, that is worth roughly R$2–3k a month to the company. Your theoretical price ceiling is right there.
+If your SaaS automates something an employee would spend two hours a day on, that is worth roughly R$2-3k a month to the company. Your theoretical price ceiling is right there.
 
 ## 2. Have 10 to 15 conversations with potential customers
 
@@ -44,7 +44,7 @@ For example: R$97 / R$197 / R$397.
 
 The solo founder's mistake is optimising price before having ten customers.
 
-Launch, charge, and only adjust when you get a real signal — either a lot of price objections, or conversion so good it means you are cheap.
+Launch, charge, and only adjust when you get a real signal: either a lot of price objections, or conversion so good it means you are cheap.
 
 ---
 

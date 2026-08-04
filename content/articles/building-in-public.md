@@ -15,7 +15,7 @@ It's not live-streaming your IDE. It's sharing:
 
 - What you're working on and why
 - Decisions you made and the trade-offs
-- Numbers — users, revenue, failures
+- Numbers: users, revenue, failures
 - Lessons from things that didn't work
 
 The bar is lower than you think. A tweet about a bug you fixed. A post about why you chose one database over another. That's enough.
@@ -30,10 +30,10 @@ The bar is lower than you think. A tweet about a bug you fixed. A post about why
 
 ## The uncomfortable part
 
-Sharing failures is hard. Sharing revenue when it's $47/month is hard. But that's exactly what makes it valuable — for you and for everyone watching.
+Sharing failures is hard. Sharing revenue when it's $47/month is hard. But that's exactly what makes it valuable, for you and for everyone watching.
 
 Nobody needs another success story. They need proof that the messy middle is normal.
 
 ## Start small
 
-Pick one channel. Post once a week. Share something real. You don't need an audience to start — the audience comes from the consistency.
+Pick one channel. Post once a week. Share something real. You don't need an audience to start. The audience comes from the consistency.

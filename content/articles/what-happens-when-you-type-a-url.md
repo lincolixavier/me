@@ -46,7 +46,7 @@ The browser receives the response and starts rendering:
 
 **8. Resource loading**
 
-While parsing the HTML, the browser finds additional resources — images, stylesheets, scripts — that need loading. It sends more requests to fetch them and updates the page as they arrive.
+While parsing the HTML, the browser finds additional resources (images, stylesheets, scripts) that need loading. It sends more requests to fetch them and updates the page as they arrive.
 
 **9. Interaction and updates**
 

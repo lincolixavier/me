@@ -293,7 +293,7 @@ async function main() {
   const chrome = await findChrome();
   if (!chrome) {
     console.error(
-      "No Chrome or Chromium found. Install one, or generate the images on a machine that has it — they are committed, so the deploy does not need it."
+      "No Chrome or Chromium found. Install one, or generate the images on a machine that has it. They are committed, so the deploy does not need it."
     );
     process.exit(1);
   }

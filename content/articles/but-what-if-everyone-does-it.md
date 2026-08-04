@@ -5,7 +5,7 @@ description: "Fear dressed up as an argument. Most people never start, and almos
 tags: ["mindset", "creating"]
 ---
 
-That line — "but what if everyone builds a SaaS", "what if everyone makes TikToks", "what if everyone starts a channel", "what if everyone sells a course" — is fear dressed up as an argument.
+That line ("but what if everyone builds a SaaS", "what if everyone makes TikToks", "what if everyone starts a channel", "what if everyone sells a course") is fear dressed up as an argument.
 
 Most people do not create.
 

@@ -21,6 +21,6 @@ What is happening now is different. It is a new degree of abstraction.
 
 If agents keep evolving at the current rate, it is easy to imagine that within a few decades programming languages stop being necessary as a human interface. Everything tends toward natural language. Code still exists, the way pens still exist, but it stops being the dominant medium of creation.
 
-Because the moment someone can describe a problem in natural language and get a solution in natural language — no technical terms, no mental models of implementation — there is no longer "programming" in the professional sense. You can stretch the concept and say it still counts, but by then the word has lost its precision.
+Because the moment someone can describe a problem in natural language and get a solution in natural language (no technical terms, no mental models of implementation), there is no longer "programming" in the professional sense. You can stretch the concept and say it still counts, but by then the word has lost its precision.
 
 Perhaps we really are the last generation of programmers. Not because computing is ending, but because it is ceasing to require that humans think in formal mental models to solve technical problems.

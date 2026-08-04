@@ -53,7 +53,7 @@ Refactoring is not just poking at code. There are real obstacles.
 
 ## Tests come first
 
-Before you start, have automated tests — unit tests especially. They are what stops you breaking something on the way.
+Before you start, have automated tests, unit tests especially. They are what stops you breaking something on the way.
 
 The cycle is simple:
 
@@ -70,13 +70,13 @@ There is a well-documented catalogue of these. Refactoring Guru has good example
 
 Some of the most used:
 
-- **Extract conditional** — pull a large condition into a named constant
-- **Generalise type** — create broader types so code can be reused
-- **Extract class** — move part of the logic into its own class
-- **Extract method** — split a long method into pieces
-- **Move method** — put the method on the class where it actually belongs
-- **Rename method** — make the name say what it does
-- **Remove dead code** — delete what is no longer used
+- **Extract conditional**: pull a large condition into a named constant
+- **Generalise type**: create broader types so code can be reused
+- **Extract class**: move part of the logic into its own class
+- **Extract method**: split a long method into pieces
+- **Move method**: put the method on the class where it actually belongs
+- **Rename method**: make the name say what it does
+- **Remove dead code**: delete what is no longer used
 
 The last one is the easiest and the most avoided. Delete it. It is in version control.
 

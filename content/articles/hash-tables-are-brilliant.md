@@ -11,7 +11,7 @@ Today it looks almost trivial. But imagine having this idea in the 1950s. Crazie
 
 ## The problem
 
-If you have a list of items — say, people's names — and you want to know whether "João" is in there, your options are:
+If you have a list of items (say, people's names) and you want to know whether "João" is in there, your options are:
 
 - Walk through everything, O(n). Slow.
 - Sort it and use binary search, O(log n). Better, but you still have to sort.

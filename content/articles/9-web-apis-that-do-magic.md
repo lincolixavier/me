@@ -1,7 +1,7 @@
 ---
 title: "9 Web APIs that do actual magic"
 date: 2024-03-28
-description: "Light sensors, Bluetooth, cross-tab messaging, screen capture and more — things the browser can do that it has no business doing."
+description: "Light sensors, Bluetooth, cross-tab messaging, screen capture and more. Things the browser can do that it has no business doing."
 tags: ["webapis", "javascript", "webdev"]
 ---
 
@@ -77,7 +77,7 @@ Try logging into one of your favourite sites. Then open the same site in a separ
 
 Your windows are in different states. That is not great, and if you are a compulsive tabber like me, it causes confusion.
 
-It can even be a security problem. Imagine a user in a café with the company dashboard open. They step away to the bathroom and leave the machine on. If the application is open in multiple tabs, the data in the other tabs is still reachable — on screen, or perhaps a JWT.
+It can even be a security problem. Imagine a user in a café with the company dashboard open. They step away to the bathroom and leave the machine on. If the application is open in multiple tabs, the data in the other tabs is still reachable: on screen, or perhaps a JWT.
 
 *Support: Chrome, Edge, Firefox, Opera, WebView Android, Chrome Android, Opera Android, Samsung Internet.*
 
@@ -103,7 +103,7 @@ Another great friend of accessibility. Want captions on your videos using the `<
 
 The WebSocket protocol allows bidirectional communication over a persistent connection between servers and clients.
 
-It gives you a single, long-lived connection that is a more efficient alternative to HTTP for real-time web applications — although the handshake that establishes the connection is itself HTTP.
+It gives you a single, long-lived connection that is a more efficient alternative to HTTP for real-time web applications, although the handshake that establishes the connection is itself HTTP.
 
 This one is real magic. You can send messages to a server and receive event-driven responses without polling for them.
 

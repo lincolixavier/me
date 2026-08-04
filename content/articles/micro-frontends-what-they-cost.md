@@ -29,7 +29,7 @@ The word people latch onto is "independent". That is the point. Not smaller code
 
 **Duplication is the default.** Every module ships its own framework runtime unless you work at it. Left alone, a visitor downloads Vue several times. Solving that means shared dependencies, which means version coordination, which is exactly the coupling you split to escape.
 
-**The design system stops being optional.** With one app, inconsistency shows up in review. With eight, nobody sees the whole product at once, and it drifts silently. We built the design system with Storybook and standardised state with Pinia — not as a nice extra, but because without it the modules would have visually separated within months.
+**The design system stops being optional.** With one app, inconsistency shows up in review. With eight, nobody sees the whole product at once, and it drifts silently. We built the design system with Storybook and standardised state with Pinia, not as a nice extra, but because without it the modules would have visually separated within months.
 
 **Debugging crosses boundaries.** A bug that lives between two modules belongs to neither. Those took the longest to fix, every time.
 
@@ -55,6 +55,6 @@ A modular monolith gets you most of the ownership benefits with none of the runt
 
 Micro-frontends are an organisational solution wearing a technical costume.
 
-They fix a people problem — teams blocking each other — by paying in complexity. When you genuinely have that people problem, it is a good trade. When you do not, you have bought the complexity and got nothing back.
+They fix a people problem (teams blocking each other) by paying in complexity. When you genuinely have that people problem, it is a good trade. When you do not, you have bought the complexity and got nothing back.
 
 Ask what is actually slow before you pick the architecture that assumes the answer.

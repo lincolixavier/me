@@ -15,7 +15,7 @@ That is where **Arki** comes in.
 
 I am bringing all of it ready to go, with the most coherent, market-validated solutions, so you can plug them in and ship faster.
 
-Language, database, authentication, payment gateways, emails, dashboard, design, marketing, membership control — all of it already done.
+Language, database, authentication, payment gateways, emails, dashboard, design, marketing, membership control. All of it already done.
 
 On a solid fullstack architecture: monorepo, TypeScript, Node, Postgres, Drizzle ORM, Zod, TanStack Query, Next.js and more. Everything you need to build a modern SaaS.
 

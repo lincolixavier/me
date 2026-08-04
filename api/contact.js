@@ -56,7 +56,7 @@ export default async function handler(req, res) {
   try {
     await sendEmail({
       to: TO,
-      subject: `Site contact — ${name}`,
+      subject: `Site contact from ${name}`,
       text: `From: ${name} <${email}>\n\n${message}`,
       html: emailShell({
         heading: `${name} sent a message`,

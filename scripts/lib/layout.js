@@ -65,7 +65,7 @@ function renderNav(site, active) {
   // The wordmark and the toggle only surface on small screens, where the seven
   // links cannot sit on one line. On desktop the nav is unchanged.
   return `<header class="site-header" data-header>
-  <a class="wordmark" href="/" aria-label="${escape(site.name)} — home">LX</a>
+  <a class="wordmark" href="/" aria-label="${escape(site.name)}, home">LX</a>
   <button
     class="nav-toggle"
     type="button"
@@ -205,7 +205,7 @@ export function renderPage({
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-400.woff2" crossorigin />
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-700.woff2" crossorigin />
   <link rel="stylesheet" href="/src/styles/main.css${site.styleHash ? `?v=${site.styleHash}` : ""}" />
-  <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} — articles" href="/feed.xml" />${structuredData}
+  <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} · articles" href="/feed.xml" />${structuredData}
   <script>${SPLASH_SCRIPT}</script>
 </head>
 <body>

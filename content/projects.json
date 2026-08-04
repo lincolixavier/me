@@ -3,9 +3,12 @@
     {
       "id": "arki",
       "name": "Arki",
-      "description": "Fullstack SaaS starter kit — auth, payments, emails and dashboard already wired up.",
+      "description": "Fullstack SaaS starter kit with auth, payments, emails and dashboard already wired up.",
       "url": "https://www.usearki.dev",
-      "tags": ["saas", "devtools"],
+      "tags": [
+        "saas",
+        "devtools"
+      ],
       "status": "active"
     },
     {
@@ -13,7 +16,10 @@
       "name": "TalkBud",
       "description": "AI-powered language learning companion.",
       "url": "https://talkbud.app",
-      "tags": ["ai", "education"],
+      "tags": [
+        "ai",
+        "education"
+      ],
       "status": "active"
     },
     {
@@ -21,15 +27,21 @@
       "name": "Nomadz",
       "description": "Community and tools for digital nomads on the road.",
       "url": "https://gonomadz.com",
-      "tags": ["community", "travel"],
+      "tags": [
+        "community",
+        "travel"
+      ],
       "status": "active"
     },
     {
       "id": "hypealead",
       "name": "Hype A Lead",
-      "description": "Lead generation for B2B teams.",
+      "description": "Real estate platform for B2B.",
       "url": "",
-      "tags": ["saas", "b2b"],
+      "tags": [
+        "saas",
+        "b2b"
+      ],
       "status": "active"
     },
     {
@@ -37,7 +49,11 @@
       "name": "Upgas",
       "description": "Compare gas prices nearby and get a bottle delivered.",
       "url": "https://www.upgas.com.br/",
-      "tags": ["app", "web", "delivery"],
+      "tags": [
+        "app",
+        "web",
+        "delivery"
+      ],
       "status": "active"
     },
     {
@@ -45,7 +61,10 @@
       "name": "Efficacy",
       "description": "Warehouse management for B2B operations.",
       "url": "",
-      "tags": ["wms", "b2b"],
+      "tags": [
+        "wms",
+        "b2b"
+      ],
       "status": "active"
     },
     {
@@ -53,7 +72,10 @@
       "name": "MacroInsight",
       "description": "Macro-economic analysis platform for investors.",
       "url": "https://github.com/lincolixavier",
-      "tags": ["finance", "data"],
+      "tags": [
+        "finance",
+        "data"
+      ],
       "status": "active"
     },
     {
@@ -61,7 +83,10 @@
       "name": "Voyaudio",
       "description": "Platform for guided experiences and local tourism.",
       "url": "",
-      "tags": ["travel", "saas"],
+      "tags": [
+        "travel",
+        "saas"
+      ],
       "status": "wip"
     },
     {
@@ -69,31 +94,45 @@
       "name": "Librium",
       "description": "A free reading app, in the making.",
       "url": "",
-      "tags": ["app", "books", "free"],
+      "tags": [
+        "app",
+        "books",
+        "free"
+      ],
       "status": "wip"
     },
     {
       "id": "wynd",
       "name": "Wynd…",
-      "description": "Not announced yet.",
+      "description": "Cooking…",
       "url": "",
-      "tags": ["saas", "b2b"],
+      "tags": [
+        "saas",
+        "b2b"
+      ],
       "status": "wip"
     },
     {
       "id": "ret",
       "name": "Ret…",
-      "description": "Not announced yet.",
+      "description": "Cooking…",
       "url": "",
-      "tags": ["saas", "travel"],
+      "tags": [
+        "saas",
+        "travel"
+      ],
       "status": "stealth"
     },
     {
       "id": "petb",
       "name": "Petb…",
-      "description": "Not announced yet.",
+      "description": "Cooking…",
       "url": "",
-      "tags": ["app", "ios", "entertainment"],
+      "tags": [
+        "app",
+        "ios",
+        "entertainment"
+      ],
       "status": "stealth"
     },
     {
@@ -101,7 +140,10 @@
       "name": "TeamCulture",
       "description": "I was Head of Frontend here.",
       "url": "",
-      "tags": ["saas", "b2b"],
+      "tags": [
+        "saas",
+        "b2b"
+      ],
       "status": "past"
     },
     {
@@ -109,7 +151,10 @@
       "name": "O Novo Mercado",
       "description": "I was technical lead here.",
       "url": "",
-      "tags": ["saas", "education"],
+      "tags": [
+        "saas",
+        "education"
+      ],
       "status": "past"
     },
     {
@@ -117,7 +162,10 @@
       "name": "BellaGestão",
       "description": "Platform for salon and beauty business management.",
       "url": "",
-      "tags": ["saas", "beauty"],
+      "tags": [
+        "saas",
+        "beauty"
+      ],
       "status": "failed"
     },
     {
@@ -125,7 +173,10 @@
       "name": "PixelPDF",
       "description": "PDF tools for everyday documents.",
       "url": "",
-      "tags": ["web", "tools"],
+      "tags": [
+        "web",
+        "tools"
+      ],
       "status": "failed"
     },
     {
@@ -133,7 +184,10 @@
       "name": "FotoEmDesenho",
       "description": "Turned photos into drawings.",
       "url": "",
-      "tags": ["web", "photo"],
+      "tags": [
+        "web",
+        "photo"
+      ],
       "status": "failed"
     }
   ]

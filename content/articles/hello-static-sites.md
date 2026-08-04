@@ -18,7 +18,7 @@ When every page is a document, you think differently. You care about structure a
 - **UI**: Web Components and shared header/footer
 - **Hosting**: Any static host. No server, no runtime.
 
-That’s it. No React, no Vue, no Next—unless you want them. For a personal site or a blog, static is enough.
+That’s it. No React, no Vue, no Next, unless you want them. For a personal site or a blog, static is enough.
 
 ## Try it
 

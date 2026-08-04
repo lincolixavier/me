@@ -1,5 +1,5 @@
 ---
-title: "A day of async work — the ideal routine"
+title: "A day of async work: the ideal routine"
 date: 2024-01-02
 description: "Remote work is not the office with a webcam. What a day actually looks like when async comes first."
 tags: ["async", "remote", "workflow"]
@@ -60,7 +60,7 @@ Getting stuck is normal. What cannot fail is the communication around it: everyt
 
 Focus on async.
 
-The feedback loop needs to be short. It is good practice to mention in chat that you just opened a PR. And no PR should live very long either — if 24 hours pass and nobody has reviewed it, ping the chat again.
+The feedback loop needs to be short. It is good practice to mention in chat that you just opened a PR. And no PR should live very long either. If 24 hours pass and nobody has reviewed it, ping the chat again.
 
 Follow this model every day, refine it together with your team, and the work will flow. Everyone gets what I think matters most: a good balance between your personal life and your job, giving each one its due weight.
 
@@ -71,4 +71,4 @@ Follow this model every day, refine it together with your team, and the work wil
 Want to talk? I am around:
 
 - [Nomadz community](https://gonomadz.com)
-- [Arki — ship your SaaS faster](https://www.usearki.dev)
+- [Arki: ship your SaaS faster](https://www.usearki.dev)
