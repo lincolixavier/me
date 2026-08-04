@@ -10,7 +10,7 @@
  * plainly and the page falls back to a mailto link, rather than accepting
  * messages it has no way to deliver.
  */
-import { redis, isConfigured, json } from "./_redis.js";
+import { json, withinRateLimit, clientIp } from "./_redis.js";
 
 const TO = "hi@lincoli.me";
 const FROM = "Lincoli.me <hi@updates.lincoli.me>";
@@ -18,26 +18,8 @@ const FROM = "Lincoli.me <hi@updates.lincoli.me>";
 const LIMITS = { name: 80, email: 160, message: 4000 };
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** Five messages an hour from one address is generous for a personal site. */
-const MAX_PER_HOUR = 5;
-
 function clean(value, max) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
-}
-
-async function withinRateLimit(ip) {
-  if (!isConfigured()) return true;
-
-  try {
-    const key = `contact:${ip}`;
-    const count = await redis.incr(key);
-    // Only the first hit needs the window set.
-    if (count === 1) await redis.expire(key, 3600);
-    return count <= MAX_PER_HOUR;
-  } catch {
-    // The limiter failing is not a reason to drop someone's message.
-    return true;
-  }
 }
 
 export default async function handler(req, res) {
@@ -59,8 +41,7 @@ export default async function handler(req, res) {
     return json(res, 400, { error: "name, a valid email and a message are required" });
   }
 
-  const ip = (req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "unknown";
-  if (!(await withinRateLimit(ip))) {
+  if (!(await withinRateLimit("contact", clientIp(req), 5))) {
     return json(res, 429, { error: "too many messages, try again later" });
   }
 

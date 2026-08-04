@@ -7,13 +7,28 @@
  * the server only ever moves the counter. Clearing storage lets someone like
  * twice; for a personal blog that is a fine trade against storing identifiers.
  */
-import { redis, isValidSlug, isConfigured, toCount, json } from "../_redis.js";
+import {
+  redis,
+  isValidSlug,
+  isConfigured,
+  toCount,
+  json,
+  withinRateLimit,
+  clientIp,
+} from "../_redis.js";
 
 export default async function handler(req, res) {
   const { slug } = req.query;
 
   if (!isValidSlug(slug)) return json(res, 400, { error: "invalid slug" });
   if (!isConfigured()) return json(res, 503, { error: "counters not configured" });
+
+
+  // Writes are cheap to repeat, so without this anyone could inflate the
+  // numbers with a loop. Reads are left alone.
+  if (req.method !== "GET" && !(await withinRateLimit("likes", clientIp(req), 30))) {
+    return json(res, 429, { error: "too many requests" });
+  }
 
   const key = `likes:${slug}`;
 

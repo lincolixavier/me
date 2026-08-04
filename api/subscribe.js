@@ -6,27 +6,12 @@
  * Upstash Redis the counters already use, so nothing new is added to the
  * project to make this work.
  */
-import { redis, isConfigured, json } from "./_redis.js";
+import { json, withinRateLimit, clientIp } from "./_redis.js";
 
 /** Not a secret — the API key is. Kept here so the list lives with its code. */
 const AUDIENCE_ID = "58b6a2f9-97e2-4923-866b-ea5ac5835036";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const MAX_PER_HOUR = 10;
-
-async function withinRateLimit(ip) {
-  if (!isConfigured()) return true;
-
-  try {
-    const key = `subscribe:${ip}`;
-    const count = await redis.incr(key);
-    if (count === 1) await redis.expire(key, 3600);
-    return count <= MAX_PER_HOUR;
-  } catch {
-    return true;
-  }
-}
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -44,8 +29,7 @@ export default async function handler(req, res) {
     return json(res, 400, { error: "that address does not look right" });
   }
 
-  const ip = (req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "unknown";
-  if (!(await withinRateLimit(ip))) {
+  if (!(await withinRateLimit("subscribe", clientIp(req), 10))) {
     return json(res, 429, { error: "too many attempts, try again later" });
   }
 

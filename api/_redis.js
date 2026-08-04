@@ -53,6 +53,30 @@ export function toCount(value) {
   return Number.isFinite(n) && n > 0 ? n : 0;
 }
 
+/**
+ * Simple fixed-window limiter shared by every endpoint that writes.
+ * Fails open: the limiter breaking should not take the site down with it.
+ *
+ * @returns {Promise<boolean>} true when the caller is still within budget
+ */
+export async function withinRateLimit(prefix, ip, max, windowSeconds = 3600) {
+  if (!isConfigured()) return true;
+
+  try {
+    const key = `rl:${prefix}:${ip}`;
+    const count = await redis.incr(key);
+    if (count === 1) await redis.expire(key, windowSeconds);
+    return count <= max;
+  } catch {
+    return true;
+  }
+}
+
+/** Vercel sets this header itself, so the client cannot forge the first hop. */
+export function clientIp(req) {
+  return (req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "unknown";
+}
+
 export function json(res, status, payload) {
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.setHeader("Cache-Control", "no-store");
