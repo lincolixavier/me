@@ -1,11 +1,7 @@
-/**
- * Non-HTML build output: static file copying, robots.txt, sitemap.xml, RSS.
- */
 import fs from "node:fs/promises";
 import path from "node:path";
 import { escape, absoluteUrl } from "./html.js";
 
-/** Recursively copy a directory, skipping the noise we never want shipped. */
 export async function copyDir(from, to, { skip = [".DS_Store", ".gitkeep"] } = {}) {
   const entries = await fs.readdir(from, { withFileTypes: true });
   await fs.mkdir(to, { recursive: true });
@@ -27,10 +23,6 @@ Sitemap: ${absoluteUrl(site.url, "/sitemap.xml")}
 `;
 }
 
-/**
- * @param {object} site
- * @param {Array<{path: string, lastmod?: string, priority?: string}>} pages
- */
 export function renderSitemap(site, pages) {
   const entries = pages
     .map(({ path: p, lastmod, priority }) => {
@@ -50,7 +42,6 @@ ${entries}
 `;
 }
 
-/** RSS 2.0 feed of the articles, newest first. */
 export function renderFeed(site, articles) {
   const items = articles
     .map((a) => {

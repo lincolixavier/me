@@ -1,23 +1,3 @@
-/**
- * Generates the social preview images, one per article plus the site default.
- *
- * Run: bun run og   (after adding or retitling an article)
- *
- * The images are rendered by headless Chrome rather than an SVG converter so
- * they use the real Outfit files the site ships, and are committed to the repo
- * so a deploy never depends on a rasteriser being installed. build.js links
- * whichever ones exist and falls back to the default for the rest.
- *
- * Everything is laid out inside a centred band: chat apps crop these to a
- * square, and the previous image put its text against the left edge, where it
- * was simply cut off.
- *
- * Behind the text is the same neural network the site runs, drawn to a 2D
- * canvas by scripts/lib/og-network.browser.js. Each article sees it from its
- * own angle, derived from the slug, so the previews are recognisably one family
- * without being the same picture forty-four times.
- */
-
 import fs from "node:fs/promises";
 import path from "node:path";
 import os from "node:os";
@@ -43,7 +23,6 @@ const CHROME = [
 const WIDTH = 1200;
 const HEIGHT = 630;
 
-/** Longer titles need smaller type to stay inside the safe band. */
 function titleSize(title) {
   if (title.length <= 28) return 76;
   if (title.length <= 52) return 62;
@@ -51,11 +30,6 @@ function titleSize(title) {
   return 44;
 }
 
-/**
- * The camera the network is seen from. Everything is derived from the slug, so
- * an article keeps its angle across regenerations and no two neighbours in a
- * feed look identical.
- */
 function camera(seed) {
   const n = Math.abs(hash(seed));
   return {
@@ -97,13 +71,11 @@ function template({ title, meta, kicker, seed, network }) {
     position: relative;
   }
 
-  /* The network, drawn once by the inlined script. */
   #network {
     position: absolute;
     inset: 0;
   }
 
-  /* The same glow the site's canvas throws off to the right. */
   .glow {
     position: absolute;
     inset: 0;
@@ -112,11 +84,6 @@ function template({ title, meta, kicker, seed, network }) {
       radial-gradient(45% 55% at 12% 88%, rgba(255, 45, 109, 0.10), transparent 70%);
   }
 
-  /*
-   * Text over a busy backdrop is the whole risk here. This sinks the middle of
-   * the frame back towards the page background so the title always has
-   * something flat to sit on, while the corners keep the full network.
-   */
   .scrim {
     position: absolute;
     inset: 0;
@@ -129,7 +96,6 @@ function template({ title, meta, kicker, seed, network }) {
     );
   }
 
-  /* Everything lives here: a centred band that survives a square crop. */
   .band {
     position: absolute;
     left: 50%;
@@ -211,7 +177,6 @@ async function findChrome() {
       await fs.access(candidate);
       return candidate;
     } catch {
-      /* try the next one */
     }
   }
   return null;
@@ -235,15 +200,6 @@ async function shoot(chrome, html, pngFile) {
   await fs.rm(tmp, { force: true });
 }
 
-/**
- * Chrome only screenshots to PNG, and a PNG of a soft gradient full of glowing
- * points is around 580kB. The same frame as JPEG is under 80kB with no visible
- * difference, which matters because these are committed: forty-four of them at
- * PNG size is 23MB of repository for images nobody diffs.
- *
- * sips ships with macOS and ImageMagick is everywhere else. If neither is
- * around the PNG simply stays, and the build links whichever it finds.
- */
 async function compress(pngFile) {
   const jpgFile = pngFile.replace(/\.png$/, ".jpg");
 
@@ -259,14 +215,12 @@ async function compress(pngFile) {
       await fs.rm(pngFile, { force: true });
       return jpgFile;
     } catch {
-      /* not installed, or it refused the file — try the next one */
     }
   }
 
   return pngFile;
 }
 
-/** Stable name for the temp file; Math.random is not available in builds. */
 function hash(value) {
   let h = 0;
   for (let i = 0; i < value.length; i++) h = (h * 31 + value.charCodeAt(i)) | 0;
@@ -328,13 +282,9 @@ async function main() {
     })),
   ];
 
-  // `bun run og default` or `bun run og worker-pools` regenerates a subset,
-  // which is what you want while tuning the artwork.
   const filter = process.argv[2];
   const selected = filter ? jobs.filter((job) => job.file.includes(filter)) : jobs;
 
-  // Chrome is launched per image; running them all at once would spawn a few
-  // dozen browsers.
   for (const job of selected) {
     const png = path.join(OUT, job.file);
     await shoot(chrome, job.html, png);

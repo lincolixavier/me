@@ -1,7 +1,3 @@
-/**
- * Page builders. Each returns { path, html } for a single output file.
- * All content comes from content/ — nothing here is hand-written copy.
- */
 import { escape, formatDate, absoluteUrl } from "./html.js";
 import { renderPage, CANVAS } from "./layout.js";
 import {
@@ -11,17 +7,11 @@ import {
   renderGearCard,
 } from "./cards.js";
 
-/**
- * Grid of pre-rendered cards. Pagination is progressive enhancement: with JS
- * off every card is already in the DOM and visible.
- */
 function renderListing({ heading, subhead, cards, empty, pageSize, badge = null, extras = "" }) {
   if (!cards.length) {
     return `<div class="cards-grid"><p class="listing-empty">${escape(empty)}</p></div>`;
   }
 
-  // The entrance stagger is capped so the tail of a long list is not left
-  // waiting several seconds for its turn.
   const items = cards
     .map(
       (html, i) =>
@@ -63,8 +53,6 @@ function personJsonLd(site) {
       .map((s) => s.href),
   };
 }
-
-// ------------------------------------------------------------------
 
 function renderCareer(site) {
   if (!site.career?.length) return "";
@@ -140,8 +128,6 @@ ${renderCareer(site)}
       canvas: CANVAS.home,
       scripts: ["/src/pages/home.js"],
       jsonLd: personJsonLd(site),
-      // Present for the about view, which scrolls; CSS keeps them hidden
-      // while the hero is showing.
       scrollFades: true,
     }),
   };
@@ -170,17 +156,6 @@ ${lifeHtml.trimEnd()}
   };
 }
 
-/**
- * Tag filter. Rendered as links to /articles/?tag=x so each filter is a real
- * URL that can be shared and that works without JavaScript reaching the page;
- * the script then filters the cards already in the DOM instead of navigating.
- *
- * Only the busiest handful get a chip. There are 50-odd distinct tags across
- * the archive and most of them sit on a single article, so showing all of them
- * filled the screen with a wall of ones and stopped being navigation. Any tag
- * still filters if it arrives in the URL — the chips are a shortcut to the
- * ones worth browsing, not the whole index.
- */
 const MAX_TAG_CHIPS = 6;
 
 function renderTagFilter(articles) {
@@ -238,11 +213,6 @@ ${renderListing({
   };
 }
 
-/**
- * Articles that share tags with this one, so a reader who finished has
- * somewhere to go next. Ordered by how many tags they have in common, then by
- * date, and capped at three so it stays a suggestion rather than a directory.
- */
 function relatedTo(article, all) {
   const tags = new Set(article.tags);
   if (!tags.size) return [];
@@ -256,11 +226,6 @@ function relatedTo(article, all) {
     .map(({ other }) => other);
 }
 
-/**
- * The list is ours: the form posts to /api/subscribe, which adds the address
- * to the Resend audience. The id is unique per article so several forms on a
- * page could never collide with each other's labels.
- */
 function renderNewsletter(slug) {
   const id = `sub-${slug}`;
 
@@ -323,9 +288,6 @@ export function buildArticle({ site, article, body, allArticles = [] }) {
         .join("")}</div>`
     : "";
 
-  // The rail rides alongside the text and stays put while it scrolls, so the
-  // counters and the share button are reachable from anywhere in a long read
-  // instead of only once someone has made it to the end.
   const rail = `<aside class="article-rail" data-slug="${escape(article.slug)}" aria-label="Article actions">
     <span class="rail-metric" hidden data-views>
       <span class="rail-value" data-views-count>0</span>
@@ -449,8 +411,6 @@ ${renderListing({
 export function buildGear({ site, categories }) {
   const config = site.listings.gear;
 
-  // One flat list. The categories exist in the data, but splitting six items
-  // across two headed sections made the page look emptier than it is.
   const items = categories.flatMap((cat) => cat.items || []);
 
   const sections = items.length
@@ -483,8 +443,6 @@ ${sections}
 }
 
 export function buildContact({ site }) {
-  // The footer no longer carries the address, so it lives here: if the form
-  // cannot deliver, there has to be something on the page that can.
   const email = site.email;
 
   const main = `<main class="listing-page">
@@ -545,11 +503,6 @@ export function buildContact({ site }) {
   };
 }
 
-/**
- * Where the confirmation link lands. The outcome arrives as ?s= rather than
- * being baked into separate pages, so one static page covers every case and
- * the script only picks which sentence to show.
- */
 export function buildSubscribed({ site }) {
   const main = `<main class="main-content page-section">
   <section class="about-content">

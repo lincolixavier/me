@@ -1,18 +1,5 @@
-/**
- * Article footer behaviour: share, view count and likes.
- *
- * Every control is rendered hidden by the build and only revealed once this
- * module confirms it can actually work — no dead buttons, and no empty
- * counters if the API is down.
- *
- * Whether this visitor has already viewed or liked an article lives in their
- * localStorage. Nothing identifying is sent to the server, which only ever
- * moves a counter. That also means no cookie banner.
- */
 const rail = document.querySelector(".article-rail");
 const slug = rail?.dataset.slug;
-
-// ----- Share -----------------------------------------------------------
 
 const shareButton = document.querySelector("[data-share]");
 
@@ -45,7 +32,6 @@ if (shareButton) {
           await navigator.share({ title, url });
           return;
         } catch (err) {
-          // Dismissing the share sheet rejects too, and that is not a failure.
           if (err.name === "AbortError") return;
         }
       }
@@ -61,14 +47,11 @@ if (shareButton) {
   }
 }
 
-// ----- Counters --------------------------------------------------------
-
 const viewsEl = document.querySelector("[data-views]");
 const viewsCount = document.querySelector("[data-views-count]");
 const likeButton = document.querySelector("[data-like]");
 const likesCount = document.querySelector("[data-likes-count]");
 
-/** localStorage throws in private modes and with storage disabled. */
 const storage = {
   get(key) {
     try {
@@ -81,14 +64,12 @@ const storage = {
     try {
       localStorage.setItem(key, value);
     } catch {
-      /* not being able to remember is survivable */
     }
   },
   remove(key) {
     try {
       localStorage.removeItem(key);
     } catch {
-      /* same */
     }
   },
 };
@@ -105,7 +86,6 @@ if (slug && viewsEl && likeButton) {
   const viewedKey = `viewed:${slug}`;
   const likedKey = `liked:${slug}`;
 
-  // Views: count this visitor once, then only read.
   (async () => {
     try {
       const alreadyViewed = storage.get(viewedKey) === "1";
@@ -118,11 +98,9 @@ if (slug && viewsEl && likeButton) {
       viewsCount.textContent = format(views);
       viewsEl.hidden = false;
     } catch {
-      // Leave the counter hidden rather than showing a zero that is a lie.
     }
   })();
 
-  // Likes: the button reflects this visitor's own state.
   (async () => {
     let liked = storage.get(likedKey) === "1";
 
@@ -154,7 +132,6 @@ if (slug && viewsEl && likeButton) {
         else storage.remove(likedKey);
         paint(likes);
       } catch {
-        // The count on screen is still the last one the server confirmed.
       } finally {
         likeButton.disabled = false;
       }

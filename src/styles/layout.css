@@ -1,8 +1,3 @@
-/**
- * Layout – page structure, grid, canvas wrapper, content swap, responsive breakpoints.
- */
-
-/* Page shell */
 .page {
   position: relative;
   height: 100%;
@@ -19,7 +14,6 @@
   pointer-events: auto;
 }
 
-/* Content swap (home vs about overlay) */
 .content-swap {
   position: relative;
   flex: 1;
@@ -34,7 +28,6 @@
   height: 100%;
 }
 
-/* Section toggle – overlay, no reflow */
 .content-swap .main-content.page-section {
   visibility: hidden;
   pointer-events: none;
@@ -50,13 +43,6 @@
   pointer-events: auto;
 }
 
-/* Canvas wrapper */
-/**
- * The network is framed off to the right. The canvas covers only the strip
- * that is actually on screen, and --canvas-overscan tells the renderer how
- * much wider the intended frustum is, so the framing is unchanged while a
- * third of the pixels stop being drawn. See src/lib/neural-network.js.
- */
 .canvas-wrapper {
   --canvas-overscan: 1.5;
   position: fixed;
@@ -91,7 +77,6 @@ canvas:active {
   cursor: grabbing;
 }
 
-/* Left fade overlay */
 .left-fade {
   position: absolute;
   top: 0;
@@ -107,6 +92,3 @@ canvas:active {
     transparent 52%
   );
 }
-
-/* Responsive */
-

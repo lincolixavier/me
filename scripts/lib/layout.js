@@ -1,50 +1,20 @@
-/**
- * The one HTML shell every page is generated from.
- *
- * Previously each of the five pages hand-maintained its own copy of the head,
- * import map, canvas element, nav and footer. Changing a meta tag meant editing
- * five files, and in practice they had already drifted apart.
- */
 import { escape, attrs, absoluteUrl, indent } from "./html.js";
 
-/**
- * Runs before paint so the splash never flashes on an internal navigation:
- * every navigation is a fresh document, and without this the panel would
- * replay in front of the page the reader just asked for.
- *
- * Exported because the Content Security Policy needs its hash — an inline
- * script is only allowed if the policy names it, and naming it by hash keeps
- * the policy strict without a nonce, which a static site cannot produce.
- */
 export const SPLASH_SCRIPT = `try{if(sessionStorage.getItem("splash-seen"))document.documentElement.dataset.splash="seen";else sessionStorage.setItem("splash-seen","1")}catch(e){}`;
 
 const IMPORT_MAP = {
   imports: {
-    // The .min build, not the development one: same code, ~70KB less to
-    // download and parse on the main thread.
     three: "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.min.js",
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/",
   },
 };
 
-/** Serialised once, so the CSP hash and the emitted text cannot drift apart. */
 export const IMPORT_MAP_JSON = JSON.stringify(IMPORT_MAP);
 
-/**
- * Himetrica, the analytics tracker. Three separate files, all deferred so none
- * of them competes with the page for the main thread, and all reading the same
- * public key from their own data attribute.
- *
- * The host is exported because the Content Security Policy has to name it
- * twice: once so the scripts are allowed to load, and once so they are allowed
- * to report back. Without the second one the tracker loads and then silently
- * fails to send anything, which is the worst of the two failure modes.
- */
 export const ANALYTICS_HOST = "https://cdn.himetrica.com";
 
 const ANALYTICS_SCRIPTS = ["tracker.js", "vitals.js", "errors.js"];
 
-/** Nothing is emitted when content/site.json has no key, so a fork stays clean. */
 function renderAnalytics(site) {
   const key = site.analytics?.himetricaKey;
   if (!key) return "";
@@ -55,11 +25,6 @@ function renderAnalytics(site) {
   ).join("");
 }
 
-/**
- * Canvas tuning per page type. The home hero pulls the camera back; every other
- * page uses the closer framing of the about view, with bloom and full density,
- * so the network looks alive everywhere instead of only on about.
- */
 const CLOSE_FRAMING = {
   "camera-z": 14,
   "orbit-min": 14,
@@ -87,8 +52,6 @@ function renderNav(site, active) {
     })
     .join("");
 
-  // The wordmark and the toggle only surface on small screens, where the seven
-  // links cannot sit on one line. On desktop the nav is unchanged.
   return `<header class="site-header" data-header>
   <a class="wordmark" href="/" aria-label="${escape(site.name)}, home">LX</a>
   <button
@@ -144,8 +107,6 @@ function renderMeta(site, { path, title, description, type = "website", publishe
     tags.push(`<meta name="twitter:creator" content="${escape(site.twitterHandle)}" />`);
   }
 
-  // Only advertise a preview image when one actually exists on disk — a broken
-  // og:image is worse than none at all. Pages can bring their own.
   const preview = ogImage || site.ogImage;
 
   if (preview) {
@@ -168,20 +129,6 @@ function renderMeta(site, { path, title, description, type = "website", publishe
   return tags.join("\n  ");
 }
 
-/**
- * @param {object} options
- * @param {object} options.site        Parsed content/site.json
- * @param {string} options.path        Root-relative page path, e.g. "/articles/"
- * @param {string} options.title       <title> and og:title
- * @param {string} [options.description]
- * @param {string} options.main        Inner HTML for the page body
- * @param {string} [options.active]    Nav item to highlight
- * @param {object} [options.canvas]    Attribute map for <neural-canvas>
- * @param {string[]} [options.scripts] Root-relative module scripts
- * @param {object} [options.jsonLd]    Structured data payload
- * @param {boolean} [options.scrollFades] Render the top/bottom scroll fades
- * @param {string} [options.type]      og:type
- */
 export function renderPage({
   site,
   path,
@@ -213,6 +160,9 @@ export function renderPage({
     <div class="scroll-fade scroll-fade--bottom" aria-hidden="true"></div>\n    `
     : "";
 
+  // Strip quotes, never HTML-escape: escaping would turn 'self' into &#39;self&#39;.
+  const csp = site.csp.replace(/"/g, "");
+
   const structuredData = jsonLd
     ? `\n  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`
     : "";
@@ -222,7 +172,7 @@ export function renderPage({
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="${site.csp.replace(/"/g, "")}" />
+  <meta http-equiv="Content-Security-Policy" content="${csp}" />
   <title>${escape(title)}</title>
   ${renderMeta(site, { path, title, description, type, published, modified, ogImage })}
 
@@ -231,8 +181,6 @@ export function renderPage({
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-700.woff2" crossorigin />
   <link rel="stylesheet" href="/src/styles/main.css${site.styleHash ? `?v=${site.styleHash}` : ""}" />
   <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} · articles" href="/feed.xml" />${
-    // An agent that landed on the HTML can follow this to the source instead of
-    // stripping a nav, a footer and a WebGL canvas back out of the page.
     type === "article"
       ? `\n  <link rel="alternate" type="text/markdown" href="${escape(path.replace(/\/$/, ""))}.md" />`
       : ""

@@ -1,11 +1,3 @@
-/**
- * Outfit, self-hosted. Fetching it from Google cost a DNS lookup, a TLS
- * handshake and a stylesheet round trip on a third-party origin before a
- * single glyph could be requested — 780ms of render blocking on mobile.
- * Served from our own origin it is one request on an already-open connection.
- * Outfit is licensed under the SIL Open Font License, which permits this.
- * Only the four weights the site actually uses are shipped.
- */
 @font-face {
   font-family: "Outfit";
   font-style: normal;
@@ -38,30 +30,23 @@
   src: url("/assets/fonts/outfit-700.woff2") format("woff2");
 }
 
-/**
- * Design tokens – single source of truth for colors, typography, spacing, motion.
- */
-
 :root {
-  /* Colors */
   --color-bg: #121212;
-  /* Same colour split into channels, for the fades and gradients that need alpha. */
+
   --color-bg-rgb: 18, 18, 18;
   --color-text: rgba(255, 255, 255, 0.92);
   --color-muted: rgba(255, 255, 255, 0.6);
   --color-soft: rgba(255, 255, 255, 0.12);
   --color-accent: #ff2d6d;
-  /* Legacy aliases (used by existing components) */
+
   --bg: var(--color-bg);
   --text: var(--color-text);
   --muted: var(--color-muted);
   --soft: var(--color-soft);
   --accent: var(--color-accent);
 
-  /* Gradient accent (headline, name, etc.) */
   --gradient-accent: linear-gradient(136deg, #ff416c 0%, #aa003a 100%);
 
-  /* Typography */
   --font-sans: "Outfit", system-ui, sans-serif;
   --font-size-base: 16px;
   --font-size-sm: 14px;
@@ -78,7 +63,6 @@
   --line-height-tight: 0.96;
   --line-height-prose: 1.7;
 
-  /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
   --spacing-md: 1.5rem;
@@ -90,7 +74,6 @@
   --content-padding-x: clamp(24px, 5vw, 72px);
   --content-padding-left: 80px;
 
-  /* Transitions */
   --transition-fast: 150ms ease;
   --transition-base: 300ms ease;
   --transition-nav: 0.3s;

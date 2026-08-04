@@ -1,11 +1,3 @@
-/**
- * Tag filtering on the articles listing.
- *
- * Every chip is a real link to /articles/?tag=x, so a filtered view can be
- * shared and works if this script never loads. When it does load it filters
- * the cards already in the DOM and updates the URL, which avoids a round trip
- * for something the browser is already holding.
- */
 const filter = document.querySelector("[data-tag-filter]");
 const grid = document.querySelector("[data-grid]");
 
@@ -26,8 +18,6 @@ if (filter && grid) {
       const match = !tag || tagsOf(slot).includes(tag);
       slot.hidden = !match;
       if (match) {
-        // The entrance animation is keyed off this, so re-indexing keeps the
-        // stagger reading top to bottom instead of skipping filtered rows.
         slot.style.setProperty("--card-index", Math.min(visible.length, 8));
         visible.push(slot);
       }
@@ -41,8 +31,6 @@ if (filter && grid) {
 
     if (empty) empty.hidden = shown > 0;
 
-    // Pagination owns the hidden attribute once it takes over, so it needs the
-    // eligible set rather than having to work out what the filter did.
     document.dispatchEvent(new CustomEvent("cards:filtered", { detail: { visible } }));
 
     if (push) {

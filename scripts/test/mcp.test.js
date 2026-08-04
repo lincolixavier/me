@@ -1,10 +1,3 @@
-/**
- * Run: node --test scripts/test/
- *
- * The MCP endpoint is the one surface here that a machine talks to unattended,
- * so the protocol shape matters more than usual: a client that gets a slightly
- * wrong initialize back does not degrade, it disconnects.
- */
 import test from "node:test";
 import assert from "node:assert/strict";
 
@@ -49,7 +42,6 @@ const INDEX = {
   podcasts: [],
 };
 
-/** Serves the content index the handler fetches, so no network is involved. */
 function stubFetch() {
   const original = globalThis.fetch;
   globalThis.fetch = async () => ({ ok: true, json: async () => structuredClone(INDEX) });
@@ -58,7 +50,6 @@ function stubFetch() {
   };
 }
 
-/** The slice of Vercel's res that the handler actually uses. */
 function mockRes() {
   const res = {
     statusCode: null,
@@ -100,7 +91,6 @@ async function rpc(body, method = "POST") {
 const call = (name, args = {}) =>
   rpc({ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name, arguments: args } });
 
-/** tools/call wraps its payload in a text block; this unwraps it. */
 const payload = (json) => JSON.parse(json.result.content[0].text);
 
 test("initialize echoes a protocol version the client asked for", async () => {

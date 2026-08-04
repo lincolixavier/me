@@ -1,26 +1,5 @@
-/**
- * The build output meant for machines rather than browsers.
- *
- * Three things, all generated from the same articles the HTML comes from:
- *
- *   /articles/<slug>.md   the source of one article
- *   /llms.txt             an index, per the llmstxt.org proposal
- *   /llms-full.txt        every article concatenated, for a single fetch
- *   /content-index.json   what the MCP server reads at runtime
- *
- * None of it is a second copy of the content. The site is written in Markdown,
- * so this is the source travelling further than usual, and an agent that reads
- * it gets prose instead of a page it would have to strip a nav, a footer and a
- * WebGL canvas out of.
- */
 import { absoluteUrl } from "./html.js";
 
-/**
- * One article as a standalone Markdown file.
- *
- * The front matter is rebuilt rather than passed through so `source` can be
- * added: whatever quotes this should be able to link back to it.
- */
 export function renderArticleMarkdown(site, article) {
   const front = [
     "---",
@@ -38,16 +17,10 @@ export function renderArticleMarkdown(site, article) {
   return `${front}\n\n${article.markdown}\n`;
 }
 
-/** A one-line entry in an llms.txt list: `- [name](url): description`. */
 function entry(name, url, description) {
   return description ? `- [${name}](${url}): ${description}` : `- [${name}](${url})`;
 }
 
-/**
- * The index. The format is deliberately plain Markdown with H2 sections, which
- * is the whole point of the proposal: something a model can read in one pass
- * without a parser.
- */
 export function renderLlmsTxt(site, { articles, projects }) {
   const url = (p) => absoluteUrl(site.url, p);
 
@@ -91,7 +64,6 @@ export function renderLlmsTxt(site, { articles, projects }) {
   return sections.join("\n");
 }
 
-/** Every article in one file, so an agent can take the lot in a single fetch. */
 export function renderLlmsFullTxt(site, articles) {
   const header = [
     `# ${site.name}`,
@@ -119,11 +91,6 @@ export function renderLlmsFullTxt(site, articles) {
   return `${header}\n${body}`;
 }
 
-/**
- * What /api/mcp fetches on a cold start. Bodies are included so search can look
- * at the prose rather than only at titles; the whole thing is a few hundred
- * kilobytes and it is fetched once per warm instance.
- */
 export function renderContentIndex(site, { articles, projects, gear, podcasts }) {
   return JSON.stringify({
     site: {

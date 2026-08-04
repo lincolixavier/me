@@ -1,12 +1,3 @@
-/**
- * Card markup, rendered at build time.
- *
- * These used to be Shadow-DOM custom elements that fetched JSON on the client:
- * the content was invisible to crawlers and to anyone with JS disabled, and the
- * styles duplicated the design tokens as hardcoded rgba() values. Now the HTML
- * ships complete and the styles live in src/styles/components.css, where they
- * can use var(--accent) like everything else.
- */
 import { escape, attrs, formatDateShort } from "./html.js";
 
 function tagList(tags, { accentFirst = false } = {}) {
@@ -31,8 +22,6 @@ export function renderArticleCard(article) {
     ? `<time class="card-date" datetime="${escape(date)}">${escape(formatDateShort(date))}</time>`
     : "";
 
-  // The tags ride on the card so the listing can filter without another pass
-  // over the data at runtime.
   const tagAttr = (Array.isArray(tags) ? tags : []).join("|");
 
   return `<a class="card" href="/articles/${escape(slug)}/" data-tags="${escape(tagAttr)}">
@@ -48,8 +37,6 @@ export function renderProjectCard(project) {
     ? `<span class="status status--${escape(String(status).toLowerCase().replace(/\s+/g, "-"))}">${escape(status)}</span>`
     : "";
 
-  // Something not shipped yet has nowhere to link — render it as a plain card
-  // rather than an anchor pointing at "#".
   const tag = url ? "a" : "div";
   const linkAttrs = url
     ? attrs({ href: url, target: "_blank", rel: "noopener noreferrer" })
@@ -62,11 +49,6 @@ export function renderProjectCard(project) {
 </${tag}>`;
 }
 
-/**
- * Small flags marking the language an episode is in. Inline SVG rather than
- * emoji: flag emoji do not render at all on Windows, which is exactly where a
- * reader most needs to know before committing to two hours of audio.
- */
 const FLAGS = {
   pt: {
     label: "In Portuguese",
@@ -91,7 +73,6 @@ export function renderPodcastCard(episode) {
     : "";
   const durationEl = duration ? `<span class="pill">${escape(duration)}</span>` : "";
   const platformEl = platform ? `<span class="pill">${escape(platform)}</span>` : "";
-  // The show carries more meaning than the platform, so it takes the accent.
   const showEl = show ? `<span class="pill pill--accent">${escape(show)}</span>` : "";
 
   return `<a class="card"${attrs({
@@ -105,14 +86,6 @@ export function renderPodcastCard(episode) {
 </a>`;
 }
 
-/**
- * Gear cards can carry more than one link, so the card is a container rather
- * than one big anchor: nesting a second link inside the first would be invalid
- * markup, and screen readers would announce the card as a single destination.
- *
- * Paid links are marked rel="sponsored", which is what search engines ask for
- * and what keeps the rest of the site's links trustworthy.
- */
 export function renderGearCard(item) {
   const { name, description, url, image, affiliate, links = [] } = item;
 

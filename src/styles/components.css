@@ -1,13 +1,3 @@
-/**
- * Component styles – nav, footer, hero, main content, cards, rotating words.
- */
-
-/**
- * ----- Splash -----
- * The mark draws itself, then the whole panel lifts away. Hiding is driven by
- * the CSS animation, not by JavaScript, so a script that never runs can never
- * leave a reader staring at a covered page. JS only shortens the wait.
- */
 .splash {
   position: fixed;
   inset: 0;
@@ -18,7 +8,6 @@
   animation: splash-out 420ms cubic-bezier(0.4, 0, 0.2, 1) 1500ms both;
 }
 
-/* Arriving from another page on this site: the splash already played once. */
 :root[data-splash="seen"] .splash {
   display: none;
 }
@@ -72,8 +61,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* The global rule zeroes durations but not delays — without this the page
-     would still sit behind a blank panel for a second and a half. */
   .splash {
     animation-delay: 0ms !important;
   }
@@ -91,7 +78,6 @@
   pointer-events: auto;
 }
 
-/* The wordmark and the toggle exist only for small screens. */
 .wordmark,
 .nav-toggle {
   display: none;
@@ -215,9 +201,7 @@
   line-height: var(--line-height-tight);
   letter-spacing: var(--letter-spacing-tight);
   font-weight: var(--font-weight-bold);
-  /* The floor used to be 56px, which overflowed every phone: the pill around
-     the rotating word cannot shrink, so "always [crafting] something" ran off
-     a 375px screen. Scaling with the viewport keeps it on one line. */
+
   font-size: clamp(34px, 9vw, 82px);
   margin-bottom: 18px;
 }
@@ -245,12 +229,6 @@
   vertical-align: middle;
 }
 
-/**
- * The window, the word boxes and the animation steps all share one value.
- * At exactly 1em the descenders of the word below poked into the window —
- * "shipping" showed the tail of the next word above it — so the slot is a
- * little taller than the type and each word is centred in its own slot.
- */
 .headline .rotating-words {
   --word-step: 1.18em;
   display: inline-block;
@@ -316,20 +294,12 @@
   pointer-events: auto;
 }
 
-/**
- * The about view scrolls inside itself once the career list makes it taller
- * than the screen, with the same fades over the top and bottom edge that the
- * article page uses. The generous padding is what the text scrolls behind, so
- * it never appears to start or stop underneath the gradient.
- */
 .page.view-about .about-content {
   max-height: 100%;
   overflow-y: auto;
   padding-top: 120px;
   padding-bottom: 150px;
-  /* The scrolling column is 720px wide, so its scrollbar lands in the middle
-     of the screen rather than at the edge, which reads as a stray line down
-     the page. The fades already say there is more, so the bar is hidden. */
+
   scrollbar-width: none;
   overscroll-behavior: contain;
 }
@@ -339,8 +309,6 @@
   height: 0;
 }
 
-/* The fades are rendered on the home page for the about view alone: while the
-   hero is showing there is nothing to scroll and nothing to fade. */
 .page:has(.content-swap) .scroll-fade {
   opacity: 0;
   transition: opacity 320ms ease;
@@ -478,7 +446,6 @@
   margin-bottom: 1.5rem;
 }
 
-/* Cards grid: 2 cols (articles, projects, podcasts) */
 .cards-grid {
   width: 100%;
   max-width: 1060px;
@@ -514,11 +481,6 @@
     transform 180ms cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-/**
- * On hover a hairline of accent travels around the whole card. It is a 1px
- * ring built from a conic gradient masked to the border box, so the border
- * stays exactly as thin as it is at rest — nothing shifts, nothing thickens.
- */
 @property --card-angle {
   syntax: "<angle>";
   initial-value: 0deg;
@@ -567,8 +529,6 @@
   }
 }
 
-/* Browsers without @property cannot animate the angle; they get the ring
-   without the travel, which still reads as a highlight rather than nothing. */
 @supports not (background: conic-gradient(from 0deg, red, blue)) {
   .card:hover {
     border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
@@ -584,8 +544,6 @@
   color: #fff;
 }
 
-/* Cards fade up on arrival, offset by position, capped so a long list does
-   not leave the last card waiting. The delay is set inline by the build. */
 @media (prefers-reduced-motion: no-preference) {
   .card-slot {
     animation: card-enter 420ms cubic-bezier(0.32, 0.72, 0, 1) both;
@@ -604,7 +562,6 @@
   }
 }
 
-/* Cards with nowhere to link (unreleased work) should not look clickable. */
 .card--static,
 .card--static:hover {
   border-color: rgba(255, 255, 255, 0.07);
@@ -722,27 +679,22 @@
   color: rgba(255, 195, 90, 0.9);
 }
 
-/* Shipped once, no longer mine to run, or never mine to begin with. */
 .status--archived,
 .status--past {
   background: rgba(255, 255, 255, 0.06);
   color: rgba(255, 255, 255, 0.45);
 }
 
-/* Built and named, but not announced. */
 .status--stealth {
   background: rgba(150, 140, 255, 0.13);
   color: rgba(184, 178, 255, 0.9);
 }
 
-/* Muted on purpose: these belong on the page, not in the spotlight. */
 .status--failed {
   background: rgba(255, 90, 90, 0.11);
   color: rgba(255, 145, 145, 0.78);
 }
 
-/* The gear card is a container, not a link, so the hover ring and the lift
-   belong to the card while the pointer stays a default cursor over the text. */
 .card--gear {
   cursor: default;
 }
@@ -796,7 +748,6 @@
   height: auto;
 }
 
-/* Pagination controls */
 .pagination {
   display: flex;
   align-items: center;
@@ -839,11 +790,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-
-
-
-
-
 /* ----- Gear list page ----- */
 .gear-content {
   width: min(720px, 100%);
@@ -873,7 +819,6 @@
   gap: var(--spacing-sm, 1rem);
 }
 
-
 /* ----- Article detail page ----- */
 .article-page {
   flex: 1;
@@ -899,13 +844,6 @@
   pointer-events: auto;
 }
 
-/**
- * ----- Code highlighting -----
- * Tokens are added at build time (scripts/lib/highlight.js). The palette is
- * the site's own: the accent for what carries meaning, muted whites for
- * everything structural, so a code block reads as part of the page rather
- * than as a themed rectangle dropped into it.
- */
 .article-body .tok-comment {
   color: rgba(255, 255, 255, 0.32);
   font-style: italic;
@@ -946,12 +884,7 @@
 }
 
 /* ----- Article rail ----- */
-/**
- * The rail sits in the indent that --content-padding-left already creates, so
- * it lands beside the prose with a small gap and the text stays exactly where
- * it was. Laid out with flex rather than a float pulled left by a negative
- * margin, which put it against the window edge instead.
- */
+
 .article-page {
   --rail-width: 46px;
   --rail-gap: 24px;
@@ -974,8 +907,6 @@
   padding-top: 4px;
 }
 
-/* The indent now belongs to the page, and the column keeps the width the
-   prose already had. */
 .article-page .article-content {
   flex: 0 1 600px;
   padding-left: 0;
@@ -1051,7 +982,6 @@
   cursor: progress;
 }
 
-/* Fade gradients – cover content above/below, kept under nav/footer */
 .scroll-fade {
   position: fixed;
   left: 0;
@@ -1086,7 +1016,6 @@
   margin-bottom: 3.75rem;
 }
 
-/* The tags had no spacing of their own, so they sat tight under the date. */
 .article-tags {
   margin-top: 0.875rem;
 }
@@ -1114,11 +1043,6 @@
   color: rgba(255, 255, 255, 0.78);
 }
 
-/**
- * Links inside prose. A static underline reads as flat, so the rule grows in
- * from the left on hover. It animates transform on a pseudo-element rather
- * than text-decoration, which keeps it off the layout path.
- */
 .prose a,
 .article-body a {
   position: relative;
@@ -1145,8 +1069,6 @@
 
 /* ----- Human badge ----- */
 
-/* Flex with centred items, so the badge is optically centred against the
-   heading rather than nudged by a magic offset that only works at one size. */
 .listing-header .page-title {
   display: flex;
   align-items: center;
@@ -1166,7 +1088,6 @@
   cursor: help;
 }
 
-/* Visually hidden but reachable by screen readers and still focusable. */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -1290,8 +1211,6 @@
   border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
 }
 
-/* Narrower than the contact button, which stands alone; this one sits beside
-   a field and should not dominate it. */
 .btn--sm {
   width: 128px;
   padding: 10px 0;
@@ -1319,13 +1238,6 @@
   color: #ff8fa3;
 }
 
-/**
- * ----- Forms -----
- * Hollow fields on the page background with a wine border, the label riding
- * up out of the field once it has content or focus. The colours come from the
- * same gradient the rest of the site uses, so a form looks like it belongs to
- * this page rather than to the browser.
- */
 :root {
   --wine: #aa003a;
   --wine-soft: rgba(170, 0, 58, 0.45);
@@ -1377,8 +1289,6 @@
   min-height: 9rem;
 }
 
-/* The label starts sitting in the field and lifts when there is something to
-   look at. :placeholder-shown is what makes it work without any JavaScript. */
 .field-label {
   position: absolute;
   left: 15px;
@@ -1408,8 +1318,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Errors slide out of the field rather than appearing and shoving the layout.
-   Kept small and quiet: it is a correction, not a headline. */
 .field-error {
   overflow: hidden;
   max-height: 0;
@@ -1433,8 +1341,6 @@
   animation: field-shake 320ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
 
-/* Quiet confirmation. A field that is merely correct does not need to shout,
-   and green on this palette read as a system message from another site. */
 .field[data-valid] .field-input {
   border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
 }
@@ -1472,8 +1378,6 @@
   background: var(--color-accent);
 }
 
-/* A lighter sweep rises from the bottom on hover instead of a flat colour
-   change, which reads as a surface rather than a state toggle. */
 .btn--primary::before {
   content: "";
   position: absolute;
@@ -1790,7 +1694,6 @@
   color: var(--color-text);
 }
 
-
 /* ----- Life page ----- */
 .life-text {
   width: min(640px, 100%);
@@ -1846,22 +1749,9 @@
 }
 
 .life-closing {
-  /* The rule already separates the closing — the old 2rem + 1.5rem on top of
-     it read as a blank line. Nothing else sets margin-top here, so the
-     !important this carried was doing no work. */
   margin-top: 1rem;
   padding-top: 0.625rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   font-size: 1.0625rem;
   color: rgba(255, 255, 255, 0.82);
 }
-
-/**
- * Mobile overrides that have to come last.
- *
- * A media query does not raise specificity: a later rule of equal weight wins
- * regardless of the query. Anything here is overriding a desktop rule defined
- * further down the file, so it has to be defined further down still. Put new
- * ones in this block rather than the one above.
- */
-

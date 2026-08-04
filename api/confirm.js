@@ -1,10 +1,3 @@
-/**
- * GET /api/confirm?token=… → redirect to /subscribed/
- *
- * Step two of the double opt-in, and the only place an address is actually
- * added to the audience. The token is single use: it is deleted before the
- * audience call, so a link that leaks from an inbox cannot be replayed.
- */
 import { redis, isConfigured, json } from "./_redis.js";
 import { addToAudience, siteUrl } from "./_email.js";
 
@@ -31,8 +24,6 @@ export default async function handler(req, res) {
     const key = `confirm:${token}`;
     const email = await redis.get(key);
 
-    // Expired, already used, or never existed — the reader cannot tell which,
-    // and does not need to.
     if (!email) return redirect(res, "expired");
 
     await redis.del(key);

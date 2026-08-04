@@ -1,15 +1,3 @@
-/**
- * Build-time syntax highlighting, no dependencies and no client JavaScript.
- *
- * A full grammar engine would be the wrong trade here: the site uses five
- * languages and the point is legibility, not a parser that is right about
- * every edge case. This tokenises in one pass with an ordered set of patterns,
- * so a string is matched before the keywords inside it can be, and comments
- * before everything.
- *
- * Input must already be HTML-escaped; the output only ever adds <span>s.
- */
-
 const KEYWORDS = {
   js: [
     "async", "await", "break", "case", "catch", "class", "const", "continue",
@@ -27,7 +15,6 @@ const KEYWORDS = {
 
 const LITERALS = ["true", "false", "null", "undefined", "NaN", "Infinity"];
 
-/** Ordered: whatever matches first wins the character run. */
 function rulesFor(lang) {
   const common = [
     ["comment", /\/\*[\s\S]*?\*\/|\/\/[^\n]*/y],
@@ -69,7 +56,6 @@ function rulesFor(lang) {
     ...common,
     ["literal", new RegExp(`\\b(?:${LITERALS.join("|")})\\b`, "y")],
     ["keyword", new RegExp(`\\b(?:${words.join("|")})\\b`, "y")],
-    // A name immediately followed by "(" is being called.
     ["fn", /\b[A-Za-z_$][\w$]*(?=\s*\()/y],
     ["type", /\b[A-Z][\w$]*\b/y],
     ["punct", /[{}()[\];,.:?!<>=+\-*/%&|^~]+/y],
@@ -88,11 +74,6 @@ const ALIASES = {
   shell: "bash",
 };
 
-/**
- * @param {string} escapedCode - already HTML-escaped source
- * @param {string} lang - language hint from the fence
- * @returns {string} the same code with token spans added
- */
 export function highlight(escapedCode, lang) {
   const key = ALIASES[String(lang || "").toLowerCase()];
   if (!key) return escapedCode;

@@ -1,14 +1,3 @@
-/**
- * Pagination for listing pages, as progressive enhancement.
- *
- * Every card is already in the HTML — this only hides the ones outside the
- * current page. With JS disabled the full list stays visible and usable.
- *
- * The tag filter hides cards too, so pagination works over whatever is left
- * rather than over every card in the DOM. It listens for cards:filtered to
- * recount, which is why filtering does not strand the reader on page 4 of a
- * list that now has one page.
- */
 const grid = document.querySelector("[data-grid]");
 const nav = document.querySelector("[data-pagination]");
 
@@ -21,8 +10,6 @@ if (grid && nav) {
   const next = nav.querySelector("[data-next]");
 
   let current = 0;
-  // Cards the filter is not hiding. Pagination owns .card-slot[hidden] for
-  // everything else, so it tracks eligibility separately.
   let eligible = allSlots;
 
   const totalPages = () => Math.max(1, Math.ceil(eligible.length / pageSize));

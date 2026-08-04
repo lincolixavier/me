@@ -1,7 +1,3 @@
-/**
- * Base styles – reset, box-sizing, typography defaults, link base.
- */
-
 * {
   margin: 0;
   padding: 0;
@@ -10,8 +6,6 @@
   -webkit-user-select: none;
 }
 
-/* Prose is meant to be read, quoted and copied — the global user-select:none
-   above exists only so dragging the 3D canvas does not select the chrome. */
 .prose,
 .article-body,
 .card-title,
@@ -45,19 +39,10 @@ a {
   border-radius: 2px;
 }
 
-/**
- * Cross-document view transitions. Browsers without support simply navigate
- * as before — nothing here is required for the site to work.
- */
 @view-transition {
   navigation: auto;
 }
 
-/**
- * The 3D backdrop is the same on every page, so it should not cross-fade or
- * slide along with the content — that reads as the whole site blinking. The
- * content gets its own layer and does the moving; the backdrop stays put.
- */
 .page {
   view-transition-name: page;
 }
@@ -89,18 +74,12 @@ a {
   }
 }
 
-/* The article title morphs out of the card that was clicked. */
 ::view-transition-old(article-hero),
 ::view-transition-new(article-hero) {
   animation-duration: 420ms;
   animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-/**
- * Reduced motion: no looping animations, no smooth scrolling. The rotating
- * headline settles on its first word instead of cycling, and <neural-canvas>
- * drops its render loop (see src/lib/neural-network.js).
- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -116,8 +95,13 @@ a {
     transform: none;
   }
 
-  /* Navigating should not animate at all. */
   @view-transition {
     navigation: none;
   }
+}
+
+/* Any display rule on a class beats the UA sheet, so [hidden] needs to shout.
+   Important declarations invert layer order, so base wins over components. */
+[hidden] {
+  display: none !important;
 }

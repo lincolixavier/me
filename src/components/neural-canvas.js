@@ -1,9 +1,3 @@
-/**
- * Neural network background canvas with lazy loading.
- * Loads Three.js only when the element enters the viewport.
- * Attributes: camera-z, orbit-min, orbit-max, auto-rotate-speed (numbers).
- * Exposes api.animateTo(targetOpts, durationMs?, onComplete?) when loaded.
- */
 const DEFAULT_CAMERA_Z = 22;
 const DEFAULT_ORBIT_MIN = 26;
 const DEFAULT_ORBIT_MAX = 26;
@@ -53,12 +47,6 @@ class NeuralCanvas extends HTMLElement {
     this._observer.observe(this);
   }
 
-  /**
-   * The canvas is decoration behind the text, so it must never compete with
-   * the page for the main thread. Downloading and compiling Three, generating
-   * the graph and compiling shaders all wait until the document has finished
-   * loading and the browser reports itself idle.
-   */
   _scheduleInit() {
     const start = () => {
       const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
@@ -83,9 +71,6 @@ class NeuralCanvas extends HTMLElement {
     };
     const bloomAttr = this.getAttribute("bloom");
     const bloom = bloomAttr == null ? true : bloomAttr !== "false";
-    // On phones the network sits at 55% opacity behind the text. It is not
-    // worth a full-density graph and a bloom pass there — the difference is
-    // invisible and the cost is not.
     const isCompact = window.matchMedia("(max-width: 900px)").matches;
 
     return {

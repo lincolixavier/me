@@ -1,15 +1,3 @@
-/**
- * Zero-dependency Markdown → HTML.
- *
- * Blocks:  headings, fenced code, blockquotes, unordered/ordered lists,
- *          thematic breaks, paragraphs.
- * Inline:  `code`, **bold**, *italic*, ~~strike~~, [links](), ![images]().
- *
- * Everything is HTML-escaped: raw HTML in the source is rendered as text,
- * never injected. Inline code and link/image URLs are extracted before
- * emphasis runs, so `snake_case` and https://x.com/a_b_c survive intact.
- */
-
 import { highlight } from "./highlight.js";
 
 const PLACEHOLDER = "\u0000";
@@ -25,19 +13,12 @@ function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
-/** Escaped URL for an href/src, with javascript:-style schemes neutralised. */
 function safeUrl(url) {
   const trimmed = String(url ?? "").trim();
   if (UNSAFE_URL.test(trimmed)) return "#";
   return escapeHtml(trimmed);
 }
 
-// Inline ------------------------------
-
-/**
- * Holds fragments (code spans, links, images) that must not be touched by the
- * emphasis passes. They are swapped out for placeholders and swapped back last.
- */
 class Vault {
   constructor() {
     this.items = [];
@@ -63,25 +44,18 @@ function applyEmphasis(text) {
     .replace(/__([^_]+)__/g, "<strong>$1</strong>")
     .replace(/~~([^~]+)~~/g, "<del>$1</del>")
     .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-    // Intraword underscores (snake_case) must not become emphasis.
     .replace(/(^|[\s(])_([^_]+)_(?=$|[\s).,;:!?])/g, "$1<em>$2</em>");
 }
 
-/**
- * Convert inline Markdown in a single run of text.
- * Order matters: code → images → links → emphasis → restore.
- */
 export function parseInline(text) {
   const vault = new Vault();
 
   let out = String(text ?? "");
 
-  // `code` — stash raw, escape inside, immune to everything below.
   out = out.replace(/`([^`]+)`/g, (_, code) =>
     vault.stash(`<code>${escapeHtml(code)}</code>`)
   );
 
-  // ![alt](src "title")
   out = out.replace(
     /!\[([^\]]*)\]\(\s*([^\s)]+)(?:\s+["']([^"']*)["'])?\s*\)/g,
     (_, alt, src, title) => {
@@ -92,7 +66,6 @@ export function parseInline(text) {
     }
   );
 
-  // [text](href "title") — link text still gets emphasis, the URL does not.
   out = out.replace(
     /\[([^\]]+)\]\(\s*([^\s)]+)(?:\s+["']([^"']*)["'])?\s*\)/g,
     (_, label, href, title) => {
@@ -110,8 +83,6 @@ export function parseInline(text) {
   return vault.restore(out);
 }
 
-// Blocks ------------------------------
-
 const RE = {
   fence: /^(\s*)(`{3,}|~{3,})\s*([\w-]*)\s*$/,
   heading: /^(#{1,6})\s+(.*)$/,
@@ -122,10 +93,6 @@ const RE = {
   blank: /^\s*$/,
 };
 
-/**
- * Line-driven block parser. Every line is consumed by exactly one branch,
- * so no content can be silently dropped.
- */
 function parseBlocks(lines) {
   const out = [];
   let i = 0;
@@ -138,7 +105,6 @@ function parseBlocks(lines) {
       continue;
     }
 
-    // Fenced code block
     const fence = line.match(RE.fence);
     if (fence) {
       const marker = fence[2];
@@ -149,10 +115,8 @@ function parseBlocks(lines) {
         body.push(lines[i]);
         i++;
       }
-      i++; // closing fence (or EOF)
+      i++;
       const cls = lang ? ` class="language-${escapeHtml(lang)}"` : "";
-      // Highlighting happens here, at build time, so no parser ships to the
-      // browser. It only ever wraps already-escaped text in spans.
       const code = highlight(escapeHtml(body.join("\n")), lang);
       out.push(`<pre><code${cls}>${code}</code></pre>`);
       continue;
@@ -172,7 +136,6 @@ function parseBlocks(lines) {
       continue;
     }
 
-    // Blockquote — collected then parsed recursively so it can hold any block.
     if (RE.quote.test(line)) {
       const body = [];
       while (i < lines.length && RE.quote.test(lines[i])) {
@@ -183,7 +146,6 @@ function parseBlocks(lines) {
       continue;
     }
 
-    // Lists — a blank line or any non-item line ends the list.
     const listType = RE.ul.test(line) ? "ul" : RE.ol.test(line) ? "ol" : null;
     if (listType) {
       const pattern = listType === "ul" ? RE.ul : RE.ol;
@@ -193,9 +155,6 @@ function parseBlocks(lines) {
         items.push(listType === "ul" ? match[1] : match[2]);
         i++;
 
-        // Lazy continuation: an indented line that is not itself an item
-        // belongs to the item above it, so a list with a description under
-        // each entry stays one list.
         while (
           i < lines.length &&
           !RE.blank.test(lines[i]) &&
@@ -214,7 +173,6 @@ function parseBlocks(lines) {
       continue;
     }
 
-    // Paragraph — runs until a blank line or the start of another block.
     const para = [];
     while (
       i < lines.length &&
@@ -235,21 +193,11 @@ function parseBlocks(lines) {
   return out.join("\n");
 }
 
-/**
- * Convert Markdown source to HTML.
- * @param {string} source - Markdown text (body only, no front-matter)
- * @returns {string} HTML
- */
 export function parseMarkdown(source) {
   if (source == null || source === "") return "";
   return parseBlocks(String(source).split(/\r?\n/)).trim();
 }
 
-/**
- * Plain-text excerpt of a Markdown source — used for meta descriptions.
- * @param {string} source
- * @param {number} [maxLength=160]
- */
 export function excerpt(source, maxLength = 160) {
   const text = String(source ?? "")
     .replace(/```[\s\S]*?```/g, " ")

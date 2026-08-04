@@ -1,16 +1,5 @@
-/**
- * Sending mail through Resend, over plain fetch.
- *
- * Shared by the contact form and the newsletter so the sender address and the
- * error handling exist once rather than in each endpoint.
- */
-
 const FROM = "Lincoli.me <hi@updates.lincoli.me>";
 
-/**
- * The canonical origin, for links inside emails. VERCEL_URL points at the
- * deployment, not the domain, so it is only a fallback for previews.
- */
 export function siteUrl() {
   if (process.env.SITE_URL) return process.env.SITE_URL.replace(/\/+$/, "");
   if (process.env.VERCEL_ENV === "production") return "https://www.lincoli.me";
@@ -18,14 +7,6 @@ export function siteUrl() {
   return "https://www.lincoli.me";
 }
 
-/**
- * Wraps content in the site's look for HTML mail.
- *
- * Tables and inline styles, not flexbox and a stylesheet: mail clients strip
- * <style> blocks and most of them still lay out like it is 2005. The dark
- * background degrades to white in the few that force a light theme, so the
- * text colours are chosen to stay legible either way.
- */
 export function emailShell({ heading, body, action, footnote }) {
   const button = action
     ? `<tr><td style="padding:8px 0 4px">
@@ -75,10 +56,6 @@ export function emailShell({ heading, body, action, footnote }) {
 </body></html>`;
 }
 
-/**
- * @throws when Resend rejects the message, so callers can decide what the
- *   reader should see rather than silently reporting success.
- */
 export async function sendEmail({ to, subject, text, html, replyTo }) {
   const response = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -103,10 +80,6 @@ export async function sendEmail({ to, subject, text, html, replyTo }) {
   return response.json().catch(() => ({}));
 }
 
-/**
- * Adds a confirmed address to the audience. Called only after the reader has
- * clicked the link in their own inbox.
- */
 export async function addToAudience(email, audienceId) {
   const response = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
     method: "POST",

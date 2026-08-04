@@ -1,22 +1,5 @@
-/**
- * Model Context Protocol server for the site.
- *
- * POST /api/mcp with a JSON-RPC 2.0 body. Add it to Claude, Cursor or anything
- * else that speaks MCP and the site's writing becomes something you can query
- * rather than something you have to scrape.
- *
- * Hand-written rather than built on the SDK, because MCP over HTTP is JSON-RPC
- * and the whole site has no dependencies. There is nothing here the SDK would
- * do better at this size: a handful of methods, five tools, no sessions.
- *
- * Stateless by design. No Mcp-Session-Id is issued, which the spec allows, and
- * which means any instance can serve any request. Everything it answers with is
- * already public on the site; it holds no secrets and writes nothing.
- */
 import { withinRateLimit, clientIp } from "./_redis.js";
 
-// Newest first. A client asking for one of these gets it back; anything else
-// is answered with the newest we know, which is what the spec asks for.
 const SUPPORTED_PROTOCOLS = ["2025-06-18", "2025-03-26", "2024-11-05"];
 
 const SERVER_INFO = { name: "lincoli.me", version: "1.0.0", title: "Lincoli Xavier" };
@@ -25,10 +8,6 @@ const INSTRUCTIONS = `The personal site of Lincoli Xavier, a software engineer a
 
 Use search_articles to find writing on a topic, then get_article for the full text. Every article is also readable directly at its .md URL.`;
 
-/**
- * The index the site publishes at build time. Fetched once per instance and
- * kept for as long as that instance lives, so a warm one does no I/O at all.
- */
 let cached = null;
 
 async function loadIndex(req) {
@@ -43,8 +22,6 @@ async function loadIndex(req) {
   cached = await response.json();
   return cached;
 }
-
-// Tools ------------------------------
 
 const TOOLS = [
   {
@@ -97,7 +74,6 @@ const TOOLS = [
   },
 ];
 
-/** Words worth matching on, lowercased and stripped of the very short ones. */
 function terms(query) {
   return String(query)
     .toLowerCase()
@@ -106,11 +82,6 @@ function terms(query) {
     .slice(0, 12);
 }
 
-/**
- * Deliberately simple scoring: a title hit is worth far more than a body hit,
- * and an article matching every term beats one matching a single term many
- * times. With 43 documents there is nothing here that needs an index.
- */
 function score(article, words) {
   const title = article.title.toLowerCase();
   const description = (article.description || "").toLowerCase();
@@ -133,11 +104,9 @@ function score(article, words) {
     total += points;
   }
 
-  // Matching every term is the strongest signal there is.
   return matched === words.length ? total * 2 : total;
 }
 
-/** A window of the body around the first hit, so a result explains itself. */
 function snippet(markdown, words) {
   const haystack = markdown.toLowerCase();
   const at = words.map((w) => haystack.indexOf(w)).filter((i) => i >= 0).sort((a, b) => a - b)[0];
@@ -213,8 +182,6 @@ async function callTool(name, args, index) {
   }
 }
 
-// JSON-RPC ------------------------------
-
 const rpcResult = (id, result) => ({ jsonrpc: "2.0", id, result });
 const rpcError = (id, code, message) => ({ jsonrpc: "2.0", id, error: { code, message } });
 
@@ -248,8 +215,6 @@ async function handleRpc(message, req) {
         const index = await loadIndex(req);
         const output = await callTool(name, params?.arguments ?? {}, index);
 
-        // A tool that could not do what was asked reports it inside the result,
-        // not as a protocol error: the model is meant to read it and adjust.
         return rpcResult(id, {
           content: [{ type: "text", text: JSON.stringify(output, null, 2) }],
           isError: Boolean(output?.error),
@@ -275,7 +240,6 @@ export default async function handler(req, res) {
 
   if (req.method === "OPTIONS") return res.status(204).end();
 
-  // No SSE stream lives here, and the spec asks for 405 rather than silence.
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST, OPTIONS");
     return res.status(405).json(rpcError(null, -32600, "Use POST with a JSON-RPC 2.0 body."));
@@ -290,8 +254,6 @@ export default async function handler(req, res) {
     return res.status(400).json(rpcError(null, -32700, "Parse error."));
   }
 
-  // A batch is an array, and notifications carry no id and get no reply. When
-  // everything in a batch was a notification there is nothing to send back.
   const batch = Array.isArray(body) ? body : [body];
   const replies = [];
 

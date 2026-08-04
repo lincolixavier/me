@@ -1,10 +1,3 @@
-/**
- * Newsletter subscribe.
- *
- * Same three states as the contact form: idle, sending, and a result that
- * stays on screen. Subscribing twice is treated as success, because from the
- * reader's side it is — they asked to be on the list and they are.
- */
 const form = document.querySelector("[data-subscribe]");
 
 if (form) {

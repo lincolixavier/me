@@ -1,15 +1,3 @@
-/**
- * POST /api/contact → { ok: true }
- *
- * Takes the contact form and forwards it to the inbox. The simplest thing that
- * actually delivers mail, given what is already here: a Vercel function, the
- * Upstash Redis the counters use for rate limiting, and Resend's REST API over
- * plain fetch, so the project keeps its zero dependencies.
- *
- * Needs RESEND_API_KEY in the environment. Without it the endpoint says so
- * plainly and the page falls back to a mailto link, rather than accepting
- * messages it has no way to deliver.
- */
 import { json, withinRateLimit, clientIp } from "./_redis.js";
 import { sendEmail, emailShell } from "./_email.js";
 
@@ -60,11 +48,9 @@ export default async function handler(req, res) {
       text: `From: ${name} <${email}>\n\n${message}`,
       html: emailShell({
         heading: `${name} sent a message`,
-        // The reader's own words, escaped and with line breaks kept.
         body: escapeHtml(message).replace(/\n/g, "<br />"),
         footnote: `Reply to this email to answer ${escapeHtml(name)} at ${escapeHtml(email)}.`,
       }),
-      // So hitting reply in the inbox answers the sender, not the robot.
       replyTo: email,
     });
 

@@ -1,20 +1,8 @@
-/**
- * POST /api/subscribe → { ok: true }
- *
- * Step one of a double opt-in. Nothing is added to the audience here: the
- * address gets a single-use token stored in Redis and a confirmation email,
- * and only clicking that link puts them on the list.
- *
- * That matters beyond good manners. Without it anyone can subscribe someone
- * else's address, which is both a way to harass people and a fast route to a
- * spam complaint against the sending domain.
- */
 import { redis, isConfigured, json, withinRateLimit, clientIp } from "./_redis.js";
 import { sendEmail, siteUrl, emailShell } from "./_email.js";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-/** Long enough that the link cannot be guessed, short enough to be tidy. */
 const TOKEN_BYTES = 24;
 const TOKEN_TTL_SECONDS = 60 * 60 * 48;
 
@@ -43,16 +31,6 @@ export default async function handler(req, res) {
     return json(res, 429, { error: "too many attempts, try again later" });
   }
 
-  /**
-   * Limiting by address as well as by IP, because the two protect different
-   * people. The IP limit stops one machine flooding the endpoint; this stops
-   * someone using it to mail a person they do not like, which rotating IPs
-   * would otherwise make easy. Two confirmations a day is more than anyone
-   * needs and useless as a way to bother somebody.
-   *
-   * It answers success either way: telling a stranger that an address has
-   * already been asked to subscribe would leak whether it is on the list.
-   */
   if (!(await withinRateLimit("subscribe-to", email, 2, 60 * 60 * 24))) {
     return json(res, 200, { ok: true });
   }
@@ -70,8 +48,6 @@ export default async function handler(req, res) {
     await sendEmail({
       to: email,
       subject: "Confirm your subscription",
-      // Plain text is not a formality: some clients show it, and anyone
-      // blocking HTML mail still needs a working link.
       text: [
         "Someone asked to receive new posts from lincoli.me at this address.",
         "",

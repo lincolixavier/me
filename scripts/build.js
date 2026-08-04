@@ -1,16 +1,3 @@
-/**
- * Static site generator for lincolixavier.com — no dependencies.
- *
- * Everything under dist/ is generated; nothing in it should ever be edited by
- * hand. Sources of truth:
- *   content/site.json       site metadata, navigation, social links
- *   content/pages/*.html    prose fragments (about, life)
- *   content/articles/*.md   articles, with YAML front-matter
- *   content/*.json          projects, podcasts, gear
- *
- * Run: node scripts/build.js   (or `bun run build`)
- */
-
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -45,8 +32,6 @@ const CONTENT = path.join(ROOT, "content");
 
 const warnings = [];
 
-// Reading ------------------------------
-
 async function readJson(relPath, fallback = null) {
   try {
     return JSON.parse(await fs.readFile(path.join(ROOT, relPath), "utf-8"));
@@ -80,13 +65,6 @@ async function exists(absPath) {
   }
 }
 
-/**
- * The social preview for a name, or null if it was never generated.
- *
- * `bun run og` writes JPEG where it can compress and PNG where it cannot, so
- * both are accepted rather than making the build depend on which machine drew
- * them.
- */
 async function ogImage(name) {
   for (const ext of ["jpg", "png"]) {
     if (await exists(path.join(ROOT, "assets", "og", `${name}.${ext}`))) {
@@ -96,7 +74,6 @@ async function ogImage(name) {
   return null;
 }
 
-/** Parses every article, newest first. Missing descriptions fall back to an excerpt. */
 async function readArticles() {
   const dir = path.join(CONTENT, "articles");
   let files = [];
@@ -126,9 +103,6 @@ async function readArticles() {
         tags: Array.isArray(attributes.tags) ? attributes.tags : [],
         ogImage: await ogImage(slug),
         body: parseMarkdown(body),
-        // Kept alongside the HTML for the machine-readable output: the plain
-        // text endpoints, llms.txt and the MCP server all want the source,
-        // not a page they would have to strip a nav and a canvas out of.
         markdown: body.trim(),
       };
     })
@@ -137,29 +111,13 @@ async function readArticles() {
   return articles.sort((a, b) => String(b.date ?? "").localeCompare(String(a.date ?? "")));
 }
 
-// Writing ------------------------------
-
 async function writeFile(relPath, contents) {
   const target = path.join(DIST, relPath);
   await fs.mkdir(path.dirname(target), { recursive: true });
   await fs.writeFile(target, contents, "utf-8");
 }
 
-/**
- * Concatenates the stylesheets into the single file the pages link to.
- *
- * They used to be pulled in with @import, which costs a serial round trip per
- * file — the browser cannot even discover them until main.css has arrived and
- * parsed — and leaves a window where the document is rendering but custom
- * properties are not readable yet. The sources stay split; only the output is
- * joined.
- */
-/**
- * Each stylesheet becomes a cascade layer, in this order. Layers settle the
- * cascade by where the layer is declared rather than by where a rule happens
- * to sit in the file, so responsive.css beats everything before it without
- * depending on line numbers. Three layout bugs came from that dependency.
- */
+// Cascade order. Later layers win regardless of specificity.
 const STYLE_LAYERS = ["tokens", "base", "layout", "components", "responsive"];
 
 async function readStyles() {
@@ -170,52 +128,29 @@ async function readStyles() {
     })
   );
 
-  // Declaring the order up front means it holds even if a layer arrives late.
   parts.unshift(`@layer ${STYLE_LAYERS.join(", ")};`);
 
   const css = minifyCss(parts.join("\n\n"));
 
-  // The filename never changes, so without a cache key a browser holding an
-  // hour-old stylesheet would apply it to freshly deployed markup. The query
-  // changes whenever the bytes do, which is all the cache needs to see.
   const hash = crypto.createHash("sha256").update(css).digest("hex").slice(0, 8);
   return { css, hash };
 }
 
-/**
- * Conservative CSS minifier: strips comments and collapses the whitespace the
- * parser does not need. It deliberately leaves everything else alone — this is
- * a build for one small stylesheet, not a reason to take on a dependency.
- */
 function minifyCss(css) {
   return css
     .replace(/\/\*[\s\S]*?\*\//g, "")
     .replace(/\s+/g, " ")
     .replace(/\s*([{}:;,>])\s*/g, "$1")
-    // A trailing semicolon before a closing brace is redundant.
     .replace(/;}/g, "}")
     .trim();
 }
 
-/**
- * The policy is built here rather than in vercel.json so the hash of the one
- * inline script stays in step with the script itself. A static site cannot
- * issue a nonce per request, so naming the script by hash is what allows the
- * policy to stay strict.
- *
- * style-src needs 'unsafe-inline' because the build sets --card-index through
- * a style attribute; scripts do not get the same exemption.
- */
 function contentSecurityPolicy() {
-  // Both inline scripts need naming: an import map is governed by script-src
-  // exactly like any other inline script.
+  // The import map is governed by script-src too, so it needs its own hash.
   const hashes = [SPLASH_SCRIPT, IMPORT_MAP_JSON]
     .map((source) => `'sha256-${crypto.createHash("sha256").update(source).digest("base64")}'`)
     .join(" ");
 
-  // The analytics scripts load from one host and report to that origin's API.
-  // Both need naming: a policy that allows the load but not the beacon gives
-  // you a tracker that runs and quietly measures nothing.
   return [
     "default-src 'self'",
     `script-src 'self' https://cdn.jsdelivr.net ${ANALYTICS_HOST} ${hashes}`,
@@ -229,19 +164,11 @@ function contentSecurityPolicy() {
   ].join("; ");
 }
 
-// Build ------------------------------
-
 async function build() {
   const started = Date.now();
 
   const site = await readJson("content/site.json");
 
-  /**
-   * Social previews are pre-rendered by `bun run og` and committed, so a
-   * deploy never depends on a browser being available to draw them. Whatever
-   * is on disk gets linked; anything missing falls back to the default rather
-   * than advertising an image that would 404.
-   */
   site.styleHash = null;
   site.ogImage = await ogImage("default");
 
@@ -260,13 +187,11 @@ async function build() {
     readJson("content/gear.json", { categories: [] }),
   ]);
 
-  // Start from a clean slate so deleted content cannot linger in dist/.
   await fs.rm(DIST, { recursive: true, force: true });
   await fs.mkdir(DIST, { recursive: true });
 
   site.styleHash = styles.hash;
   site.csp = contentSecurityPolicy();
-
 
   const pages = [
     buildHome({ site, aboutHtml }),
@@ -285,7 +210,6 @@ async function build() {
 
   await Promise.all(pages.map((page) => writeFile(page.path, page.html)));
 
-  // Static assets the pages reference.
   await copyDir(path.join(ROOT, "src"), path.join(DIST, "src"));
   await writeFile("src/styles/main.css", styles.css);
   if (await exists(path.join(ROOT, "assets"))) {
@@ -313,11 +237,6 @@ async function build() {
     ])
   );
 
-  /**
-   * The machine-readable half of the build. Same articles, no HTML: one
-   * Markdown file each, an llms.txt index, the whole site in one file, and the
-   * JSON the MCP server reads at runtime.
-   */
   const projects = projectsData.projects ?? [];
   await Promise.all(
     articles.map((article) =>

@@ -5,15 +5,6 @@ import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 
-/**
- * Initializes the neural network visualization inside a given root element.
- * Designed for lazy loading: use with <neural-canvas> which loads this module
- * only when the canvas enters the viewport (Intersection Observer).
- *
- * @param {Object} options - cameraZ, orbitMin, orbitMax, autoRotateSpeed
- * @param {Document|Element} [root=document] - Root to resolve .canvas-wrapper and canvas (e.g. the <neural-canvas> element)
- * @returns {{ animateTo: Function }|undefined} API with animateTo(); undefined if canvas not found
- */
 export function initNeuralNetwork(options = {}, root = null) {
   const opts = {
     cameraZ: 22,
@@ -22,8 +13,6 @@ export function initNeuralNetwork(options = {}, root = null) {
     autoRotateSpeed: 0.23,
     bloom: true,
     density: 1,
-    // When true the scene is drawn but never animates on its own: no auto
-    // rotation, no pulses, no render loop. It redraws only on user interaction.
     reducedMotion: false,
     ...options
   };
@@ -33,39 +22,15 @@ export function initNeuralNetwork(options = {}, root = null) {
   const canvasElement = rootEl.querySelector("#neural-network-canvas");
   if (!canvasWrapper || !canvasElement) return;
 
-  const config = {
-      densityFactor: opts.density,
-      activePaletteIndex: 0
-    };
+  const config = { densityFactor: opts.density };
 
-    const colorPalettes = [
-  // Base rosé discreta (harmonizada com #ff2d6d)
-  [
-    new THREE.Color(0x8a1f44), // vinho rosé
-    new THREE.Color(0xb3264f), // framboesa
-    new THREE.Color(0x5b2a3a), // malva escuro
-    new THREE.Color(0x9c3a5b), // pink queimado
-    new THREE.Color(0x3f1f2a)  // ameixa
-  ],
-
-  // Contraste moderado (picos sutis mais vivos)
-  [
-    new THREE.Color(0x7a173a), // vinho profundo
-    new THREE.Color(0xff2d6d), // rosé vivo (âncora)
-    new THREE.Color(0x5a3a45), // cinza rosado
-    new THREE.Color(0xc43a6a), // pink destacado
-    new THREE.Color(0x2f1a22)  // quase preto quente
-  ],
-
-  // Mais contraste, ainda controlado
-  [
-    new THREE.Color(0x61122f), // vinho fechado
-    new THREE.Color(0xd7265e), // magenta vivo contido
-    new THREE.Color(0x8a4a5f), // rosé dessaturado
-    new THREE.Color(0xff4d7f), // highlight suave
-    new THREE.Color(0x24131a)  // base escura
-  ]
-];
+    const PALETTE = [
+      new THREE.Color(0x8a1f44),
+      new THREE.Color(0xb3264f),
+      new THREE.Color(0x5b2a3a),
+      new THREE.Color(0x9c3a5b),
+      new THREE.Color(0x3f1f2a)
+    ];
 
     const pulseUniforms = {
       uTime: { value: 0.0 },
@@ -82,9 +47,6 @@ export function initNeuralNetwork(options = {}, root = null) {
       uPulseStrength: { value: 0.55 }
     };
 
-    // The page background is the scene background. Read from --color-bg so the
-    // design token stays the single source of truth: change it once and the
-    // canvas, the fog and the page all follow.
     const cssBackground = getComputedStyle(document.documentElement)
       .getPropertyValue("--color-bg")
       .trim();
@@ -92,7 +54,6 @@ export function initNeuralNetwork(options = {}, root = null) {
 
     const scene = new THREE.Scene();
     scene.background = background;
-    // Same colour as the background, so distant nodes fade into the page.
     scene.fog = new THREE.FogExp2(background, 0.002);
 
   const camera = new THREE.PerspectiveCamera(65, 2, 0.1, 1000);
@@ -100,9 +61,6 @@ export function initNeuralNetwork(options = {}, root = null) {
 
     const renderer = new THREE.WebGLRenderer({
       canvas: canvasElement,
-      // MSAA only applies to the default framebuffer. With bloom on, the
-      // composer renders into its own target and antialias here would cost a
-      // multisampled backbuffer for nothing.
       antialias: !opts.bloom,
       powerPreference: "high-performance",
       alpha: true
@@ -111,13 +69,7 @@ export function initNeuralNetwork(options = {}, root = null) {
     renderer.setClearColor(background, 1);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-    /**
-     * Some environments have no GPU and fall back to a software rasteriser —
-     * SwiftShader, llvmpipe, Mesa's software path. Every pixel of every frame
-     * is then drawn by the CPU, which turns a decorative background into
-     * seconds of blocking work and would stutter regardless. Where that is the
-     * case the scene is drawn once and left still.
-     */
+    // No GPU means every pixel is drawn by the CPU: draw one frame, then stop.
     const isSoftwareRenderer = (() => {
       try {
         const gl = renderer.getContext();
@@ -131,9 +83,6 @@ export function initNeuralNetwork(options = {}, root = null) {
 
     const staticScene = opts.reducedMotion || isSoftwareRenderer;
 
-    // Phones have the densest screens and the weakest GPUs, and there the
-    // network is a 55%-opacity backdrop. Rendering it at 2x or 3x is spending
-    // the frame budget on pixels nobody is looking at.
     const MAX_PIXEL_RATIO = opts.maxPixelRatio ?? 1.5;
     let pixelRatio = Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO);
     renderer.setPixelRatio(pixelRatio);
@@ -141,17 +90,6 @@ export function initNeuralNetwork(options = {}, root = null) {
     let renderWidth = 0;
     let renderHeight = 0;
 
-    /**
-     * The layout deliberately pushes the network off the right edge, so part
-     * of the frustum is never on screen. Rather than render those pixels and
-     * throw them away, the canvas covers only the visible strip and
-     * setViewOffset renders exactly that sub-rectangle of the original,
-     * viewport-wide frustum — same framing, fewer pixels.
-     *
-     * The full frustum is the viewport width, which is what the canvas used to
-     * span. Deriving it from layout rather than from a CSS custom property
-     * keeps this correct even before stylesheets finish applying.
-     */
     const updateRendererSize = () => {
       renderWidth = canvasWrapper.offsetWidth || window.innerWidth;
       renderHeight = window.innerHeight;
@@ -185,7 +123,6 @@ export function initNeuralNetwork(options = {}, root = null) {
     return t <= 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
   function animateTo(targetOpts, durationMs = 1200, onComplete) {
-    // Reduced motion: jump straight to the target framing, no camera flight.
     if (staticScene) {
       camera.position.set(0, 2, targetOpts.cameraZ);
       controls.minDistance = targetOpts.orbitMin;
@@ -229,9 +166,6 @@ export function initNeuralNetwork(options = {}, root = null) {
     if (opts.bloom) {
       composer = new EffectComposer(renderer);
       composer.addPass(new RenderPass(scene, camera));
-      // Bloom is a low-frequency effect, so it is blurry by definition.
-      // Running its mip chain at half resolution is visually indistinguishable
-      // and costs roughly a quarter of the fill rate.
       bloomPass = new UnrealBloomPass(
         new THREE.Vector2(renderWidth * BLOOM_SCALE, renderHeight * BLOOM_SCALE),
         0.45,
@@ -293,6 +227,18 @@ export function initNeuralNetwork(options = {}, root = null) {
         return 42.0 * dot(m * m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
       }`;
 
+    const pulseIntensityFn = `
+      float getPulseIntensity(vec3 worldPos, vec3 pulsePos, float pulseTime) {
+        if (pulseTime < 0.0) return 0.0;
+        float timeSinceClick = uTime - pulseTime;
+        if (timeSinceClick < 0.0 || timeSinceClick > 3.6) return 0.0;
+        float pulseRadius = timeSinceClick * uPulseSpeed;
+        float distToClick = distance(worldPos, pulsePos);
+        float pulseThickness = 2.8;
+        float waveProximity = abs(distToClick - pulseRadius);
+        return smoothstep(pulseThickness, 0.0, waveProximity) * smoothstep(3.6, 0.0, timeSinceClick);
+      }`;
+
     const nodeShader = {
       vertexShader: `${noiseFunctions}
         attribute float nodeSize;
@@ -313,16 +259,7 @@ export function initNeuralNetwork(options = {}, root = null) {
         varying float vDistanceFromRoot;
         varying float vGlow;
 
-        float getPulseIntensity(vec3 worldPos, vec3 pulsePos, float pulseTime) {
-          if (pulseTime < 0.0) return 0.0;
-          float timeSinceClick = uTime - pulseTime;
-          if (timeSinceClick < 0.0 || timeSinceClick > 3.6) return 0.0;
-          float pulseRadius = timeSinceClick * uPulseSpeed;
-          float distToClick = distance(worldPos, pulsePos);
-          float pulseThickness = 2.8;
-          float waveProximity = abs(distToClick - pulseRadius);
-          return smoothstep(pulseThickness, 0.0, waveProximity) * smoothstep(3.6, 0.0, timeSinceClick);
-        }
+        ${pulseIntensityFn}
 
         void main() {
           vNodeType = nodeType;
@@ -423,16 +360,7 @@ export function initNeuralNetwork(options = {}, root = null) {
         varying float vPathPosition;
         varying float vDistanceFromCamera;
 
-        float getPulseIntensity(vec3 worldPos, vec3 pulsePos, float pulseTime) {
-          if (pulseTime < 0.0) return 0.0;
-          float timeSinceClick = uTime - pulseTime;
-          if (timeSinceClick < 0.0 || timeSinceClick > 3.6) return 0.0;
-          float pulseRadius = timeSinceClick * uPulseSpeed;
-          float distToClick = distance(worldPos, pulsePos);
-          float pulseThickness = 2.8;
-          float waveProximity = abs(distToClick - pulseRadius);
-          return smoothstep(pulseThickness, 0.0, waveProximity) * smoothstep(3.6, 0.0, timeSinceClick);
-        }
+        ${pulseIntensityFn}
 
         void main() {
           float t = position.x;
@@ -609,7 +537,7 @@ export function initNeuralNetwork(options = {}, root = null) {
       const nodeSizes = [];
       const nodeColors = [];
       const distancesFromRoot = [];
-      const palette = colorPalettes[config.activePaletteIndex];
+      const palette = PALETTE;
 
       neuralNetwork.nodes.forEach((node) => {
         nodePositions.push(node.position.x, node.position.y, node.position.z);
@@ -707,7 +635,7 @@ export function initNeuralNetwork(options = {}, root = null) {
       connectionsMesh = new THREE.Line(connectionsGeometry, connectionsMaterial);
       scene.add(connectionsMesh);
 
-      palette.forEach((color, i) => {
+      PALETTE.forEach((color, i) => {
         if (i < 3) {
           nodesMesh.material.uniforms.uPulseColors.value[i].copy(color);
           connectionsMesh.material.uniforms.uPulseColors.value[i].copy(color);
@@ -745,7 +673,7 @@ export function initNeuralNetwork(options = {}, root = null) {
       connectionsMesh.material.uniforms.uPulsePositions.value[lastPulseIndex].copy(interactionPoint);
       connectionsMesh.material.uniforms.uPulseTimes.value[lastPulseIndex] = t;
 
-      const palette = colorPalettes[config.activePaletteIndex];
+      const palette = PALETTE;
       const randomColor = palette[Math.floor(Math.random() * palette.length)];
       nodesMesh.material.uniforms.uPulseColors.value[lastPulseIndex].copy(randomColor);
       connectionsMesh.material.uniforms.uPulseColors.value[lastPulseIndex].copy(randomColor);
@@ -766,68 +694,6 @@ export function initNeuralNetwork(options = {}, root = null) {
       { passive: false }
     );
 
-    function updateTheme(paletteIndex) {
-      config.activePaletteIndex = paletteIndex;
-      if (!nodesMesh || !connectionsMesh || !neuralNetwork) return;
-
-      const palette = colorPalettes[paletteIndex];
-
-      const nodeColorsAttr = nodesMesh.geometry.attributes.nodeColor;
-      for (let i = 0; i < nodeColorsAttr.count; i++) {
-        const node = neuralNetwork.nodes[i];
-        if (!node) continue;
-        const colorIndex = Math.min(node.level, palette.length - 1);
-        const baseColor = palette[colorIndex % palette.length].clone();
-        baseColor.offsetHSL(
-          THREE.MathUtils.randFloatSpread(0.02),
-          THREE.MathUtils.randFloatSpread(0.06),
-          THREE.MathUtils.randFloatSpread(0.06)
-        );
-        nodeColorsAttr.setXYZ(i, baseColor.r, baseColor.g, baseColor.b);
-      }
-      nodeColorsAttr.needsUpdate = true;
-
-      const connectionColors = [];
-      const processedConnections = new Set();
-      neuralNetwork.nodes.forEach((node, nodeIndex) => {
-        node.connections.forEach((connection) => {
-          const connectedNode = connection.node;
-          const connectedIndex = neuralNetwork.nodes.indexOf(connectedNode);
-          if (connectedIndex === -1) return;
-          const key = [Math.min(nodeIndex, connectedIndex), Math.max(nodeIndex, connectedIndex)].join("-");
-          if (processedConnections.has(key)) return;
-          processedConnections.add(key);
-
-          const numSegments = 18;
-          for (let i = 0; i < numSegments; i++) {
-            const avgLevel = Math.min(Math.floor((node.level + connectedNode.level) / 2), palette.length - 1);
-            const baseColor = palette[avgLevel % palette.length].clone();
-            baseColor.offsetHSL(
-              THREE.MathUtils.randFloatSpread(0.02),
-              THREE.MathUtils.randFloatSpread(0.06),
-              THREE.MathUtils.randFloatSpread(0.06)
-            );
-            connectionColors.push(baseColor.r, baseColor.g, baseColor.b);
-          }
-        });
-      });
-
-      connectionsMesh.geometry.setAttribute("connectionColor", new THREE.Float32BufferAttribute(connectionColors, 3));
-      connectionsMesh.geometry.attributes.connectionColor.needsUpdate = true;
-
-      document.querySelectorAll(".theme-button").forEach((b) => b.classList.remove("active"));
-      const activeBtn = document.querySelector(`.theme-button[data-theme="${paletteIndex}"]`);
-      if (activeBtn) activeBtn.classList.add("active");
-    }
-
-    document.querySelectorAll(".theme-button").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const idx = Number(btn.dataset.theme);
-        if (Number.isFinite(idx)) updateTheme(idx);
-      });
-    });
-
     let inViewport = true;
     let pageVisible = !document.hidden;
 
@@ -840,11 +706,6 @@ export function initNeuralNetwork(options = {}, root = null) {
     const onVisibilityChange = () => { pageVisible = !document.hidden; };
     document.addEventListener("visibilitychange", onVisibilityChange);
 
-    /**
-     * Draws a single frame at time `t`. `pinCameraZ` holds the camera at a
-     * given distance while a tween is in flight, after controls.update() has
-     * had its say.
-     */
     function draw(t = 0, pinCameraZ = null) {
       if (nodesMesh) {
         nodesMesh.material.uniforms.uTime.value = t;
@@ -862,11 +723,6 @@ export function initNeuralNetwork(options = {}, root = null) {
       else renderer.render(scene, camera);
     }
 
-    /**
-     * Adaptive resolution. Rather than guess what a device can handle, watch
-     * the frames: if enough of them miss the budget, step the pixel ratio down
-     * once. Machines that hold 60fps never lose any quality.
-     */
     const FRAME_BUDGET_MS = 1000 / 50;
     const MIN_PIXEL_RATIO = 0.75;
     let slowFrames = 0;
@@ -878,7 +734,6 @@ export function initNeuralNetwork(options = {}, root = null) {
     function considerQuality(now) {
       if (lastFrameTime) {
         const delta = now - lastFrameTime;
-        // Ignore the huge deltas that follow a tab coming back into focus.
         if (delta < 500) slowFrames = delta > FRAME_BUDGET_MS ? slowFrames + 1 : 0;
       }
       lastFrameTime = now;
@@ -893,10 +748,6 @@ export function initNeuralNetwork(options = {}, root = null) {
         return;
       }
 
-      // Already at the lowest resolution and still missing the budget: this
-      // machine cannot animate the scene. Continuing would only take the frame
-      // budget away from the page itself, so the loop stops and the last frame
-      // stays on screen. Dragging still redraws it.
       parked = true;
       controls.autoRotate = false;
       controls.addEventListener("change", redraw);
@@ -948,7 +799,6 @@ export function initNeuralNetwork(options = {}, root = null) {
   createNetworkVisualization();
 
   if (staticScene) {
-    // No render loop: one frame now, then only when the user moves the camera.
     controls.addEventListener("change", () => draw());
     draw();
   } else {

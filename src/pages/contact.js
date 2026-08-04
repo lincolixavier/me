@@ -1,11 +1,3 @@
-/**
- * Contact form: validation, loading state, delivery.
- *
- * Validation runs on blur and then live once a field has been corrected, so
- * nobody is told they are wrong while still typing the first character. The
- * form submits over fetch to stay on the page, and if anything fails the
- * mailto address printed under it is always a way through.
- */
 const form = document.querySelector("[data-contact]");
 
 if (form) {
@@ -60,7 +52,6 @@ if (form) {
     if (!input) continue;
 
     input.addEventListener("blur", () => validate(input));
-    // Re-check as they type, but only after they have already been told.
     input.addEventListener("input", () => {
       if (fieldOf(input).hasAttribute("data-invalid")) validate(input);
     });

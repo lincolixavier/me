@@ -1,7 +1,3 @@
-/**
- * Run: node --test scripts/test/
- * Each case here is a bug the previous parser shipped.
- */
 import test from "node:test";
 import assert from "node:assert/strict";
 import { parseMarkdown, excerpt } from "../lib/markdown.js";
@@ -46,7 +42,6 @@ test("ordered lists are supported", () => {
 
 test("an indented line under a list item stays in that item", () => {
   const html = parseMarkdown("1. **Livro A**\n   Uma descrição.\n2. **Livro B**\n   Outra descrição.");
-  // One list, not one per item.
   assert.equal(html.match(/<ol>/g).length, 1);
   assert.equal(html.match(/<li>/g).length, 2);
   assert.match(html, /<li><strong>Livro A<\/strong> Uma descrição\.<\/li>/);
