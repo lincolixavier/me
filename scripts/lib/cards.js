@@ -101,18 +101,39 @@ export function renderPodcastCard(episode) {
 </a>`;
 }
 
+/**
+ * Gear cards can carry more than one link, so the card is a container rather
+ * than one big anchor: nesting a second link inside the first would be invalid
+ * markup, and screen readers would announce the card as a single destination.
+ *
+ * Paid links are marked rel="sponsored", which is what search engines ask for
+ * and what keeps the rest of the site's links trustworthy.
+ */
 export function renderGearCard(item) {
-  const { name, description, url, image } = item;
+  const { name, description, url, image, affiliate, links = [] } = item;
+
   const imageEl = image
     ? `<div class="gear-image"><img src="${escape(image)}" alt="${escape(name)}" loading="lazy" decoding="async" /></div>`
     : "";
 
-  return `<a class="card card--gear"${attrs({
-    href: url || "#",
-    target: url ? "_blank" : false,
-    rel: url ? "noopener noreferrer" : false,
-  })}>${imageEl ? `\n  ${imageEl}` : ""}
-  <h3 class="card-title card-title--lg">${escape(name)}</h3>
+  const rel = ["noopener", "noreferrer", affiliate && "sponsored"].filter(Boolean).join(" ");
+
+  const title = url
+    ? `<a class="gear-link" href="${escape(url)}" target="_blank" rel="${rel}">${escape(name)}</a>`
+    : escape(name);
+
+  const extras = links.length
+    ? `<div class="gear-links">${links
+        .map(
+          (link) =>
+            `<a class="gear-chip" href="${escape(link.href)}" target="_blank" rel="noopener noreferrer">${escape(link.label)}</a>`
+        )
+        .join("")}</div>`
+    : "";
+
+  return `<div class="card card--gear">${imageEl ? `\n  ${imageEl}` : ""}
+  <h3 class="card-title card-title--lg">${title}</h3>
   ${description ? `<p class="card-description card-description--full">${escape(description)}</p>` : ""}
-</a>`;
+  ${extras}
+</div>`;
 }

@@ -636,6 +636,48 @@
   color: rgba(255, 255, 255, 0.45);
 }
 
+/* The gear card is a container, not a link, so the hover ring and the lift
+   belong to the card while the pointer stays a default cursor over the text. */
+.card--gear {
+  cursor: default;
+}
+
+.gear-link {
+  color: inherit;
+  transition: color var(--transition-base);
+}
+
+.gear-link:hover,
+.gear-link:focus-visible {
+  color: var(--color-accent);
+}
+
+.gear-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.875rem;
+}
+
+.gear-chip {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.62);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 5px 12px;
+  transition: color var(--transition-base), border-color var(--transition-base),
+    background var(--transition-base);
+}
+
+.gear-chip:hover,
+.gear-chip:focus-visible {
+  color: var(--color-text);
+  border-color: color-mix(in srgb, var(--color-accent) 50%, transparent);
+  background: rgba(255, 255, 255, 0.08);
+}
+
 .gear-image {
   margin-bottom: 0.75rem;
   border-radius: 6px;
