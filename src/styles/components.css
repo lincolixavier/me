@@ -1450,7 +1450,10 @@
 /* ----- Human badge ----- */
 .human-badge {
   display: inline-block;
-  margin-top: 0.875rem;
+  vertical-align: middle;
+  margin-left: 0.875rem;
+  position: relative;
+  top: -0.35em;
   font-size: 0.625rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;

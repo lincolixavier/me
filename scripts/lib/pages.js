@@ -15,7 +15,7 @@ import {
  * Grid of pre-rendered cards. Pagination is progressive enhancement: with JS
  * off every card is already in the DOM and visible.
  */
-function renderListing({ heading, subhead, cards, empty, pageSize }) {
+function renderListing({ heading, subhead, cards, empty, pageSize, badge = null }) {
   if (!cards.length) {
     return `<div class="cards-grid"><p class="listing-empty">${escape(empty)}</p></div>`;
   }
@@ -40,7 +40,7 @@ function renderListing({ heading, subhead, cards, empty, pageSize }) {
       : "";
 
   return `<header class="listing-header">
-  <h1 class="page-title">${escape(heading)}</h1>
+  <h1 class="page-title">${escape(heading)}${badge ? `<span class="human-badge">${escape(badge)}</span>` : ""}</h1>
   <p class="listing-subhead">${escape(subhead)}</p>
 </header>
 
@@ -152,6 +152,7 @@ ${renderListing({
   cards: articles.map(renderArticleCard),
   empty: config.empty,
   pageSize: site.pageSize,
+  badge: "100% human-written",
 })}
 </main>`;
 
@@ -240,7 +241,6 @@ export function buildArticle({ site, article, body, allArticles = [] }) {
   <article class="article-content">
     <header class="article-header">
       <h1 class="page-title" data-article-hero>${escape(article.title)}</h1>
-      <p class="human-badge">100% human-written</p>
       ${dateEl}
       ${tagsEl}
     </header>
