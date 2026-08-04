@@ -1093,42 +1093,6 @@
     font-size: clamp(34px, 11vw, 56px);
   }
 
-  /**
-   * No margin to ride in on a phone, and floated alongside the text it
-   * overlapped the prose. It becomes a row at the end of the article, where a
-   * reader who just finished can reach it.
-   */
-  .article-page {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .article-rail {
-    order: 2;
-    position: static;
-    float: none;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.625rem;
-    width: 100%;
-    margin: 2rem 0 0;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-  }
-
-  .rail-metric {
-    flex-direction: row;
-    align-items: baseline;
-    gap: 5px;
-  }
-
-  .rail-btn {
-    flex-direction: row;
-    width: auto;
-    gap: 6px;
-    padding: 8px 13px;
-  }
 }
 
 @media (max-width: 560px) {
@@ -1754,4 +1718,51 @@
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   font-size: 1.0625rem;
   color: rgba(255, 255, 255, 0.82);
+}
+
+/**
+ * Mobile overrides that have to come last.
+ *
+ * A media query does not raise specificity: a later rule of equal weight wins
+ * regardless of the query. Anything here is overriding a desktop rule defined
+ * further down the file, so it has to be defined further down still. Put new
+ * ones in this block rather than the one above.
+ */
+@media (max-width: 900px) {
+  /**
+   * No margin to ride in on a phone, and floated alongside the text it
+   * overlapped the prose. It becomes a row at the end of the article, where a
+   * reader who just finished can reach it.
+   */
+  .article-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .article-rail {
+    order: 2;
+    position: static;
+    float: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.625rem;
+    width: 100%;
+    margin: 2rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .rail-metric {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 5px;
+  }
+
+  .rail-btn {
+    flex-direction: row;
+    width: auto;
+    gap: 6px;
+    padding: 8px 13px;
+  }
 }
