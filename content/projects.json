@@ -33,6 +33,14 @@
       "status": "active"
     },
     {
+      "id": "upgas",
+      "name": "Upgas",
+      "description": "Compare gas prices nearby and get a bottle delivered.",
+      "url": "https://www.upgas.com.br/",
+      "tags": ["app", "web", "delivery"],
+      "status": "active"
+    },
+    {
       "id": "efficacy",
       "name": "Efficacy",
       "description": "Warehouse management for B2B operations.",
