@@ -809,8 +809,13 @@
     display: none;
   }
 
+  /* min-height came from the desktop rule that gives every pane a full
+     viewport. On a short page like life that forced a screen's worth of box
+     around a third of a screen of text and pushed the footer out of view,
+     producing scroll with nothing in it. .page already guarantees the fill. */
   .main-content {
     height: auto;
+    min-height: 0;
     grid-template-columns: 1fr;
     padding-top: 96px;
     padding-bottom: 56px;
@@ -1088,8 +1093,18 @@
     font-size: clamp(34px, 11vw, 56px);
   }
 
-  /* No margin to ride in on a phone, so the rail lies down above the text. */
+  /**
+   * No margin to ride in on a phone, and floated alongside the text it
+   * overlapped the prose. It becomes a row at the end of the article, where a
+   * reader who just finished can reach it.
+   */
+  .article-page {
+    display: flex;
+    flex-direction: column;
+  }
+
   .article-rail {
+    order: 2;
     position: static;
     float: none;
     flex-direction: row;
@@ -1097,8 +1112,9 @@
     justify-content: flex-start;
     gap: 0.625rem;
     width: 100%;
-    margin: 0 0 1.75rem;
-    padding-top: 0;
+    margin: 2rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .rail-metric {
@@ -1252,7 +1268,11 @@
 }
 
 /* ----- Article rail ----- */
+/* Sits just outside the text rather than out at the page edge: the column is
+   only as wide as its buttons, with a small gap before the prose. */
 .article-rail {
+  --rail-width: 46px;
+  --rail-gap: 20px;
   position: sticky;
   top: 0;
   float: left;
@@ -1260,8 +1280,8 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  width: var(--content-padding-left);
-  margin-left: calc(var(--content-padding-left) * -1);
+  width: var(--rail-width);
+  margin-left: calc((var(--rail-width) + var(--rail-gap)) * -1);
   padding-top: 4px;
 }
 
@@ -1396,6 +1416,94 @@
   font-size: 1.0625rem;
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.78);
+}
+
+/**
+ * Links inside prose. A static underline reads as flat, so the rule grows in
+ * from the left on hover. It animates transform on a pseudo-element rather
+ * than text-decoration, which keeps it off the layout path.
+ */
+.prose a,
+.article-body a {
+  position: relative;
+  color: var(--color-text);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  background-image: linear-gradient(
+    color-mix(in srgb, var(--color-accent) 45%, transparent),
+    color-mix(in srgb, var(--color-accent) 45%, transparent)
+  );
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  transition: color var(--transition-base), background-size 260ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.prose a:hover,
+.prose a:focus-visible,
+.article-body a:hover,
+.article-body a:focus-visible {
+  color: var(--color-accent);
+  background-size: 100% 2px;
+}
+
+/* ----- Human badge ----- */
+.human-badge {
+  display: inline-block;
+  margin-top: 0.875rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-medium);
+  color: rgba(255, 255, 255, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: help;
+}
+
+/* ----- Related articles ----- */
+.related {
+  margin-top: 3.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.related-heading {
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 0.875rem;
+}
+
+.related-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.related-list a {
+  display: inline-block;
+  font-size: 1.0625rem;
+  color: rgba(255, 255, 255, 0.82);
+  transition: color var(--transition-base), transform 200ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.related-list a:hover,
+.related-list a:focus-visible {
+  color: var(--color-accent);
+  transform: translateX(4px);
+}
+
+/* ----- Affiliate disclosure ----- */
+.disclosure {
+  margin-top: 2.5rem;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.35);
 }
 
 /* ----- Article footer ----- */

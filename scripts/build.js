@@ -196,7 +196,9 @@ async function build() {
     buildPodcasts({ site, podcasts: podcastsData.podcasts ?? [] }),
     buildGear({ site, categories: gearData.categories ?? [] }),
     build404({ site }),
-    ...articles.map((article) => buildArticle({ site, article, body: article.body })),
+    ...articles.map((article) =>
+      buildArticle({ site, article, body: article.body, allArticles: articles })
+    ),
   ];
 
   await Promise.all(pages.map((page) => writeFile(page.path, page.html)));

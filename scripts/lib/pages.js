@@ -169,7 +169,44 @@ ${renderListing({
   };
 }
 
-export function buildArticle({ site, article, body }) {
+/**
+ * Articles that share tags with this one, so a reader who finished has
+ * somewhere to go next. Ordered by how many tags they have in common, then by
+ * date, and capped at three so it stays a suggestion rather than a directory.
+ */
+function relatedTo(article, all) {
+  const tags = new Set(article.tags);
+  if (!tags.size) return [];
+
+  return all
+    .filter((other) => other.slug !== article.slug)
+    .map((other) => ({ other, shared: other.tags.filter((t) => tags.has(t)).length }))
+    .filter(({ shared }) => shared > 0)
+    .sort((a, b) => b.shared - a.shared || String(b.other.date).localeCompare(String(a.other.date)))
+    .slice(0, 3)
+    .map(({ other }) => other);
+}
+
+function renderRelated(articles) {
+  if (!articles.length) return "";
+
+  const items = articles
+    .map(
+      (a) =>
+        `<li><a href="/articles/${escape(a.slug)}/">${escape(a.title)}</a></li>`
+    )
+    .join("\n        ");
+
+  return `
+    <nav class="related" aria-labelledby="related-heading">
+      <h2 class="related-heading" id="related-heading">Keep reading</h2>
+      <ul class="related-list">
+        ${items}
+      </ul>
+    </nav>`;
+}
+
+export function buildArticle({ site, article, body, allArticles = [] }) {
   const dateEl = article.date
     ? `<time class="article-date" datetime="${escape(article.date)}">${escape(formatDate(article.date))}</time>`
     : "";
@@ -203,12 +240,14 @@ export function buildArticle({ site, article, body }) {
   <article class="article-content">
     <header class="article-header">
       <h1 class="page-title" data-article-hero>${escape(article.title)}</h1>
+      <p class="human-badge">100% human-written</p>
       ${dateEl}
       ${tagsEl}
     </header>
     <div class="prose article-body">
 ${body}
     </div>
+${renderRelated(relatedTo(article, allArticles))}
     <footer class="article-footer">
       <a class="back-link" href="/articles/">← all articles</a>
     </footer>
@@ -320,6 +359,7 @@ export function buildGear({ site, categories }) {
 
 <div class="gear-content">
 ${sections}
+<p class="disclosure">Some links on this page are affiliate links. Buying through them costs you nothing extra.</p>
 </div>
 </main>`;
 
