@@ -1,11 +1,19 @@
 {
   "projects": [
     {
-      "id": "bellagestao",
-      "name": "BellaGestão",
-      "description": "Platform for salon and beauty business management.",
-      "url": "https://www.bellagestao.com.br/",
-      "tags": ["saas", "beauty"],
+      "id": "arki",
+      "name": "Arki",
+      "description": "Fullstack SaaS starter kit — auth, payments, emails and dashboard already wired up.",
+      "url": "https://www.usearki.dev",
+      "tags": ["saas", "devtools"],
+      "status": "active"
+    },
+    {
+      "id": "talkbud",
+      "name": "TalkBud",
+      "description": "AI-powered language learning companion.",
+      "url": "https://talkbud.app",
+      "tags": ["ai", "education"],
       "status": "active"
     },
     {
@@ -14,6 +22,22 @@
       "description": "Community and tools for digital nomads on the road.",
       "url": "https://gonomadz.com",
       "tags": ["community", "travel"],
+      "status": "active"
+    },
+    {
+      "id": "hypealead",
+      "name": "Hype A Lead",
+      "description": "Lead generation for B2B teams.",
+      "url": "",
+      "tags": ["saas", "b2b"],
+      "status": "active"
+    },
+    {
+      "id": "efficacy",
+      "name": "Efficacy",
+      "description": "Warehouse management for B2B operations.",
+      "url": "",
+      "tags": ["wms", "b2b"],
       "status": "active"
     },
     {
@@ -33,20 +57,76 @@
       "status": "wip"
     },
     {
-      "id": "arki",
-      "name": "Arki",
-      "description": "Fullstack SaaS starter kit — auth, payments, emails and dashboard already wired up.",
-      "url": "https://www.usearki.dev",
-      "tags": ["saas", "devtools"],
-      "status": "active"
+      "id": "librium",
+      "name": "Librium",
+      "description": "A free reading app, in the making.",
+      "url": "",
+      "tags": ["app", "books", "free"],
+      "status": "wip"
     },
     {
-      "id": "talkbud",
-      "name": "TalkBud",
-      "description": "AI-powered language learning companion.",
-      "url": "https://talkbud.app",
-      "tags": ["ai", "education"],
-      "status": "active"
+      "id": "wynd",
+      "name": "Wynd…",
+      "description": "Not announced yet.",
+      "url": "",
+      "tags": ["saas", "b2b"],
+      "status": "wip"
+    },
+    {
+      "id": "ret",
+      "name": "Ret…",
+      "description": "Not announced yet.",
+      "url": "",
+      "tags": ["saas", "travel"],
+      "status": "stealth"
+    },
+    {
+      "id": "petb",
+      "name": "Petb…",
+      "description": "Not announced yet.",
+      "url": "",
+      "tags": ["app", "ios", "entertainment"],
+      "status": "stealth"
+    },
+    {
+      "id": "teamculture",
+      "name": "TeamCulture",
+      "description": "I was Head of Frontend here.",
+      "url": "",
+      "tags": ["saas", "b2b"],
+      "status": "past"
+    },
+    {
+      "id": "o-novo-mercado",
+      "name": "O Novo Mercado",
+      "description": "I was technical lead here.",
+      "url": "",
+      "tags": ["saas", "education"],
+      "status": "past"
+    },
+    {
+      "id": "bellagestao",
+      "name": "BellaGestão",
+      "description": "Platform for salon and beauty business management.",
+      "url": "",
+      "tags": ["saas", "beauty"],
+      "status": "failed"
+    },
+    {
+      "id": "pixelpdf",
+      "name": "PixelPDF",
+      "description": "PDF tools for everyday documents.",
+      "url": "",
+      "tags": ["web", "tools"],
+      "status": "failed"
+    },
+    {
+      "id": "fotoemdesenho",
+      "name": "FotoEmDesenho",
+      "description": "Turned photos into drawings.",
+      "url": "",
+      "tags": ["web", "photo"],
+      "status": "failed"
     }
   ]
 }

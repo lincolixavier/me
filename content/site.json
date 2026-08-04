@@ -87,7 +87,7 @@
     },
     "projects": {
       "title": "projects",
-      "subhead": "Things I've built, shipped, or contributed to.",
+      "subhead": "Things I've built, shipped, contributed to — and a few that did not make it.",
       "empty": "No projects yet. Check back soon."
     },
     "podcasts": {
@@ -104,14 +104,9 @@
   "pageSize": 6,
   "career": [
     {
-      "role": "Coming soon…",
-      "company": "",
-      "period": "2026"
-    },
-    {
-      "role": "Gap year",
-      "company": "",
-      "period": "2024 — 2025"
+      "role": "Founder & Lead Engineer",
+      "company": "Unlocd Solutions",
+      "period": "2024 — now"
     },
     {
       "role": "Technical Lead",
@@ -144,6 +139,5 @@
       "period": "2012 — 2015"
     }
   ],
-  "careerNote": "14+ years building web products, from frontend to architecture.",
   "email": "hi@lincoli.me"
 }
