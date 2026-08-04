@@ -74,6 +74,22 @@ async function exists(absPath) {
   }
 }
 
+/**
+ * The social preview for a name, or null if it was never generated.
+ *
+ * `bun run og` writes JPEG where it can compress and PNG where it cannot, so
+ * both are accepted rather than making the build depend on which machine drew
+ * them.
+ */
+async function ogImage(name) {
+  for (const ext of ["jpg", "png"]) {
+    if (await exists(path.join(ROOT, "assets", "og", `${name}.${ext}`))) {
+      return `/assets/og/${name}.${ext}`;
+    }
+  }
+  return null;
+}
+
 /** Parses every article, newest first. Missing descriptions fall back to an excerpt. */
 async function readArticles() {
   const dir = path.join(CONTENT, "articles");
@@ -96,15 +112,13 @@ async function readArticles() {
       if (!attributes.title) warnings.push(`${file.name} has no "title" in its front-matter.`);
       if (!attributes.date) warnings.push(`${file.name} has no "date" — it will sort last.`);
 
-      const ogFile = path.join(ROOT, "assets", "og", `${slug}.png`);
-
       return {
         slug,
         title: attributes.title ?? slug,
         date: attributes.date ?? null,
         description: attributes.description ?? excerpt(body),
         tags: Array.isArray(attributes.tags) ? attributes.tags : [],
-        ogImage: (await exists(ogFile)) ? `/assets/og/${slug}.png` : null,
+        ogImage: await ogImage(slug),
         body: parseMarkdown(body),
       };
     })
@@ -216,12 +230,10 @@ async function build() {
    * than advertising an image that would 404.
    */
   site.styleHash = null;
-  site.ogImage = (await exists(path.join(ROOT, "assets", "og", "default.png")))
-    ? "/assets/og/default.png"
-    : null;
+  site.ogImage = await ogImage("default");
 
   if (!site.ogImage) {
-    warnings.push("assets/og/default.png missing — run `bun run og`.");
+    warnings.push("assets/og/default.* missing — run `bun run og`.");
   }
 
   const styles = await readStyles();

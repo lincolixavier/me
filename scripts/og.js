@@ -11,6 +11,11 @@
  * Everything is laid out inside a centred band: chat apps crop these to a
  * square, and the previous image put its text against the left edge, where it
  * was simply cut off.
+ *
+ * Behind the text is the same neural network the site runs, drawn to a 2D
+ * canvas by scripts/lib/og-network.browser.js. Each article sees it from its
+ * own angle, derived from the slug, so the previews are recognisably one family
+ * without being the same picture forty-four times.
  */
 
 import fs from "node:fs/promises";
@@ -46,7 +51,21 @@ function titleSize(title) {
   return 44;
 }
 
-function template({ title, meta, kicker }) {
+/**
+ * The camera the network is seen from. Everything is derived from the slug, so
+ * an article keeps its angle across regenerations and no two neighbours in a
+ * feed look identical.
+ */
+function camera(seed) {
+  const n = Math.abs(hash(seed));
+  return {
+    yaw: ((n % 1000) / 1000) * Math.PI * 2,
+    pitch: -0.22 + (((n >> 10) % 1000) / 1000) * 0.62,
+    distance: 30 + (((n >> 20) % 1000) / 1000) * 8,
+  };
+}
+
+function template({ title, meta, kicker, seed, network }) {
   return `<!doctype html>
 <meta charset="utf-8" />
 <style>
@@ -78,13 +97,36 @@ function template({ title, meta, kicker }) {
     position: relative;
   }
 
+  /* The network, drawn once by the inlined script. */
+  #network {
+    position: absolute;
+    inset: 0;
+  }
+
   /* The same glow the site's canvas throws off to the right. */
   .glow {
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(60% 70% at 82% 28%, rgba(255, 45, 109, 0.30), transparent 70%),
-      radial-gradient(45% 55% at 12% 88%, rgba(255, 45, 109, 0.12), transparent 70%);
+      radial-gradient(60% 70% at 82% 28%, rgba(255, 45, 109, 0.22), transparent 70%),
+      radial-gradient(45% 55% at 12% 88%, rgba(255, 45, 109, 0.10), transparent 70%);
+  }
+
+  /*
+   * Text over a busy backdrop is the whole risk here. This sinks the middle of
+   * the frame back towards the page background so the title always has
+   * something flat to sit on, while the corners keep the full network.
+   */
+  .scrim {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      58% 62% at 50% 50%,
+      rgba(18, 18, 18, 0.94) 0%,
+      rgba(18, 18, 18, 0.78) 45%,
+      rgba(18, 18, 18, 0.20) 78%,
+      rgba(18, 18, 18, 0) 100%
+    );
   }
 
   /* Everything lives here: a centred band that survives a square crop. */
@@ -141,7 +183,9 @@ function template({ title, meta, kicker }) {
     color: rgba(255, 255, 255, 0.58);
   }
 </style>
+<canvas id="network" width="${WIDTH}" height="${HEIGHT}"></canvas>
 <div class="glow"></div>
+<div class="scrim"></div>
 <div class="band">
   <div class="mark">LX</div>
   ${kicker ? `<div class="kicker">${escape(kicker)}</div>` : ""}
@@ -149,6 +193,15 @@ function template({ title, meta, kicker }) {
   <div class="rule"></div>
   <div class="meta">${escape(meta)}</div>
 </div>
+<script>
+  window.__OG_NETWORK__ = ${JSON.stringify({
+    camera: camera(seed),
+    centre: [0.5, 0.46],
+    density: 1,
+    opacity: 0.95,
+  })};
+</script>
+<script>${network}</script>
 `;
 }
 
@@ -164,8 +217,8 @@ async function findChrome() {
   return null;
 }
 
-async function shoot(chrome, html, outFile) {
-  const tmp = path.join(os.tmpdir(), `og-${Math.abs(hash(outFile))}.html`);
+async function shoot(chrome, html, pngFile) {
+  const tmp = path.join(os.tmpdir(), `og-${Math.abs(hash(pngFile))}.html`);
   await fs.writeFile(tmp, html, "utf-8");
 
   await run(chrome, [
@@ -175,11 +228,42 @@ async function shoot(chrome, html, outFile) {
     "--hide-scrollbars",
     "--force-device-scale-factor=1",
     `--window-size=${WIDTH},${HEIGHT}`,
-    `--screenshot=${outFile}`,
+    `--screenshot=${pngFile}`,
     `file://${tmp}`,
   ]);
 
   await fs.rm(tmp, { force: true });
+}
+
+/**
+ * Chrome only screenshots to PNG, and a PNG of a soft gradient full of glowing
+ * points is around 580kB. The same frame as JPEG is under 80kB with no visible
+ * difference, which matters because these are committed: forty-four of them at
+ * PNG size is 23MB of repository for images nobody diffs.
+ *
+ * sips ships with macOS and ImageMagick is everywhere else. If neither is
+ * around the PNG simply stays, and the build links whichever it finds.
+ */
+async function compress(pngFile) {
+  const jpgFile = pngFile.replace(/\.png$/, ".jpg");
+
+  const converters = [
+    ["sips", ["-s", "format", "jpeg", "-s", "formatOptions", "82", pngFile, "--out", jpgFile]],
+    ["magick", [pngFile, "-quality", "82", jpgFile]],
+    ["convert", [pngFile, "-quality", "82", jpgFile]],
+  ];
+
+  for (const [bin, args] of converters) {
+    try {
+      await run(bin, args);
+      await fs.rm(pngFile, { force: true });
+      return jpgFile;
+    } catch {
+      /* not installed, or it refused the file — try the next one */
+    }
+  }
+
+  return pngFile;
 }
 
 /** Stable name for the temp file; Math.random is not available in builds. */
@@ -219,25 +303,46 @@ async function main() {
 
   await fs.mkdir(OUT, { recursive: true });
 
+  const network = await fs.readFile(path.join(ROOT, "scripts", "lib", "og-network.browser.js"), "utf-8");
+
   const jobs = [
     {
       file: "default.png",
-      html: template({ title: site.name, meta: site.tagline, kicker: null }),
+      html: template({
+        title: site.name,
+        meta: site.tagline,
+        kicker: null,
+        seed: "lincoli.me",
+        network,
+      }),
     },
     ...(await readArticles()).map((article) => ({
       file: `${article.slug}.png`,
-      html: template({ title: article.title, meta: host, kicker: "Article" }),
+      html: template({
+        title: article.title,
+        meta: host,
+        kicker: "Article",
+        seed: article.slug,
+        network,
+      }),
     })),
   ];
 
+  // `bun run og default` or `bun run og worker-pools` regenerates a subset,
+  // which is what you want while tuning the artwork.
+  const filter = process.argv[2];
+  const selected = filter ? jobs.filter((job) => job.file.includes(filter)) : jobs;
+
   // Chrome is launched per image; running them all at once would spawn a few
   // dozen browsers.
-  for (const job of jobs) {
-    await shoot(chrome, job.html, path.join(OUT, job.file));
+  for (const job of selected) {
+    const png = path.join(OUT, job.file);
+    await shoot(chrome, job.html, png);
+    await compress(png);
     process.stdout.write(".");
   }
 
-  console.log(`\nWrote ${jobs.length} images to assets/og/`);
+  console.log(`\nWrote ${selected.length} images to assets/og/`);
 }
 
 main().catch((err) => {

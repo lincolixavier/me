@@ -128,6 +128,7 @@ function renderMeta(site, { path, title, description, type = "website", publishe
     tags.push(
       "",
       `<meta property="og:image" content="${escape(image)}" />`,
+      `<meta property="og:image:type" content="${preview.endsWith(".png") ? "image/png" : "image/jpeg"}" />`,
       `<meta property="og:image:width" content="1200" />`,
       `<meta property="og:image:height" content="630" />`,
       `<meta name="twitter:image" content="${escape(image)}" />`
