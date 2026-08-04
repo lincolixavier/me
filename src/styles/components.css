@@ -1573,7 +1573,18 @@
   transform: none;
 }
 
-/* ----- Contact form ----- */
+/**
+ * ----- Forms -----
+ * Hollow fields on the page background with a wine border, the label riding
+ * up out of the field once it has content or focus. The colours come from the
+ * same gradient the rest of the site uses, so a form looks like it belongs to
+ * this page rather than to the browser.
+ */
+:root {
+  --wine: #aa003a;
+  --wine-soft: rgba(170, 0, 58, 0.45);
+}
+
 .contact-wrap {
   width: min(560px, 100%);
   padding-left: var(--content-padding-left);
@@ -1582,65 +1593,206 @@
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .field {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
-}
-
-.field-label {
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
 }
 
 .field-input {
+  width: 100%;
   font-family: var(--font-sans);
   font-size: 1rem;
   color: var(--color-text);
-  background: rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  padding: 11px 13px;
-  transition: border-color var(--transition-base);
+  background: transparent;
+  border: 1px solid var(--wine-soft);
+  border-radius: 10px;
+  padding: 20px 14px 10px;
+  transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+}
+
+.field-input:hover {
+  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
 }
 
 .field-input:focus {
   outline: none;
-  border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 16%, transparent);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .field-input--area {
   resize: vertical;
   line-height: 1.6;
+  min-height: 9rem;
 }
 
-.contact-btn {
+/* The label starts sitting in the field and lifts when there is something to
+   look at. :placeholder-shown is what makes it work without any JavaScript. */
+.field-label {
+  position: absolute;
+  left: 15px;
+  top: 15px;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.42);
+  pointer-events: none;
+  transform-origin: 0 0;
+  transition: transform 200ms cubic-bezier(0.32, 0.72, 0, 1), color 200ms ease;
+}
+
+.field-input:focus + .field-label,
+.field-input:not(:placeholder-shown) + .field-label {
+  transform: translateY(-9px) scale(0.72);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.field-input:focus + .field-label {
+  color: var(--color-accent);
+}
+
+.field-hint {
+  align-self: flex-end;
+  margin-top: 0.375rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Errors slide out of the field rather than appearing and shoving the layout. */
+.field-error {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  font-size: 0.8125rem;
+  color: #ff6b8a;
+  transition: max-height 220ms ease, opacity 200ms ease, margin-top 220ms ease;
+}
+
+.field[data-invalid] .field-error {
+  max-height: 3rem;
+  opacity: 1;
+  margin-top: 0.5rem;
+}
+
+.field[data-invalid] .field-input {
+  border-color: #ff6b8a;
+  animation: field-shake 320ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.field[data-valid] .field-input {
+  border-color: rgba(111, 220, 154, 0.55);
+}
+
+@keyframes field-shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+
+/* ----- Buttons ----- */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   align-self: flex-start;
+  min-width: 11rem;
   font-family: var(--font-sans);
   font-size: 0.9375rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-bg);
-  background: var(--gradient-accent);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.02em;
   border: 0;
-  border-radius: 8px;
-  padding: 11px 24px;
+  border-radius: 10px;
+  padding: 13px 26px;
   cursor: pointer;
-  transition: opacity var(--transition-base);
+  overflow: hidden;
+  transition: transform 160ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 220ms ease;
 }
 
-.contact-btn:disabled {
-  opacity: 0.55;
+.btn--primary {
+  color: #fff;
+  background: var(--wine);
+}
+
+/* A lighter sweep rises from the bottom on hover instead of a flat colour
+   change, which reads as a surface rather than a state toggle. */
+.btn--primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-accent);
+  transform: translateY(101%);
+  transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.btn--primary:hover::before,
+.btn--primary:focus-visible::before {
+  transform: translateY(0);
+}
+
+.btn--primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -12px var(--wine);
+}
+
+.btn--primary:active:not(:disabled) {
+  transform: translateY(0);
+  transition-duration: 60ms;
+}
+
+.btn-label,
+.btn-spinner {
+  position: relative;
+  z-index: 1;
+}
+
+.btn:disabled {
   cursor: progress;
+  opacity: 0.8;
 }
 
+.btn-spinner {
+  display: none;
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+.btn[data-loading] .btn-spinner {
+  display: block;
+}
+
+.btn[data-loading] {
+  pointer-events: none;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ----- Status ----- */
 .contact-status {
   font-size: 0.875rem;
   min-height: 1.25rem;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 240ms ease, transform 240ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.contact-status[data-state] {
+  opacity: 1;
+  transform: none;
 }
 
 .contact-status[data-state="ok"] {
@@ -1648,7 +1800,7 @@
 }
 
 .contact-status[data-state="error"] {
-  color: var(--color-accent);
+  color: #ff6b8a;
 }
 
 .contact-status[data-state="pending"] {
@@ -1656,7 +1808,7 @@
 }
 
 .contact-fallback {
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
   font-size: 0.875rem;
   color: rgba(255, 255, 255, 0.45);
 }

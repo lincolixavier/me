@@ -441,27 +441,33 @@ export function buildContact({ site }) {
 
 <div class="contact-wrap">
   <form class="contact-form" data-contact novalidate>
-    <label class="field">
-      <span class="field-label">Name</span>
-      <input class="field-input" type="text" name="name" required maxlength="80" autocomplete="name" />
-    </label>
-
-    <label class="field">
-      <span class="field-label">Email</span>
-      <input class="field-input" type="email" name="email" required maxlength="160" autocomplete="email" />
-    </label>
-
-    <label class="field">
-      <span class="field-label">Message</span>
-      <textarea class="field-input field-input--area" name="message" required maxlength="4000" rows="6"></textarea>
-    </label>
-
-    <!-- Left empty by people, filled by bots. -->
-    <div class="visually-hidden" aria-hidden="true">
-      <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+    <div class="field" data-field="name">
+      <input class="field-input" id="f-name" type="text" name="name" required maxlength="80"
+             autocomplete="name" placeholder=" " />
+      <label class="field-label" for="f-name">Name</label>
+      <p class="field-error" data-error></p>
     </div>
 
-    <button class="contact-btn" type="submit" data-submit>Send message</button>
+    <div class="field" data-field="email">
+      <input class="field-input" id="f-email" type="email" name="email" required maxlength="160"
+             autocomplete="email" placeholder=" " />
+      <label class="field-label" for="f-email">Email</label>
+      <p class="field-error" data-error></p>
+    </div>
+
+    <div class="field" data-field="message">
+      <textarea class="field-input field-input--area" id="f-message" name="message" required
+                maxlength="4000" rows="6" placeholder=" "></textarea>
+      <label class="field-label" for="f-message">Message</label>
+      <p class="field-hint"><span data-count>0</span>/4000</p>
+      <p class="field-error" data-error></p>
+    </div>
+
+    <button class="btn btn--primary" type="submit" data-submit>
+      <span class="btn-label" data-btn-label>Send message</span>
+      <span class="btn-spinner" aria-hidden="true"></span>
+    </button>
+
     <p class="contact-status" role="status" data-status></p>
   </form>
 

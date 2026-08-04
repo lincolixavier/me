@@ -13,7 +13,7 @@
 import { redis, isConfigured, json } from "./_redis.js";
 
 const TO = "hi@lincoli.me";
-const FROM = "Lincoli.me <onboarding@resend.dev>";
+const FROM = "Lincoli.me <hi@updates.lincoli.me>";
 
 const LIMITS = { name: 80, email: 160, message: 4000 };
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -54,9 +54,6 @@ export default async function handler(req, res) {
   const name = clean(body.name, LIMITS.name);
   const email = clean(body.email, LIMITS.email);
   const message = clean(body.message, LIMITS.message);
-
-  // A hidden field real people never fill in.
-  if (clean(body.company, 80)) return json(res, 200, { ok: true });
 
   if (!name || !message || !EMAIL.test(email)) {
     return json(res, 400, { error: "name, a valid email and a message are required" });
