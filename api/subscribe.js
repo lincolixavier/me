@@ -1,17 +1,23 @@
 /**
- * POST /api/subscribe → { ok: true, already?: true }
+ * POST /api/subscribe → { ok: true }
  *
- * Adds an address to the Resend audience. Same shape as the contact endpoint:
- * a Vercel function talking to Resend over plain fetch, rate limited with the
- * Upstash Redis the counters already use, so nothing new is added to the
- * project to make this work.
+ * Step one of a double opt-in. Nothing is added to the audience here: the
+ * address gets a single-use token stored in Redis and a confirmation email,
+ * and only clicking that link puts them on the list.
+ *
+ * That matters beyond good manners. Without it anyone can subscribe someone
+ * else's address, which is both a way to harass people and a fast route to a
+ * spam complaint against the sending domain.
  */
-import { json, withinRateLimit, clientIp } from "./_redis.js";
-
-/** Not a secret — the API key is. Kept here so the list lives with its code. */
-const AUDIENCE_ID = "58b6a2f9-97e2-4923-866b-ea5ac5835036";
+import { redis, isConfigured, json, withinRateLimit, clientIp } from "./_redis.js";
+import { sendEmail, siteUrl } from "./_email.js";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/** Long enough that the link cannot be guessed, short enough to be tidy. */
+const TOKEN_BYTES = 24;
+const TOKEN_TTL_SECONDS = 60 * 60 * 48;
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -22,8 +28,12 @@ export default async function handler(req, res) {
     return json(res, 503, { error: "subscriptions are not configured" });
   }
 
+  if (!isConfigured()) {
+    return json(res, 503, { error: "subscriptions are not configured" });
+  }
+
   const body = typeof req.body === "string" ? safeParse(req.body) : req.body || {};
-  const email = typeof body.email === "string" ? body.email.trim().slice(0, 160) : "";
+  const email = typeof body.email === "string" ? body.email.trim().toLowerCase().slice(0, 160) : "";
 
   if (!EMAIL.test(email)) {
     return json(res, 400, { error: "that address does not look right" });
@@ -34,35 +44,36 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch(
-      `https://api.resend.com/audiences/${AUDIENCE_ID}/contacts`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, unsubscribed: false }),
-      }
-    );
+    const token = crypto.randomUUID().replace(/-/g, "") + randomHex(TOKEN_BYTES);
+    await redis.set(`confirm:${token}`, email, TOKEN_TTL_SECONDS);
 
-    const result = await response.json().catch(() => ({}));
+    const link = `${siteUrl()}/api/confirm?token=${token}`;
 
-    if (response.ok) return json(res, 200, { ok: true });
+    await sendEmail({
+      to: email,
+      subject: "Confirm your subscription",
+      text: [
+        "Someone asked to receive new posts from lincoli.me at this address.",
+        "",
+        "If that was you, confirm here:",
+        link,
+        "",
+        "If it was not, ignore this email. Nothing was added to any list, and",
+        "this link expires in 48 hours.",
+      ].join("\n"),
+    });
 
-    // Someone subscribing twice has done nothing wrong, so it is not an error
-    // to them even though the API rejects the duplicate.
-    const message = String(result?.message || result?.name || "");
-    if (response.status === 409 || /already|exists/i.test(message)) {
-      return json(res, 200, { ok: true, already: true });
-    }
-
-    console.error("[subscribe] resend", response.status, message);
-    return json(res, 502, { error: "could not subscribe you right now" });
+    return json(res, 200, { ok: true });
   } catch (err) {
     console.error("[subscribe]", err);
-    return json(res, 502, { error: "could not subscribe you right now" });
+    return json(res, 502, { error: "could not send the confirmation email" });
   }
+}
+
+function randomHex(bytes) {
+  return [...crypto.getRandomValues(new Uint8Array(bytes))]
+    .map((n) => n.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 function safeParse(value) {

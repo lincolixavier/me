@@ -29,6 +29,7 @@ import {
   buildPodcasts,
   buildGear,
   buildContact,
+  buildSubscribed,
   build404,
 } from "./lib/pages.js";
 
@@ -250,6 +251,7 @@ async function build() {
     buildPodcasts({ site, podcasts: podcastsData.podcasts ?? [] }),
     buildGear({ site, categories: gearData.categories ?? [] }),
     buildContact({ site }),
+    buildSubscribed({ site }),
     build404({ site }),
     ...articles.map((article) =>
       buildArticle({ site, article, body: article.body, allArticles: articles })

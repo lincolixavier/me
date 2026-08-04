@@ -537,6 +537,36 @@ export function buildContact({ site }) {
   };
 }
 
+/**
+ * Where the confirmation link lands. The outcome arrives as ?s= rather than
+ * being baked into separate pages, so one static page covers every case and
+ * the script only picks which sentence to show.
+ */
+export function buildSubscribed({ site }) {
+  const main = `<main class="main-content page-section">
+  <section class="about-content">
+    <h1 class="page-title">newsletter</h1>
+    <div class="prose">
+      <p data-subscribed-message>Checking that link…</p>
+      <p><a href="/articles/">Back to the articles</a></p>
+    </div>
+  </section>
+</main>`;
+
+  return {
+    path: "subscribed/index.html",
+    html: renderPage({
+      site,
+      path: "/subscribed/",
+      title: `Newsletter · ${site.name}`,
+      description: "Subscription confirmation.",
+      main,
+      active: "",
+      scripts: ["/src/pages/subscribed.js"],
+    }),
+  };
+}
+
 export function build404({ site }) {
   const main = `<main class="main-content page-section">
   <section class="about-content">

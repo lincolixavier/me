@@ -43,6 +43,9 @@ export const redis = {
   incr: (key) => command("INCR", key),
   decr: (key) => command("DECR", key),
   expire: (key, seconds) => command("EXPIRE", key, String(seconds)),
+  del: (key) => command("DEL", key),
+  /** SET with an expiry in one round trip, so a token can never outlive it. */
+  set: (key, value, seconds) => command("SET", key, value, "EX", String(seconds)),
   /** Reads several keys at once; missing keys come back as null. */
   mget: (...keys) => command("MGET", ...keys),
 };

@@ -52,7 +52,7 @@ if (form) {
 
       if (response.ok) {
         form.hidden = true;
-        say(body.already ? "You are already on the list." : "Done. Talk soon.", "ok");
+        say("Check your inbox to confirm. The link lasts 48 hours.", "ok");
       } else {
         say(body.error || "Could not subscribe you right now.", "error");
       }

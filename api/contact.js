@@ -11,9 +11,9 @@
  * messages it has no way to deliver.
  */
 import { json, withinRateLimit, clientIp } from "./_redis.js";
+import { sendEmail } from "./_email.js";
 
 const TO = "hi@lincoli.me";
-const FROM = "Lincoli.me <hi@updates.lincoli.me>";
 
 const LIMITS = { name: 80, email: 160, message: 4000 };
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -46,26 +46,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: FROM,
-        to: [TO],
-        // So hitting reply in the inbox answers the sender, not the robot.
-        reply_to: email,
-        subject: `Site contact — ${name}`,
-        text: `From: ${name} <${email}>\n\n${message}`,
-      }),
+    await sendEmail({
+      to: TO,
+      subject: `Site contact — ${name}`,
+      text: `From: ${name} <${email}>\n\n${message}`,
+      // So hitting reply in the inbox answers the sender, not the robot.
+      replyTo: email,
     });
-
-    if (!response.ok) {
-      console.error("[contact] resend", response.status, await response.text());
-      return json(res, 502, { error: "could not send the message" });
-    }
 
     return json(res, 200, { ok: true });
   } catch (err) {
