@@ -174,8 +174,15 @@ ${lifeHtml.trimEnd()}
  * Tag filter. Rendered as links to /articles/?tag=x so each filter is a real
  * URL that can be shared and that works without JavaScript reaching the page;
  * the script then filters the cards already in the DOM instead of navigating.
- * Tags are ordered by how many articles carry them.
+ *
+ * Only the busiest handful get a chip. There are 50-odd distinct tags across
+ * the archive and most of them sit on a single article, so showing all of them
+ * filled the screen with a wall of ones and stopped being navigation. Any tag
+ * still filters if it arrives in the URL — the chips are a shortcut to the
+ * ones worth browsing, not the whole index.
  */
+const MAX_TAG_CHIPS = 6;
+
 function renderTagFilter(articles) {
   const counts = new Map();
   for (const article of articles) {
@@ -186,6 +193,7 @@ function renderTagFilter(articles) {
 
   const tags = [...counts.entries()]
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, MAX_TAG_CHIPS)
     .map(
       ([tag, count]) =>
         `<a class="tag-chip" href="/articles/?tag=${encodeURIComponent(tag)}" data-tag="${escape(tag)}">

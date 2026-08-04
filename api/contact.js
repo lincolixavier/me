@@ -11,12 +11,20 @@
  * messages it has no way to deliver.
  */
 import { json, withinRateLimit, clientIp } from "./_redis.js";
-import { sendEmail } from "./_email.js";
+import { sendEmail, emailShell } from "./_email.js";
 
 const TO = "hi@lincoli.me";
 
 const LIMITS = { name: 80, email: 160, message: 4000 };
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
 
 function clean(value, max) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
@@ -50,6 +58,12 @@ export default async function handler(req, res) {
       to: TO,
       subject: `Site contact — ${name}`,
       text: `From: ${name} <${email}>\n\n${message}`,
+      html: emailShell({
+        heading: `${name} sent a message`,
+        // The reader's own words, escaped and with line breaks kept.
+        body: escapeHtml(message).replace(/\n/g, "<br />"),
+        footnote: `Reply to this email to answer ${escapeHtml(name)} at ${escapeHtml(email)}.`,
+      }),
       // So hitting reply in the inbox answers the sender, not the robot.
       replyTo: email,
     });

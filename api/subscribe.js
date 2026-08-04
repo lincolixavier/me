@@ -10,7 +10,7 @@
  * spam complaint against the sending domain.
  */
 import { redis, isConfigured, json, withinRateLimit, clientIp } from "./_redis.js";
-import { sendEmail, siteUrl } from "./_email.js";
+import { sendEmail, siteUrl, emailShell } from "./_email.js";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -49,18 +49,29 @@ export default async function handler(req, res) {
 
     const link = `${siteUrl()}/api/confirm?token=${token}`;
 
+    const footnote =
+      "If that was not you, ignore this email. Nothing has been added to any " +
+      "list, and the link expires in 48 hours.";
+
     await sendEmail({
       to: email,
       subject: "Confirm your subscription",
+      // Plain text is not a formality: some clients show it, and anyone
+      // blocking HTML mail still needs a working link.
       text: [
         "Someone asked to receive new posts from lincoli.me at this address.",
         "",
         "If that was you, confirm here:",
         link,
         "",
-        "If it was not, ignore this email. Nothing was added to any list, and",
-        "this link expires in 48 hours.",
+        footnote,
       ].join("\n"),
+      html: emailShell({
+        heading: "Confirm your subscription",
+        body: "Someone asked to receive new posts from lincoli.me at this address. One click and it is done.",
+        action: { href: link, label: "Confirm subscription" },
+        footnote,
+      }),
     });
 
     return json(res, 200, { ok: true });
