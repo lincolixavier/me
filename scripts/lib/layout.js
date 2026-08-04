@@ -31,6 +31,31 @@ const IMPORT_MAP = {
 export const IMPORT_MAP_JSON = JSON.stringify(IMPORT_MAP);
 
 /**
+ * Himetrica, the analytics tracker. Three separate files, all deferred so none
+ * of them competes with the page for the main thread, and all reading the same
+ * public key from their own data attribute.
+ *
+ * The host is exported because the Content Security Policy has to name it
+ * twice: once so the scripts are allowed to load, and once so they are allowed
+ * to report back. Without the second one the tracker loads and then silently
+ * fails to send anything, which is the worst of the two failure modes.
+ */
+export const ANALYTICS_HOST = "https://cdn.himetrica.com";
+
+const ANALYTICS_SCRIPTS = ["tracker.js", "vitals.js", "errors.js"];
+
+/** Nothing is emitted when content/site.json has no key, so a fork stays clean. */
+function renderAnalytics(site) {
+  const key = site.analytics?.himetricaKey;
+  if (!key) return "";
+
+  return ANALYTICS_SCRIPTS.map(
+    (file) =>
+      `\n  <script defer src="${ANALYTICS_HOST}/${file}" data-api-key="${escape(key)}"></script>`
+  ).join("");
+}
+
+/**
  * Canvas tuning per page type. The home hero pulls the camera back; every other
  * page uses the closer framing of the about view, with bloom and full density,
  * so the network looks alive everywhere instead of only on about.
@@ -206,7 +231,7 @@ export function renderPage({
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-700.woff2" crossorigin />
   <link rel="stylesheet" href="/src/styles/main.css${site.styleHash ? `?v=${site.styleHash}` : ""}" />
   <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} · articles" href="/feed.xml" />${structuredData}
-  <script>${SPLASH_SCRIPT}</script>
+  <script>${SPLASH_SCRIPT}</script>${renderAnalytics(site)}
 </head>
 <body>
   <div class="splash" data-splash aria-hidden="true">

@@ -139,5 +139,9 @@
       "period": "2012-2015"
     }
   ],
-  "email": "hi@lincoli.me"
+  "email": "hi@lincoli.me",
+  "_analyticsComment": "Himetrica runs entirely in the browser. The key is a public, client-side one and is meant to be visible in the HTML. Remove the key to remove the scripts.",
+  "analytics": {
+    "himetricaKey": "hm_5a05ff35165d80fe418a44efa57335af00c7f813188cdeeb"
+  }
 }

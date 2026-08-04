@@ -19,7 +19,7 @@ import { fileURLToPath } from "node:url";
 import { parseFrontMatter } from "./lib/front-matter.js";
 import { parseMarkdown, excerpt } from "./lib/markdown.js";
 import { copyDir, renderRobots, renderSitemap, renderFeed } from "./lib/assets.js";
-import { SPLASH_SCRIPT, IMPORT_MAP_JSON } from "./lib/layout.js";
+import { SPLASH_SCRIPT, IMPORT_MAP_JSON, ANALYTICS_HOST } from "./lib/layout.js";
 import {
   buildHome,
   buildLife,
@@ -203,13 +203,16 @@ function contentSecurityPolicy() {
     .map((source) => `'sha256-${crypto.createHash("sha256").update(source).digest("base64")}'`)
     .join(" ");
 
+  // The analytics scripts load from one host and report to that origin's API.
+  // Both need naming: a policy that allows the load but not the beacon gives
+  // you a tracker that runs and quietly measures nothing.
   return [
     "default-src 'self'",
-    `script-src 'self' https://cdn.jsdelivr.net ${hashes}`,
+    `script-src 'self' https://cdn.jsdelivr.net ${ANALYTICS_HOST} ${hashes}`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data:",
     "font-src 'self'",
-    "connect-src 'self'",
+    "connect-src 'self' https://*.himetrica.com",
     "form-action 'self'",
     "base-uri 'self'",
     "object-src 'none'",
