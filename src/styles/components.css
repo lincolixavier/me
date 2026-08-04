@@ -327,8 +327,16 @@
   overflow-y: auto;
   padding-top: 120px;
   padding-bottom: 150px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  /* The scrolling column is 720px wide, so its scrollbar lands in the middle
+     of the screen rather than at the edge, which reads as a stray line down
+     the page. The fades already say there is more, so the bar is hidden. */
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+
+.page.view-about .about-content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 /* The fades are rendered on the home page for the about view alone: while the
