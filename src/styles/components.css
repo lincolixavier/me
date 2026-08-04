@@ -1758,21 +1758,27 @@
 
 /* ----- Modal ----- */
 .modal {
+  position: fixed;
+  inset: 0;
+  margin: auto;
   border: 0;
   padding: 0;
-  max-width: min(560px, calc(100vw - 32px));
-  width: 100%;
+  width: min(560px, calc(100vw - 32px));
+  height: fit-content;
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
   background: transparent;
   color: var(--color-text);
-  overflow: visible;
+}
+
+.modal::-webkit-scrollbar {
+  width: 0;
 }
 
 .modal:target {
   display: block;
-  position: fixed;
-  inset: 0;
-  margin: auto;
-  height: fit-content;
   z-index: 100;
 }
 
@@ -1782,8 +1788,9 @@
 }
 
 .modal::backdrop {
-  background: rgba(8, 6, 8, 0.72);
-  backdrop-filter: blur(6px);
+  background: rgba(10, 9, 10, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .modal[open] {
@@ -1812,12 +1819,8 @@
   padding: 40px 38px 34px;
   border-radius: 18px;
   border: 1px solid rgba(255, 45, 109, 0.28);
-  background:
-    radial-gradient(120% 90% at 88% -10%, rgba(255, 45, 109, 0.16), transparent 62%),
-    rgba(20, 18, 20, 0.94);
-  box-shadow:
-    0 40px 80px -20px rgba(0, 0, 0, 0.75),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  background: var(--color-bg);
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.75);
 }
 
 .modal-close {
