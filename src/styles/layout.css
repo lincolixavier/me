@@ -7,10 +7,14 @@
   flex-direction: column;
 }
 
+/* .page is click-through so the canvas underneath gets the pulse. Anything
+   meant to be clicked has to opt back in, the top layer included: a dialog
+   still inherits pointer-events from its parent in the DOM. */
 .page .nav,
 .page .hero-content,
 .page .main-content,
-.page .footer {
+.page .footer,
+.page .modal {
   pointer-events: auto;
 }
 

@@ -58,17 +58,50 @@ for (const dialog of document.querySelectorAll("dialog.modal")) {
   }
 }
 
+// writeText needs a focused document and a permission that can be refused, and
+// where it is refused it sometimes hangs rather than rejecting. The deadline
+// keeps the button honest, and execCommand covers what is left. The scratch
+// field goes inside the dialog: a modal traps focus, so selecting a node
+// outside it would silently do nothing.
+async function copyText(text, host) {
+  const deadline = new Promise((_, reject) => setTimeout(reject, 400));
+
+  try {
+    await Promise.race([navigator.clipboard.writeText(text), deadline]);
+    return true;
+  } catch {
+    /* fall through to the old way */
+  }
+
+  const field = document.createElement("textarea");
+  field.value = text;
+  field.readOnly = true;
+  field.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none";
+  host.append(field);
+  field.select();
+
+  try {
+    return document.execCommand("copy");
+  } catch {
+    return false;
+  } finally {
+    field.remove();
+  }
+}
+
 for (const button of document.querySelectorAll("[data-copy]")) {
+  const original = button.textContent;
+  let reset = null;
+
   button.addEventListener("click", async () => {
-    const original = button.textContent;
-    try {
-      await navigator.clipboard.writeText(button.dataset.copy);
-      button.textContent = "copied";
-      button.classList.add("is-done");
-    } catch {
-      button.textContent = "select it";
-    }
-    setTimeout(() => {
+    const host = button.closest("dialog") ?? document.body;
+    const copied = await copyText(button.dataset.copy, host);
+
+    button.textContent = copied ? "copied" : "press ⌘C";
+    button.classList.toggle("is-done", copied);
+
+    clearTimeout(reset);
+    reset = setTimeout(() => {
       button.textContent = original;
       button.classList.remove("is-done");
     }, 1800);
