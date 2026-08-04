@@ -230,7 +230,13 @@ export function renderPage({
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-400.woff2" crossorigin />
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-700.woff2" crossorigin />
   <link rel="stylesheet" href="/src/styles/main.css${site.styleHash ? `?v=${site.styleHash}` : ""}" />
-  <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} · articles" href="/feed.xml" />${structuredData}
+  <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} · articles" href="/feed.xml" />${
+    // An agent that landed on the HTML can follow this to the source instead of
+    // stripping a nav, a footer and a WebGL canvas back out of the page.
+    type === "article"
+      ? `\n  <link rel="alternate" type="text/markdown" href="${escape(path.replace(/\/$/, ""))}.md" />`
+      : ""
+  }${structuredData}
   <script>${SPLASH_SCRIPT}</script>${renderAnalytics(site)}
 </head>
 <body>

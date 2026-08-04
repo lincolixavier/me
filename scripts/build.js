@@ -19,6 +19,12 @@ import { fileURLToPath } from "node:url";
 import { parseFrontMatter } from "./lib/front-matter.js";
 import { parseMarkdown, excerpt } from "./lib/markdown.js";
 import { copyDir, renderRobots, renderSitemap, renderFeed } from "./lib/assets.js";
+import {
+  renderArticleMarkdown,
+  renderLlmsTxt,
+  renderLlmsFullTxt,
+  renderContentIndex,
+} from "./lib/machine-readable.js";
 import { SPLASH_SCRIPT, IMPORT_MAP_JSON, ANALYTICS_HOST } from "./lib/layout.js";
 import {
   buildHome,
@@ -120,6 +126,10 @@ async function readArticles() {
         tags: Array.isArray(attributes.tags) ? attributes.tags : [],
         ogImage: await ogImage(slug),
         body: parseMarkdown(body),
+        // Kept alongside the HTML for the machine-readable output: the plain
+        // text endpoints, llms.txt and the MCP server all want the source,
+        // not a page they would have to strip a nav and a canvas out of.
+        markdown: body.trim(),
       };
     })
   );
@@ -301,6 +311,29 @@ async function build() {
         priority: "0.7",
       })),
     ])
+  );
+
+  /**
+   * The machine-readable half of the build. Same articles, no HTML: one
+   * Markdown file each, an llms.txt index, the whole site in one file, and the
+   * JSON the MCP server reads at runtime.
+   */
+  const projects = projectsData.projects ?? [];
+  await Promise.all(
+    articles.map((article) =>
+      writeFile(`articles/${article.slug}.md`, renderArticleMarkdown(site, article))
+    )
+  );
+  await writeFile("llms.txt", renderLlmsTxt(site, { articles, projects }));
+  await writeFile("llms-full.txt", renderLlmsFullTxt(site, articles));
+  await writeFile(
+    "content-index.json",
+    renderContentIndex(site, {
+      articles,
+      projects,
+      gear: gearData.categories ?? [],
+      podcasts: podcastsData.podcasts ?? [],
+    })
   );
 
   const elapsed = Date.now() - started;
