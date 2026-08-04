@@ -43,6 +43,20 @@ export default async function handler(req, res) {
     return json(res, 429, { error: "too many attempts, try again later" });
   }
 
+  /**
+   * Limiting by address as well as by IP, because the two protect different
+   * people. The IP limit stops one machine flooding the endpoint; this stops
+   * someone using it to mail a person they do not like, which rotating IPs
+   * would otherwise make easy. Two confirmations a day is more than anyone
+   * needs and useless as a way to bother somebody.
+   *
+   * It answers success either way: telling a stranger that an address has
+   * already been asked to subscribe would leak whether it is on the list.
+   */
+  if (!(await withinRateLimit("subscribe-to", email, 2, 60 * 60 * 24))) {
+    return json(res, 200, { ok: true });
+  }
+
   try {
     const token = crypto.randomUUID().replace(/-/g, "") + randomHex(TOKEN_BYTES);
     await redis.set(`confirm:${token}`, email, TOKEN_TTL_SECONDS);
