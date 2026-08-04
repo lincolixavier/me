@@ -1266,21 +1266,39 @@
 }
 
 /* ----- Article rail ----- */
-/* Sits just outside the text rather than out at the page edge: the column is
-   only as wide as its buttons, with a small gap before the prose. */
-.article-rail {
+/**
+ * The rail sits in the indent that --content-padding-left already creates, so
+ * it lands beside the prose with a small gap and the text stays exactly where
+ * it was. Laid out with flex rather than a float pulled left by a negative
+ * margin, which put it against the window edge instead.
+ */
+.article-page {
   --rail-width: 46px;
-  --rail-gap: 20px;
+  --rail-gap: 24px;
+  display: flex;
+  align-items: flex-start;
+  padding-left: calc(
+    var(--content-padding-x) + var(--content-padding-left) - var(--rail-width) - var(--rail-gap)
+  );
+}
+
+.article-rail {
   position: sticky;
   top: 0;
-  float: left;
+  flex: 0 0 var(--rail-width);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  width: var(--rail-width);
-  margin-left: calc((var(--rail-width) + var(--rail-gap)) * -1);
+  margin-right: var(--rail-gap);
   padding-top: 4px;
+}
+
+/* The indent now belongs to the page, and the column keeps the width the
+   prose already had. */
+.article-page .article-content {
+  flex: 0 1 600px;
+  padding-left: 0;
 }
 
 .rail-metric {
