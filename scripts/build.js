@@ -26,6 +26,7 @@ import {
   buildProjects,
   buildPodcasts,
   buildGear,
+  buildContact,
   build404,
 } from "./lib/pages.js";
 
@@ -195,6 +196,7 @@ async function build() {
     buildProjects({ site, projects: projectsData.projects ?? [] }),
     buildPodcasts({ site, podcasts: podcastsData.podcasts ?? [] }),
     buildGear({ site, categories: gearData.categories ?? [] }),
+    buildContact({ site }),
     build404({ site }),
     ...articles.map((article) =>
       buildArticle({ site, article, body: article.body, allArticles: articles })
@@ -222,6 +224,7 @@ async function build() {
       { path: "/podcasts/", priority: "0.6" },
       { path: "/gear/", priority: "0.5" },
       { path: "/life/", priority: "0.5" },
+      { path: "/contact/", priority: "0.7" },
       ...articles.map((a) => ({
         path: `/articles/${a.slug}/`,
         lastmod: a.date ?? undefined,

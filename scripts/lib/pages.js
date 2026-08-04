@@ -65,6 +65,29 @@ function personJsonLd(site) {
 
 // ------------------------------------------------------------------
 
+function renderCareer(site) {
+  if (!site.career?.length) return "";
+
+  const rows = site.career
+    .map(
+      (job) => `<li class="career-row">
+          <span class="career-period">${escape(job.period)}</span>
+          <span class="career-role">${escape(job.role)}</span>
+          <span class="career-company">${escape(job.company)}</span>
+        </li>`
+    )
+    .join("\n        ");
+
+  return `
+      <section class="career" aria-labelledby="career-heading">
+        <h2 class="career-heading" id="career-heading">Career</h2>
+        ${site.careerNote ? `<p class="career-note">${escape(site.careerNote)}</p>` : ""}
+        <ul class="career-list">
+        ${rows}
+        </ul>
+      </section>`;
+}
+
 export function buildHome({ site, aboutHtml }) {
   const words = site.hero.rotatingWords
     .map((w) => `<span class="word">${escape(w)}</span>`)
@@ -98,6 +121,7 @@ export function buildHome({ site, aboutHtml }) {
       <div class="prose">
 ${aboutHtml.trimEnd()}
       </div>
+${renderCareer(site)}
     </section>
     <div></div>
   </main>
@@ -188,6 +212,35 @@ function relatedTo(article, all) {
     .map(({ other }) => other);
 }
 
+/**
+ * Substack accepts a subscription as a plain GET, so this needs no backend, no
+ * API key and no script: the form posts straight to the list that already
+ * exists. It works with JavaScript disabled for the same reason.
+ */
+function renderNewsletter(site) {
+  const substack = site.social.find((s) => s.label === "substack");
+  if (!substack) return "";
+
+  return `
+    <section class="newsletter" aria-labelledby="newsletter-heading">
+      <h2 class="newsletter-heading" id="newsletter-heading">Get new posts by email</h2>
+      <p class="newsletter-note">No schedule, no spam. Unsubscribe whenever.</p>
+      <form class="newsletter-form" action="${escape(substack.href)}/subscribe" method="get" target="_blank">
+        <label class="visually-hidden" for="newsletter-email">Your email</label>
+        <input
+          class="newsletter-input"
+          id="newsletter-email"
+          type="email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="you@example.com"
+        />
+        <button class="newsletter-btn" type="submit">Subscribe</button>
+      </form>
+    </section>`;
+}
+
 function renderRelated(articles) {
   if (!articles.length) return "";
 
@@ -247,6 +300,7 @@ export function buildArticle({ site, article, body, allArticles = [] }) {
     <div class="prose article-body">
 ${body}
     </div>
+${renderNewsletter(site)}
 ${renderRelated(relatedTo(article, allArticles))}
     <footer class="article-footer">
       <a class="back-link" href="/articles/">← all articles</a>
@@ -372,6 +426,61 @@ ${sections}
       description: config.subhead,
       main,
       active: "gear",
+    }),
+  };
+}
+
+export function buildContact({ site }) {
+  const email = site.social.find((s) => s.label === "email")?.href ?? "";
+
+  const main = `<main class="listing-page">
+<header class="listing-header">
+  <h1 class="page-title">contact</h1>
+  <p class="listing-subhead">Work, writing, or anything worth a conversation.</p>
+</header>
+
+<div class="contact-wrap">
+  <form class="contact-form" data-contact novalidate>
+    <label class="field">
+      <span class="field-label">Name</span>
+      <input class="field-input" type="text" name="name" required maxlength="80" autocomplete="name" />
+    </label>
+
+    <label class="field">
+      <span class="field-label">Email</span>
+      <input class="field-input" type="email" name="email" required maxlength="160" autocomplete="email" />
+    </label>
+
+    <label class="field">
+      <span class="field-label">Message</span>
+      <textarea class="field-input field-input--area" name="message" required maxlength="4000" rows="6"></textarea>
+    </label>
+
+    <!-- Left empty by people, filled by bots. -->
+    <div class="visually-hidden" aria-hidden="true">
+      <label>Company<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+    </div>
+
+    <button class="contact-btn" type="submit" data-submit>Send message</button>
+    <p class="contact-status" role="status" data-status></p>
+  </form>
+
+  <p class="contact-fallback">
+    Or just write to <a href="${escape(email)}">${escape(email.replace("mailto:", ""))}</a>.
+  </p>
+</div>
+</main>`;
+
+  return {
+    path: "contact/index.html",
+    html: renderPage({
+      site,
+      path: "/contact/",
+      title: `Contact · ${site.name}`,
+      description: "Get in touch about work, writing, or anything worth a conversation.",
+      main,
+      active: "contact",
+      scripts: ["/src/pages/contact.js"],
     }),
   };
 }

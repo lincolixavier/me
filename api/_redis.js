@@ -42,6 +42,7 @@ export const redis = {
   get: (key) => command("GET", key),
   incr: (key) => command("INCR", key),
   decr: (key) => command("DECR", key),
+  expire: (key, seconds) => command("EXPIRE", key, String(seconds)),
   /** Reads several keys at once; missing keys come back as null. */
   mget: (...keys) => command("MGET", ...keys),
 };
