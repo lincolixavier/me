@@ -15,7 +15,7 @@ import {
  * Grid of pre-rendered cards. Pagination is progressive enhancement: with JS
  * off every card is already in the DOM and visible.
  */
-function renderListing({ heading, subhead, cards, empty, pageSize, badge = null }) {
+function renderListing({ heading, subhead, cards, empty, pageSize, badge = null, extras = "" }) {
   if (!cards.length) {
     return `<div class="cards-grid"><p class="listing-empty">${escape(empty)}</p></div>`;
   }
@@ -43,6 +43,7 @@ function renderListing({ heading, subhead, cards, empty, pageSize, badge = null 
   <h1 class="page-title">${escape(heading)}${badge ? `<span class="human-badge">${escape(badge)}</span>` : ""}</h1>
   <p class="listing-subhead">${escape(subhead)}</p>
 </header>
+${extras}
 
 <div class="cards-grid" data-grid>
 ${items}
@@ -169,6 +170,38 @@ ${lifeHtml.trimEnd()}
   };
 }
 
+/**
+ * Tag filter. Rendered as links to /articles/?tag=x so each filter is a real
+ * URL that can be shared and that works without JavaScript reaching the page;
+ * the script then filters the cards already in the DOM instead of navigating.
+ * Tags are ordered by how many articles carry them.
+ */
+function renderTagFilter(articles) {
+  const counts = new Map();
+  for (const article of articles) {
+    for (const tag of article.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1);
+  }
+
+  if (counts.size < 2) return "";
+
+  const tags = [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(
+      ([tag, count]) =>
+        `<a class="tag-chip" href="/articles/?tag=${encodeURIComponent(tag)}" data-tag="${escape(tag)}">
+          ${escape(tag)}<span class="tag-count">${count}</span>
+        </a>`
+    )
+    .join("\n        ");
+
+  return `
+<nav class="tag-filter" data-tag-filter aria-label="Filter by tag">
+  <a class="tag-chip tag-chip--on" href="/articles/" data-tag="">all<span class="tag-count">${articles.length}</span></a>
+  ${tags}
+</nav>
+<p class="tag-empty" hidden data-tag-empty>No articles with that tag.</p>`;
+}
+
 export function buildArticlesIndex({ site, articles }) {
   const config = site.listings.articles;
   const main = `<main class="listing-page">
@@ -179,6 +212,7 @@ ${renderListing({
   empty: config.empty,
   pageSize: site.pageSize,
   badge: "100% human-written",
+  extras: renderTagFilter(articles),
 })}
 </main>`;
 
@@ -191,7 +225,7 @@ ${renderListing({
       description: config.subhead,
       main,
       active: "articles",
-      scripts: ["/src/pages/listing.js"],
+      scripts: ["/src/pages/listing.js", "/src/pages/tags.js"],
     }),
   };
 }
@@ -370,7 +404,7 @@ ${renderListing({
       description: config.subhead,
       main,
       active: "projects",
-      scripts: ["/src/pages/listing.js"],
+      scripts: ["/src/pages/listing.js", "/src/pages/tags.js"],
     }),
   };
 }
@@ -399,7 +433,7 @@ ${renderListing({
       description: config.subhead,
       main,
       active: "podcasts",
-      scripts: ["/src/pages/listing.js"],
+      scripts: ["/src/pages/listing.js", "/src/pages/tags.js"],
     }),
   };
 }

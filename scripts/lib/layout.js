@@ -7,6 +7,17 @@
  */
 import { escape, attrs, absoluteUrl, indent } from "./html.js";
 
+/**
+ * Runs before paint so the splash never flashes on an internal navigation:
+ * every navigation is a fresh document, and without this the panel would
+ * replay in front of the page the reader just asked for.
+ *
+ * Exported because the Content Security Policy needs its hash — an inline
+ * script is only allowed if the policy names it, and naming it by hash keeps
+ * the policy strict without a nonce, which a static site cannot produce.
+ */
+export const SPLASH_SCRIPT = `try{if(sessionStorage.getItem("splash-seen"))document.documentElement.dataset.splash="seen";else sessionStorage.setItem("splash-seen","1")}catch(e){}`;
+
 const IMPORT_MAP = {
   imports: {
     // The .min build, not the development one: same code, ~70KB less to
@@ -15,6 +26,9 @@ const IMPORT_MAP = {
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/",
   },
 };
+
+/** Serialised once, so the CSP hash and the emitted text cannot drift apart. */
+export const IMPORT_MAP_JSON = JSON.stringify(IMPORT_MAP);
 
 /**
  * Canvas tuning per page type. The home hero pulls the camera back; every other
@@ -182,6 +196,7 @@ export function renderPage({
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="${site.csp.replace(/"/g, "")}" />
   <title>${escape(title)}</title>
   ${renderMeta(site, { path, title, description, type, published, modified, ogImage })}
 
@@ -190,15 +205,7 @@ export function renderPage({
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-700.woff2" crossorigin />
   <link rel="stylesheet" href="/src/styles/main.css${site.styleHash ? `?v=${site.styleHash}` : ""}" />
   <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} — articles" href="/feed.xml" />${structuredData}
-  <script>
-    // Every navigation is a fresh document, so without this the splash would
-    // replay on each one and sit in front of the page the reader just asked
-    // for. Inline and before paint, so the second page never flashes it.
-    try {
-      if (sessionStorage.getItem("splash-seen")) document.documentElement.dataset.splash = "seen";
-      else sessionStorage.setItem("splash-seen", "1");
-    } catch (e) {}
-  </script>
+  <script>${SPLASH_SCRIPT}</script>
 </head>
 <body>
   <div class="splash" data-splash aria-hidden="true">
@@ -219,9 +226,7 @@ ${indent(main, 4)}
     ${indent(renderFooter(site), 4).trimStart()}
   </div>
 
-  <script type="importmap">
-${indent(JSON.stringify(IMPORT_MAP, null, 2), 4)}
-  </script>
+  <script type="importmap">${IMPORT_MAP_JSON}</script>
   ${scriptTags}
 </body>
 </html>

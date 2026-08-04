@@ -1,0 +1,528 @@
+/**
+ * Responsive overrides.
+ *
+ * These live in their own file and their own layer because a media query does
+ * not raise specificity: a later rule of equal weight wins regardless of the
+ * query it sits in. Keeping these blocks scattered through components.css
+ * meant a mobile rule could quietly lose to a desktop rule defined below it,
+ * which is where three separate layout bugs came from. As the last layer,
+ * everything here beats everything before it, by construction.
+ */
+
+/* from layout.css */
+@media (max-width: 900px) {
+  body {
+    overflow: auto;
+  }
+
+  .canvas-wrapper {
+    /* Full bleed on small screens, so nothing is rendered off-frame. */
+    --canvas-overscan: 1;
+    left: 0;
+    right: 0;
+    opacity: 0.55;
+  }
+
+  .canvas-wrapper::after {
+    background: linear-gradient(to right, rgba(var(--color-bg-rgb), 0.85) 0%, transparent 40%);
+  }
+
+  .left-fade {
+    background: linear-gradient(180deg, rgba(var(--color-bg-rgb), 0.4) 0%, transparent 30%);
+  }
+
+  .content-swap {
+    min-height: 100vh;
+  }
+
+  .hero,
+  .main-content {
+    grid-template-columns: 1fr;
+    padding-top: 110px;
+    padding-bottom: 56px;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .hero-content,
+  .about-content {
+    padding-left: var(--content-padding-x);
+    padding-right: var(--content-padding-x);
+  }
+
+  .left-fade {
+    background: linear-gradient(
+      180deg,
+      rgba(var(--color-bg-rgb), 0.9),
+      rgba(var(--color-bg-rgb), 0.4) 50%,
+      rgba(var(--color-bg-rgb), 0.9)
+    );
+  }
+}
+
+/* from components.css */
+@media (max-width: 900px) {
+  /**
+   * The desktop layout is an app shell: a fixed-height flex column whose
+   * panes scroll internally, with the hero and the about view stacked as
+   * absolutely positioned siblings. None of that survives a phone, and
+   * patching it pane by pane was the wrong approach. Here it becomes an
+   * ordinary flowing document that the body scrolls.
+   *
+   * These rules live in components.css rather than layout.css because
+   * .main-content sets its two columns there, unscoped, and a later rule of
+   * equal specificity beats an earlier one inside a media query.
+   */
+  /**
+   * The desktop composition indents content 80px from its container so the
+   * text sits clear of the 3D backdrop. On a phone the container already has
+   * the page padding, so this stacked on top of it: every wrapper that uses
+   * the variable — about, life, gear, articles, the hero — lost 80px off the
+   * left and ran narrow. Zeroing it once fixes all of them.
+   */
+  :root {
+    --content-padding-left: 0px;
+  }
+
+  .page {
+    height: auto;
+    min-height: 100svh;
+  }
+
+  /* The home page is one screen and does not scroll: the hero takes whatever
+     is left after the footer instead of demanding a full viewport of its own
+     and pushing the footer past the fold. */
+  .page:has(.content-swap) {
+    height: 100svh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .content-swap {
+    min-height: 0;
+    flex: 1;
+    display: flex;
+  }
+
+  .content-swap > * {
+    flex: 1;
+  }
+
+  .page:has(.content-swap) .hero,
+  .page:has(.content-swap) .main-content.page-section {
+    min-height: 0;
+  }
+
+  .content-swap .hero,
+  .content-swap .main-content.page-section {
+    position: static;
+    inset: auto;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Hidden with visibility, the about view still contributed its full height
+     to the scrollable area, which is where the home page's phantom scroll
+     came from. It has to leave the flow entirely. */
+  .content-swap .main-content.page-section {
+    display: none;
+  }
+
+  .page.view-about .content-swap .main-content.page-section {
+    display: grid;
+  }
+
+  .page.view-about .content-swap .hero {
+    display: none;
+  }
+
+  /* min-height came from the desktop rule that gives every pane a full
+     viewport. On a short page like life that forced a screen's worth of box
+     around a third of a screen of text and pushed the footer out of view,
+     producing scroll with nothing in it. .page already guarantees the fill. */
+  .main-content {
+    height: auto;
+    min-height: 0;
+    grid-template-columns: 1fr;
+    padding-top: 96px;
+    padding-bottom: 56px;
+  }
+
+  .about-content {
+    width: 100%;
+  }
+
+  /* Panes scroll with the document, not inside themselves. */
+  .listing-page,
+  .article-page {
+    overflow: visible;
+    min-height: 0;
+    height: auto;
+    flex: none;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    padding-left: 0;
+  }
+  .listing-page {
+    padding-top: 110px;
+  }
+  .listing-header {
+    padding-left: 0;
+  }
+  .pagination {
+    padding-left: 0;
+  }
+  .gear-content {
+    padding-left: 0;
+  }
+
+  /**
+   * Small screens get a real header: wordmark on the left, toggle on the
+   * right, and the links as a panel that flows down over the page. Seven
+   * links wrapping onto two lines at the top of every page was not a menu.
+   */
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px var(--content-padding-x);
+    pointer-events: auto;
+    background: linear-gradient(
+      to bottom,
+      rgba(var(--color-bg-rgb), 0.92) 0%,
+      rgba(var(--color-bg-rgb), 0.75) 60%,
+      transparent 100%
+    );
+  }
+
+  /* The panel is a child of the header, so it shares the header's stacking
+     context — at z-index 19 it painted over the wordmark and the toggle,
+     which is why the close X went missing. Both need to sit above it. */
+  .wordmark,
+  .nav-toggle {
+    position: relative;
+    z-index: 21;
+  }
+
+  .wordmark {
+    display: block;
+    font-size: 19px;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .nav-toggle {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    margin-right: -8px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Two bars; the top one becomes the upper stroke of an X, the ::after the
+     lower. Animating transform only keeps it off the layout path. */
+  .nav-toggle-bars,
+  .nav-toggle-bars::after {
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-text);
+    transition: transform 280ms cubic-bezier(0.32, 0.72, 0, 1),
+      opacity 160ms linear;
+  }
+
+  .nav-toggle-bars {
+    transform: translateY(-4px);
+  }
+
+  .nav-toggle-bars::after {
+    content: "";
+    transform: translateY(6px);
+  }
+
+  [data-nav-open] .nav-toggle-bars {
+    transform: rotate(45deg);
+  }
+
+  [data-nav-open] .nav-toggle-bars::after {
+    transform: rotate(-90deg);
+  }
+
+  #site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: auto;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    /* Clears the header bar and no more — 84px left a hole above the first
+       link that read as a mistake. */
+    padding: 62px var(--content-padding-x) 26px;
+    background: rgba(var(--color-bg-rgb), 0.97);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    /* Flowing down: the panel unrolls from the top edge. clip-path animates
+       on the compositor, so the links do not reflow as it opens. */
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 420ms cubic-bezier(0.32, 0.72, 0, 1);
+    pointer-events: none;
+    z-index: 19;
+  }
+
+  [data-nav-open] #site-nav {
+    clip-path: inset(0 0 0 0);
+    pointer-events: auto;
+  }
+
+  #site-nav .link {
+    padding: 11px 0;
+    font-size: 17px;
+    letter-spacing: 0.04em;
+    /* Each link trails the one above it as the panel comes down. */
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 260ms ease, transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  [data-nav-open] #site-nav .link {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-nav-open] #site-nav .link:nth-child(1) { transition-delay: 60ms; }
+  [data-nav-open] #site-nav .link:nth-child(2) { transition-delay: 100ms; }
+  [data-nav-open] #site-nav .link:nth-child(3) { transition-delay: 140ms; }
+  [data-nav-open] #site-nav .link:nth-child(4) { transition-delay: 180ms; }
+  [data-nav-open] #site-nav .link:nth-child(5) { transition-delay: 220ms; }
+  [data-nav-open] #site-nav .link:nth-child(6) { transition-delay: 260ms; }
+  [data-nav-open] #site-nav .link:nth-child(7) { transition-delay: 300ms; }
+  [data-nav-open] #site-nav .link:nth-child(8) { transition-delay: 340ms; }
+
+  .footer {
+    position: static;
+    left: auto;
+    padding: 32px var(--content-padding-x) 40px;
+  }
+
+  .footer .nav {
+    left: auto;
+    right: auto;
+    justify-content: flex-start;
+    gap: 12px 20px;
+  }
+
+  .article-page,
+  .listing-page {
+    padding-left: var(--content-padding-x);
+    padding-right: var(--content-padding-x);
+  }
+
+  /**
+   * Hero. It was vertically centred inside a 100vh box, which left a band of
+   * empty screen above and below the only content on the page, and the copy
+   * carried the horizontal padding twice — once from .hero and again from
+   * .hero-content. Now it sits low and left, and the type is sized to the
+   * viewport so it actually fills the screen.
+   */
+  /**
+   * The name and headline sit just under the header, and the tagline is held
+   * at the bottom of the fold. svh rather than vh: on phones vh is the height
+   * with the URL bar hidden, so the tagline would be pushed below the fold
+   * until the reader scrolled.
+   */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100svh;
+    padding-top: 104px;
+    padding-bottom: 34px;
+  }
+
+  /* The hero grid carries an empty second cell for the desktop two-column
+     layout. In a single column it is just a gap. */
+  .hero > div:empty {
+    display: none;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+  }
+
+  /* Sits with the headline rather than being held at the fold. The footer
+     links are right below it, so pinning it down there separated it from the
+     sentence it belongs to. */
+  .subhead {
+    margin-top: 18px;
+  }
+
+  .kicker {
+    font-size: clamp(18px, 5.6vw, 26px);
+    margin-bottom: 14px;
+  }
+
+  /**
+   * One word per line. Side by side, "always" plus the pill could not fit a
+   * phone at any size worth reading, so the rotating word ran off the edge.
+   * Stacking them also lets the type be much larger.
+   */
+  .headline {
+    font-size: clamp(44px, 15vw, 82px);
+    margin-bottom: 14px;
+  }
+
+  .headline .headline-line {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .headline .highlight {
+    padding: 0 12px;
+    border-radius: 16px;
+    bottom: 0;
+  }
+
+  /* No margin-top here: it would land after the rule that pushes this to the
+     bottom of the fold and quietly undo it. */
+  .subhead {
+    font-size: clamp(13px, 3.6vw, 16px);
+    letter-spacing: 0.06em;
+  }
+
+  .about-content .page-title,
+  .life-title {
+    font-size: clamp(34px, 11vw, 56px);
+  }
+
+}
+
+/* from components.css */
+@media (max-width: 560px) {
+  :root {
+    --nav-top: 28px;
+  }
+
+  .nav {
+    gap: 10px 16px;
+  }
+
+  .nav .link {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+  }
+
+  .listing-page {
+    padding-top: 96px;
+  }
+
+  .article-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .article-actions {
+    flex-wrap: wrap;
+  }
+
+  .splash-mark {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+/* from components.css */
+@media (max-width: 900px) {
+  /**
+   * No margin to ride in on a phone, and floated alongside the text it
+   * overlapped the prose. It becomes a row at the end of the article, where a
+   * reader who just finished can reach it.
+   */
+  .article-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .article-rail {
+    order: 2;
+    position: static;
+    float: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.625rem;
+    width: 100%;
+    margin: 2rem 0 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .rail-metric {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 5px;
+  }
+
+  .rail-btn {
+    flex-direction: row;
+    width: auto;
+    gap: 6px;
+    padding: 8px 13px;
+  }
+
+  /**
+   * The home page is locked to one screen so the hero does not scroll. The
+   * about view is taller than that, so opening it releases the lock and the
+   * document scrolls normally: the panel is never clipped, and a phone has no
+   * inner scroll area that would need the fades.
+   */
+  .page:has(.content-swap).view-about {
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+  }
+
+  .page.view-about .about-content {
+    max-height: none;
+    overflow: visible;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .page:has(.content-swap) .scroll-fade {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .tag-filter,
+  .tag-empty {
+    padding-left: 0;
+  }
+}

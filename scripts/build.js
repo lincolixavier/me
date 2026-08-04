@@ -19,6 +19,7 @@ import { fileURLToPath } from "node:url";
 import { parseFrontMatter } from "./lib/front-matter.js";
 import { parseMarkdown, excerpt } from "./lib/markdown.js";
 import { copyDir, renderRobots, renderSitemap, renderFeed } from "./lib/assets.js";
+import { SPLASH_SCRIPT, IMPORT_MAP_JSON } from "./lib/layout.js";
 import {
   buildHome,
   buildLife,
@@ -128,15 +129,24 @@ async function writeFile(relPath, contents) {
  * properties are not readable yet. The sources stay split; only the output is
  * joined.
  */
-const STYLE_ORDER = ["tokens.css", "base.css", "layout.css", "components.css"];
+/**
+ * Each stylesheet becomes a cascade layer, in this order. Layers settle the
+ * cascade by where the layer is declared rather than by where a rule happens
+ * to sit in the file, so responsive.css beats everything before it without
+ * depending on line numbers. Three layout bugs came from that dependency.
+ */
+const STYLE_LAYERS = ["tokens", "base", "layout", "components", "responsive"];
 
 async function readStyles() {
   const parts = await Promise.all(
-    STYLE_ORDER.map(async (name) => {
-      const css = await fs.readFile(path.join(ROOT, "src", "styles", name), "utf-8");
-      return `/* ${name} */\n${css.trim()}`;
+    STYLE_LAYERS.map(async (layer) => {
+      const css = await fs.readFile(path.join(ROOT, "src", "styles", `${layer}.css`), "utf-8");
+      return `@layer ${layer} {\n${css.trim()}\n}`;
     })
   );
+
+  // Declaring the order up front means it holds even if a layer arrives late.
+  parts.unshift(`@layer ${STYLE_LAYERS.join(", ")};`);
 
   const css = minifyCss(parts.join("\n\n"));
 
@@ -160,6 +170,35 @@ function minifyCss(css) {
     // A trailing semicolon before a closing brace is redundant.
     .replace(/;}/g, "}")
     .trim();
+}
+
+/**
+ * The policy is built here rather than in vercel.json so the hash of the one
+ * inline script stays in step with the script itself. A static site cannot
+ * issue a nonce per request, so naming the script by hash is what allows the
+ * policy to stay strict.
+ *
+ * style-src needs 'unsafe-inline' because the build sets --card-index through
+ * a style attribute; scripts do not get the same exemption.
+ */
+function contentSecurityPolicy() {
+  // Both inline scripts need naming: an import map is governed by script-src
+  // exactly like any other inline script.
+  const hashes = [SPLASH_SCRIPT, IMPORT_MAP_JSON]
+    .map((source) => `'sha256-${crypto.createHash("sha256").update(source).digest("base64")}'`)
+    .join(" ");
+
+  return [
+    "default-src 'self'",
+    `script-src 'self' https://cdn.jsdelivr.net ${hashes}`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data:",
+    "font-src 'self'",
+    "connect-src 'self'",
+    "form-action 'self'",
+    "base-uri 'self'",
+    "object-src 'none'",
+  ].join("; ");
 }
 
 // Build ------------------------------
@@ -200,6 +239,8 @@ async function build() {
   await fs.mkdir(DIST, { recursive: true });
 
   site.styleHash = styles.hash;
+  site.csp = contentSecurityPolicy();
+
 
   const pages = [
     buildHome({ site, aboutHtml }),

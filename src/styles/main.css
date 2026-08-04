@@ -1,9 +1,7 @@
 /**
- * Main styles – aggregates design tokens and layers.
- * Import order: tokens → base → layout → components.
+ * Not used by the build: it assembles the layers itself from the files in this
+ * folder and writes the result to this path in dist/. Kept so the source tree
+ * still explains the order at a glance.
+ *
+ * tokens → base → layout → components → responsive
  */
-
-@import "tokens.css";
-@import "base.css";
-@import "layout.css";
-@import "components.css";

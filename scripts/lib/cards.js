@@ -31,7 +31,11 @@ export function renderArticleCard(article) {
     ? `<time class="card-date" datetime="${escape(date)}">${escape(formatDateShort(date))}</time>`
     : "";
 
-  return `<a class="card" href="/articles/${escape(slug)}/">
+  // The tags ride on the card so the listing can filter without another pass
+  // over the data at runtime.
+  const tagAttr = (Array.isArray(tags) ? tags : []).join("|");
+
+  return `<a class="card" href="/articles/${escape(slug)}/" data-tags="${escape(tagAttr)}">
   <h3 class="card-title">${escape(title)}</h3>
   ${description ? `<p class="card-description">${escape(description)}</p>` : ""}
   ${cardFooter(dateEl + tagList(tags, { accentFirst: true }))}
