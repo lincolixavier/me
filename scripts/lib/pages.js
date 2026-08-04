@@ -215,31 +215,39 @@ function relatedTo(article, all) {
 }
 
 /**
- * Substack accepts a subscription as a plain GET, so this needs no backend, no
- * API key and no script: the form posts straight to the list that already
- * exists. It works with JavaScript disabled for the same reason.
+ * The list is ours: the form posts to /api/subscribe, which adds the address
+ * to the Resend audience. The id is unique per article so several forms on a
+ * page could never collide with each other's labels.
  */
-function renderNewsletter(site) {
-  const substack = site.social.find((s) => s.label === "substack");
-  if (!substack) return "";
+function renderNewsletter(slug) {
+  const id = `sub-${slug}`;
 
   return `
     <section class="newsletter" aria-labelledby="newsletter-heading">
       <h2 class="newsletter-heading" id="newsletter-heading">Get new posts by email</h2>
       <p class="newsletter-note">No schedule, no spam. Unsubscribe whenever.</p>
-      <form class="newsletter-form" action="${escape(substack.href)}/subscribe" method="get" target="_blank">
-        <label class="visually-hidden" for="newsletter-email">Your email</label>
-        <input
-          class="newsletter-input"
-          id="newsletter-email"
-          type="email"
-          name="email"
-          required
-          autocomplete="email"
-          placeholder="you@example.com"
-        />
-        <button class="newsletter-btn" type="submit">Subscribe</button>
+
+      <form class="newsletter-form" data-subscribe novalidate>
+        <div class="newsletter-field">
+          <label class="visually-hidden" for="${escape(id)}">Your email</label>
+          <input
+            class="newsletter-input"
+            id="${escape(id)}"
+            type="email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <button class="btn btn--primary btn--sm" type="submit" data-sub-submit>
+          <span class="btn-label" data-sub-label>Subscribe</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
       </form>
+
+      <p class="newsletter-status" role="status" data-sub-status></p>
     </section>`;
 }
 
@@ -302,7 +310,7 @@ export function buildArticle({ site, article, body, allArticles = [] }) {
     <div class="prose article-body">
 ${body}
     </div>
-${renderNewsletter(site)}
+${renderNewsletter(article.slug)}
 ${renderRelated(relatedTo(article, allArticles))}
     <footer class="article-footer">
       <a class="back-link" href="/articles/">← all articles</a>
@@ -322,7 +330,7 @@ ${renderRelated(relatedTo(article, allArticles))}
       main,
       active: "articles",
       canvas: CANVAS.article,
-      scripts: ["/src/pages/article.js"],
+      scripts: ["/src/pages/article.js", "/src/pages/newsletter.js"],
       type: "article",
       ogImage: article.ogImage,
       published: article.date || undefined,
