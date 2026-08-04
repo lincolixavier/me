@@ -432,3 +432,19 @@
     padding-left: 0;
   }
 }
+
+/* ----- Modal ----- */
+@media (max-width: 640px) {
+  .modal-panel {
+    padding: 34px 24px 28px;
+    border-radius: 14px;
+  }
+
+  .modal-endpoint {
+    padding: 10px 10px 10px 14px;
+  }
+
+  .modal-endpoint code {
+    font-size: 12px;
+  }
+}

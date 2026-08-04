@@ -1755,3 +1755,214 @@
   font-size: 1.0625rem;
   color: rgba(255, 255, 255, 0.82);
 }
+
+/* ----- Modal ----- */
+.modal {
+  border: 0;
+  padding: 0;
+  max-width: min(560px, calc(100vw - 32px));
+  width: 100%;
+  background: transparent;
+  color: var(--color-text);
+  overflow: visible;
+}
+
+.modal:target {
+  display: block;
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  height: fit-content;
+  z-index: 100;
+}
+
+.modal:focus,
+.modal:focus-visible {
+  outline: none;
+}
+
+.modal::backdrop {
+  background: rgba(8, 6, 8, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.modal[open] {
+  animation: modal-in 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal[open]::backdrop {
+  animation: modal-fade 320ms ease both;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}
+
+@keyframes modal-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.modal-panel {
+  position: relative;
+  padding: 40px 38px 34px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 45, 109, 0.28);
+  background:
+    radial-gradient(120% 90% at 88% -10%, rgba(255, 45, 109, 0.16), transparent 62%),
+    rgba(20, 18, 20, 0.94);
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 26px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: color 200ms ease, transform 200ms ease;
+}
+
+.modal-close:hover {
+  color: var(--color-accent);
+  transform: rotate(90deg);
+}
+
+.modal-kicker {
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  margin-bottom: 10px;
+}
+
+.modal-title {
+  font-size: clamp(26px, 5vw, 34px);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.035em;
+  margin-bottom: 14px;
+}
+
+.modal-title .accent {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.modal-lede {
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.68);
+  margin-bottom: 22px;
+}
+
+.modal-endpoint {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 12px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.35);
+  margin-bottom: 24px;
+}
+
+.modal-endpoint code {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.86);
+  scrollbar-width: none;
+}
+
+.modal-endpoint code::-webkit-scrollbar {
+  height: 0;
+}
+
+.modal-copy {
+  flex: none;
+  cursor: pointer;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 7px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: #fff;
+  background: var(--gradient-accent);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.modal-copy:hover {
+  opacity: 0.88;
+}
+
+.modal-copy:active {
+  transform: scale(0.96);
+}
+
+.modal-copy.is-done {
+  background: rgba(45, 200, 110, 0.22);
+  color: rgba(120, 230, 165, 0.95);
+}
+
+.modal-steps {
+  list-style: none;
+  counter-reset: step;
+  display: grid;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.modal-steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 34px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.modal-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 45, 109, 0.4);
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-accent);
+}
+
+.modal-steps em {
+  color: rgba(255, 255, 255, 0.9);
+  font-style: normal;
+}
+
+.modal-foot {
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.45);
+}

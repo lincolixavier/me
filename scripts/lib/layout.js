@@ -79,7 +79,43 @@ function renderFooter(site) {
 
   return `<footer class="footer">
   <nav class="nav" aria-label="Social">${links}</nav>
-</footer>`;
+</footer>
+${renderMcpDialog(site)}`;
+}
+
+// Opened with showModal(), but :target keeps it reachable without JavaScript.
+function renderMcpDialog(site) {
+  const endpoint = absoluteUrl(site.url, "/api/mcp");
+
+  return `<dialog class="modal" id="mcp" aria-labelledby="mcp-title">
+  <div class="modal-panel">
+    <a class="modal-close" href="#" aria-label="Close" data-modal-close>&times;</a>
+
+    <p class="modal-kicker">Model Context Protocol</p>
+    <h2 class="modal-title" id="mcp-title">Talk to this site<span class="accent">.</span></h2>
+
+    <p class="modal-lede">
+      Every article, project and role here is readable by an AI client as tools
+      rather than as pages. Point yours at the endpoint below.
+    </p>
+
+    <div class="modal-endpoint">
+      <code>${escape(endpoint)}</code>
+      <button type="button" class="modal-copy" autofocus data-copy="${escape(endpoint)}">copy</button>
+    </div>
+
+    <ol class="modal-steps">
+      <li>Open your client's settings: Claude Desktop, Cursor, or anything that speaks MCP.</li>
+      <li>Add a remote MCP server and paste the URL.</li>
+      <li>Ask it something, for instance <em>"what has Lincoli written about Go worker pools?"</em></li>
+    </ol>
+
+    <p class="modal-foot">
+      Five tools: search the writing, read one piece in full, list it by tag,
+      list the projects, read the profile. Nothing to install, nothing to sign in to.
+    </p>
+  </div>
+</dialog>`;
 }
 
 function renderMeta(site, { path, title, description, type = "website", published, modified, ogImage }) {
@@ -148,6 +184,7 @@ export function renderPage({
   const scriptTags = [
     "/src/pages/splash.js",
     "/src/pages/nav.js",
+    "/src/pages/modal.js",
     "/src/components/neural-canvas.js",
     "/src/pages/transitions.js",
     ...scripts,

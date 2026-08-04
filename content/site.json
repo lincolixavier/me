@@ -40,15 +40,15 @@
       "href": "/gear/"
     },
     {
-      "id": "life",
-      "href": "/life/"
-    },
-    {
       "id": "contact",
       "href": "/contact/"
+    },
+    {
+      "id": "life",
+      "href": "/life/"
     }
   ],
-  "_socialComment": "substack is still an unconfirmed guess, so fix or delete it. The footer renders exactly what is listed here.",
+  "_socialComment": "The footer renders exactly what is listed here. An href starting with # opens the dialog with that id instead of navigating.",
   "social": [
     {
       "label": "github",
@@ -71,8 +71,8 @@
       "href": "https://www.youtube.com/@lincoli.xavier"
     },
     {
-      "label": "substack",
-      "href": "https://lincolixavier.substack.com"
+      "label": "mcp server",
+      "href": "#mcp"
     },
     {
       "label": "nomad community",
