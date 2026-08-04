@@ -139,7 +139,9 @@ ${renderCareer(site)}
       canvas: CANVAS.home,
       scripts: ["/src/pages/home.js"],
       jsonLd: personJsonLd(site),
-      scrollFades: false,
+      // Present for the about view, which scrolls; CSS keeps them hidden
+      // while the hero is showing.
+      scrollFades: true,
     }),
   };
 }
@@ -431,7 +433,9 @@ ${sections}
 }
 
 export function buildContact({ site }) {
-  const email = site.social.find((s) => s.label === "email")?.href ?? "";
+  // The footer no longer carries the address, so it lives here: if the form
+  // cannot deliver, there has to be something on the page that can.
+  const email = site.email;
 
   const main = `<main class="listing-page">
 <header class="listing-header">
@@ -472,7 +476,7 @@ export function buildContact({ site }) {
   </form>
 
   <p class="contact-fallback">
-    Or just write to <a href="${escape(email)}">${escape(email.replace("mailto:", ""))}</a>.
+    Or write straight to <a href="mailto:${escape(email)}">${escape(email)}</a>.
   </p>
 </div>
 </main>`;

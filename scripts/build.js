@@ -11,6 +11,7 @@
  * Run: node scripts/build.js   (or `bun run build`)
  */
 
+import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -129,7 +130,7 @@ async function writeFile(relPath, contents) {
  */
 const STYLE_ORDER = ["tokens.css", "base.css", "layout.css", "components.css"];
 
-async function bundleStyles() {
+async function readStyles() {
   const parts = await Promise.all(
     STYLE_ORDER.map(async (name) => {
       const css = await fs.readFile(path.join(ROOT, "src", "styles", name), "utf-8");
@@ -137,7 +138,13 @@ async function bundleStyles() {
     })
   );
 
-  await writeFile("src/styles/main.css", minifyCss(parts.join("\n\n")));
+  const css = minifyCss(parts.join("\n\n"));
+
+  // The filename never changes, so without a cache key a browser holding an
+  // hour-old stylesheet would apply it to freshly deployed markup. The query
+  // changes whenever the bytes do, which is all the cache needs to see.
+  const hash = crypto.createHash("sha256").update(css).digest("hex").slice(0, 8);
+  return { css, hash };
 }
 
 /**
@@ -168,6 +175,7 @@ async function build() {
    * is on disk gets linked; anything missing falls back to the default rather
    * than advertising an image that would 404.
    */
+  site.styleHash = null;
   site.ogImage = (await exists(path.join(ROOT, "assets", "og", "default.png")))
     ? "/assets/og/default.png"
     : null;
@@ -175,6 +183,8 @@ async function build() {
   if (!site.ogImage) {
     warnings.push("assets/og/default.png missing — run `bun run og`.");
   }
+
+  const styles = await readStyles();
 
   const [aboutHtml, lifeHtml, articles, projectsData, podcastsData, gearData] = await Promise.all([
     readFragment("content/pages/about.html"),
@@ -188,6 +198,8 @@ async function build() {
   // Start from a clean slate so deleted content cannot linger in dist/.
   await fs.rm(DIST, { recursive: true, force: true });
   await fs.mkdir(DIST, { recursive: true });
+
+  site.styleHash = styles.hash;
 
   const pages = [
     buildHome({ site, aboutHtml }),
@@ -207,7 +219,7 @@ async function build() {
 
   // Static assets the pages reference.
   await copyDir(path.join(ROOT, "src"), path.join(DIST, "src"));
-  await bundleStyles();
+  await writeFile("src/styles/main.css", styles.css);
   if (await exists(path.join(ROOT, "assets"))) {
     await copyDir(path.join(ROOT, "assets"), path.join(DIST, "assets"));
   }

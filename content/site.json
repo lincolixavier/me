@@ -51,10 +51,6 @@
   "_socialComment": "substack is still an unconfirmed guess — fix or delete it. The footer renders exactly what is listed here.",
   "social": [
     {
-      "label": "email",
-      "href": "/contact/"
-    },
-    {
       "label": "github",
       "href": "https://github.com/lincolixavier"
     },
@@ -108,6 +104,16 @@
   "pageSize": 6,
   "career": [
     {
+      "role": "Coming soon…",
+      "company": "",
+      "period": "2026"
+    },
+    {
+      "role": "Gap year",
+      "company": "",
+      "period": "2024 — 2025"
+    },
+    {
       "role": "Technical Lead",
       "company": "O Novo Mercado",
       "period": "2023 — 2024"
@@ -138,5 +144,6 @@
       "period": "2012 — 2015"
     }
   ],
-  "careerNote": "14+ years building web products, from frontend to architecture."
+  "careerNote": "14+ years building web products, from frontend to architecture.",
+  "email": "hi@lincoli.me"
 }

@@ -316,6 +316,32 @@
   pointer-events: auto;
 }
 
+/**
+ * The about view scrolls inside itself once the career list makes it taller
+ * than the screen, with the same fades over the top and bottom edge that the
+ * article page uses. The generous padding is what the text scrolls behind, so
+ * it never appears to start or stop underneath the gradient.
+ */
+.page.view-about .about-content {
+  max-height: 100%;
+  overflow-y: auto;
+  padding-top: 120px;
+  padding-bottom: 150px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+/* The fades are rendered on the home page for the about view alone: while the
+   hero is showing there is nothing to scroll and nothing to fade. */
+.page:has(.content-swap) .scroll-fade {
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.page:has(.content-swap).view-about .scroll-fade {
+  opacity: 1;
+}
+
 .about-content .page-title {
   font-size: clamp(32px, 4vw, 48px);
   font-weight: var(--font-weight-bold);
@@ -1662,13 +1688,17 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Errors slide out of the field rather than appearing and shoving the layout. */
+/* Errors slide out of the field rather than appearing and shoving the layout.
+   Kept small and quiet: it is a correction, not a headline. */
 .field-error {
   overflow: hidden;
   max-height: 0;
   opacity: 0;
   font-size: 0.8125rem;
-  color: #ff6b8a;
+  line-height: 1.4;
+  font-weight: var(--font-weight-normal);
+  letter-spacing: 0;
+  color: #ff8fa3;
   transition: max-height 220ms ease, opacity 200ms ease, margin-top 220ms ease;
 }
 
@@ -1683,8 +1713,10 @@
   animation: field-shake 320ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
 
+/* Quiet confirmation. A field that is merely correct does not need to shout,
+   and green on this palette read as a system message from another site. */
 .field[data-valid] .field-input {
-  border-color: rgba(111, 220, 154, 0.55);
+  border-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
 }
 
 @keyframes field-shake {
@@ -1702,14 +1734,14 @@
   justify-content: center;
   gap: 0.5rem;
   align-self: flex-start;
-  min-width: 11rem;
+  width: 150px;
   font-family: var(--font-sans);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.02em;
   border: 0;
   border-radius: 10px;
-  padding: 13px 26px;
+  padding: 12px 0;
   cursor: pointer;
   overflow: hidden;
   transition: transform 160ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 220ms ease;
@@ -1717,7 +1749,7 @@
 
 .btn--primary {
   color: #fff;
-  background: var(--wine);
+  background: var(--color-accent);
 }
 
 /* A lighter sweep rises from the bottom on hover instead of a flat colour
@@ -2148,5 +2180,28 @@
     width: auto;
     gap: 6px;
     padding: 8px 13px;
+  }
+
+  /**
+   * The home page is locked to one screen so the hero does not scroll. The
+   * about view is taller than that, so opening it releases the lock and the
+   * document scrolls normally: the panel is never clipped, and a phone has no
+   * inner scroll area that would need the fades.
+   */
+  .page:has(.content-swap).view-about {
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
+  }
+
+  .page.view-about .about-content {
+    max-height: none;
+    overflow: visible;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .page:has(.content-swap) .scroll-fade {
+    display: none;
   }
 }
