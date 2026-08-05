@@ -1,3 +1,5 @@
+import { t } from "../lib/i18n.js";
+
 // Tells the stylesheet to stop honouring :target, which cannot be cleared by
 // the History API and would otherwise keep a closed dialog on screen.
 document.documentElement.dataset.js = "";
@@ -97,7 +99,7 @@ for (const button of document.querySelectorAll("[data-copy]")) {
     const host = button.closest("dialog") ?? document.body;
     const copied = await copyText(button.dataset.copy, host);
 
-    button.textContent = copied ? "copied" : "press ⌘C";
+    button.textContent = copied ? t.copied : t.pressToCopy;
     button.classList.toggle("is-done", copied);
 
     clearTimeout(reset);

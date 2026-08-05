@@ -1,17 +1,32 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 import handler from "../../api/mcp.js";
 import { renderLlmsTxt, renderArticleMarkdown } from "../lib/machine-readable.js";
+import { DEFAULT_LOCALE, resolveSite } from "../lib/i18n.js";
 
-const SITE = {
-  name: "Lincoli Xavier",
-  url: "https://www.lincoli.me",
-  tagline: "software engineer",
-  description: "Builds things.",
-  social: [{ label: "github", href: "https://github.com/x" }],
-  career: [{ role: "Founder", company: "Unlocd", period: "since 2024" }],
-};
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+
+// The machine-readable renderers take a locale-resolved site, exactly as the
+// build hands them one, so the real dictionary is what gets exercised here.
+const DICTIONARY = JSON.parse(
+  fs.readFileSync(path.join(ROOT, "content/i18n", `${DEFAULT_LOCALE.code}.json`), "utf-8")
+);
+
+const SITE = resolveSite(
+  {
+    name: "Lincoli Xavier",
+    url: "https://www.lincoli.me",
+    social: [{ label: "github", href: "https://github.com/x" }],
+    career: [{ role: "Founder", company: "Unlocd", period: "since 2024" }],
+  },
+  DEFAULT_LOCALE,
+  DICTIONARY
+);
 
 const ARTICLES = [
   {

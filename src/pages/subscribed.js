@@ -1,10 +1,12 @@
+import { t } from "../lib/i18n.js";
+
 const target = document.querySelector("[data-subscribed-message]");
 
 const MESSAGES = {
-  ok: "You are on the list. New posts will arrive by email.",
-  expired: "That link has expired or was already used. Subscribe again and I will send a fresh one.",
-  invalid: "That link does not look right. Subscribe again to get a new one.",
-  error: "Something went wrong on my side. Try again in a moment.",
+  ok: t.confirmOk,
+  expired: t.confirmExpired,
+  invalid: t.confirmInvalid,
+  error: t.confirmError,
 };
 
 if (target) {

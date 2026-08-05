@@ -23,11 +23,19 @@ Sitemap: ${absoluteUrl(site.url, "/sitemap.xml")}
 `;
 }
 
+// `alternates` is a locale-code → path map; when present it is emitted as
+// xhtml:link entries so every language variant of a page is declared in one place.
 export function renderSitemap(site, pages) {
   const entries = pages
-    .map(({ path: p, lastmod, priority }) => {
+    .map(({ path: p, lastmod, priority, alternates }) => {
+      const links = Object.entries(alternates ?? {}).map(
+        ([hreflang, href]) =>
+          `    <xhtml:link rel="alternate" hreflang="${escape(hreflang)}" href="${escape(absoluteUrl(site.url, href))}" />`
+      );
+
       const parts = [
         `    <loc>${escape(absoluteUrl(site.url, p))}</loc>`,
+        ...links,
         lastmod ? `    <lastmod>${escape(lastmod)}</lastmod>` : "",
         priority ? `    <priority>${escape(priority)}</priority>` : "",
       ].filter(Boolean);
@@ -36,16 +44,19 @@ export function renderSitemap(site, pages) {
     .join("\n");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${entries}
 </urlset>
 `;
 }
 
 export function renderFeed(site, articles) {
+  const feedPath = `${site.prefix}/feed.xml`;
+  const articlesPath = `${site.prefix}/articles/`;
+
   const items = articles
     .map((a) => {
-      const url = absoluteUrl(site.url, `/articles/${a.slug}/`);
+      const url = absoluteUrl(site.url, `${site.prefix}/articles/${a.slug}/`);
       const pubDate = a.date ? new Date(`${a.date}T00:00:00Z`).toUTCString() : "";
       return `    <item>
       <title>${escape(a.title)}</title>
@@ -60,11 +71,11 @@ export function renderFeed(site, articles) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${escape(site.name)} · articles</title>
-    <link>${escape(absoluteUrl(site.url, "/articles/"))}</link>
+    <title>${escape(site.name)} · ${escape(site.ui.feedTitle)}</title>
+    <link>${escape(absoluteUrl(site.url, articlesPath))}</link>
     <description>${escape(site.description)}</description>
     <language>${escape(site.lang)}</language>
-    <atom:link href="${escape(absoluteUrl(site.url, "/feed.xml"))}" rel="self" type="application/rss+xml" />
+    <atom:link href="${escape(absoluteUrl(site.url, feedPath))}" rel="self" type="application/rss+xml" />
 ${items}
   </channel>
 </rss>

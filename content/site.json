@@ -2,22 +2,8 @@
   "_comment": "Single source of truth for site metadata, navigation and social links. Edit here, never in HTML; every page is generated from this file.",
   "name": "Lincoli Xavier",
   "url": "https://www.lincoli.me",
-  "lang": "en",
-  "locale": "en_US",
-  "title": "Lincoli Xavier",
-  "tagline": "software engineer • digital nomad",
-  "description": "Software engineer and digital nomad. I build software that delivers real value.",
   "themeColor": "#121212",
   "twitterHandle": "@lincolixavier",
-  "hero": {
-    "kicker": "hello, i'm",
-    "rotatingWords": [
-      "building",
-      "coding",
-      "crafting",
-      "shipping"
-    ]
-  },
   "nav": [
     {
       "id": "about",
@@ -79,28 +65,6 @@
       "href": "https://gonomadz.com"
     }
   ],
-  "listings": {
-    "articles": {
-      "title": "articles",
-      "subhead": "Writing on tech, design and building things.",
-      "empty": "No articles yet. Check back soon."
-    },
-    "projects": {
-      "title": "projects",
-      "subhead": "Things I've built, shipped, contributed to, plus a few that did not make it.",
-      "empty": "No projects yet. Check back soon."
-    },
-    "podcasts": {
-      "title": "podcasts",
-      "subhead": "Conversations on building, technology and the road.",
-      "empty": "No episodes yet. Check back soon."
-    },
-    "gear": {
-      "title": "gear",
-      "subhead": "Tools and setup I use to build and create.",
-      "empty": "No gear listed yet. Check back soon."
-    }
-  },
   "pageSize": 6,
   "career": [
     {
@@ -143,5 +107,6 @@
   "_analyticsComment": "Himetrica runs entirely in the browser. The key is a public, client-side one and is meant to be visible in the HTML. Remove the key to remove the scripts.",
   "analytics": {
     "himetricaKey": "hm_5a05ff35165d80fe418a44efa57335af00c7f813188cdeeb"
-  }
+  },
+  "_i18nComment": "Translatable copy lives in content/i18n/<locale>.json. Nav ids below are keys into that file's `nav` map."
 }

@@ -1,4 +1,5 @@
 import { absoluteUrl } from "./html.js";
+import { pick, url as localeUrl } from "./i18n.js";
 
 export function renderArticleMarkdown(site, article) {
   const front = [
@@ -7,7 +8,8 @@ export function renderArticleMarkdown(site, article) {
     article.date ? `date: ${article.date}` : null,
     article.description ? `description: ${JSON.stringify(article.description)}` : null,
     article.tags.length ? `tags: ${JSON.stringify(article.tags)}` : null,
-    `source: ${absoluteUrl(site.url, `/articles/${article.slug}/`)}`,
+    `lang: ${site.lang}`,
+    `source: ${absoluteUrl(site.url, localeUrl(site, `/articles/${article.slug}/`))}`,
     `author: ${JSON.stringify(site.name)}`,
     "---",
   ]
@@ -22,42 +24,46 @@ function entry(name, url, description) {
 }
 
 export function renderLlmsTxt(site, { articles, projects }) {
-  const url = (p) => absoluteUrl(site.url, p);
+  const url = (p) => absoluteUrl(site.url, localeUrl(site, p));
+  const t = site.llms;
 
   const sections = [
     `# ${site.name}`,
     "",
     `> ${site.description}`,
     "",
-    "Personal site of a software engineer and digital nomad. Everything below is",
-    "written by hand. Each article is also served as Markdown at the same path",
-    "with a `.md` extension, and the whole site is available in one file at",
-    `${url("/llms-full.txt")}.`,
+    `${t.intro} ${absoluteUrl(site.url, localeUrl(site, "/llms-full.txt"))}.`,
     "",
-    "## Articles",
+    `## ${t.articles}`,
     "",
     ...articles.map((a) =>
       entry(a.title, url(`/articles/${a.slug}.md`), [a.date, a.description].filter(Boolean).join(". "))
     ),
     "",
-    "## Projects",
+    `## ${t.projects}`,
     "",
     ...projects.map((p) =>
-      entry(p.name, p.url || url("/projects/"), [p.description, `Status: ${p.status}`].filter(Boolean).join(" "))
+      entry(
+        p.name,
+        p.url || url("/projects/"),
+        [pick(p.description, site.localeCode), `${t.status}: ${site.status?.[p.status] ?? p.status}`]
+          .filter(Boolean)
+          .join(" ")
+      )
     ),
     "",
-    "## Pages",
+    `## ${t.pages}`,
     "",
-    entry("About and career", url("/"), "Background, and the roles behind it."),
-    entry("Be here now", url("/life/"), "On gratitude and the present moment."),
-    entry("Gear", url("/gear/"), "The cameras, lenses and hardware in use."),
-    entry("Podcasts", url("/podcasts/"), "Recorded appearances, in English and Portuguese."),
-    entry("Contact", url("/contact/"), "How to get in touch."),
+    entry(t.aboutPage, url("/"), t.aboutPageDesc),
+    entry(t.lifePage, url("/life/"), t.lifePageDesc),
+    entry(t.gearPage, url("/gear/"), t.gearPageDesc),
+    entry(t.podcastsPage, url("/podcasts/"), t.podcastsPageDesc),
+    entry(t.contactPage, url("/contact/"), t.contactPageDesc),
     "",
-    "## Optional",
+    `## ${t.optional}`,
     "",
-    entry("RSS feed", url("/feed.xml"), "Every article, newest first."),
-    entry("MCP server", url("/api/mcp"), "The same content as tools, over Model Context Protocol."),
+    entry(t.rss, url("/feed.xml"), t.rssDesc),
+    entry(t.mcp, absoluteUrl(site.url, "/api/mcp"), t.mcpDesc),
     "",
   ];
 
@@ -65,21 +71,23 @@ export function renderLlmsTxt(site, { articles, projects }) {
 }
 
 export function renderLlmsFullTxt(site, articles) {
+  const t = site.llms;
+
   const header = [
     `# ${site.name}`,
     "",
     `> ${site.description}`,
     "",
-    `Every article from ${site.url}, newest first. ${articles.length} in total.`,
+    `${t.fullIntro} ${site.url}, ${t.fullCount} ${articles.length} ${t.fullTotal}`,
     "",
   ].join("\n");
 
   const body = articles
     .map((a) => {
       const meta = [
-        a.date ? `Published: ${a.date}` : null,
-        a.tags.length ? `Tags: ${a.tags.join(", ")}` : null,
-        `Source: ${absoluteUrl(site.url, `/articles/${a.slug}/`)}`,
+        a.date ? `${t.published}: ${a.date}` : null,
+        a.tags.length ? `${t.tags}: ${a.tags.join(", ")}` : null,
+        `${t.source}: ${absoluteUrl(site.url, localeUrl(site, `/articles/${a.slug}/`))}`,
       ]
         .filter(Boolean)
         .join(" · ");
@@ -92,26 +100,36 @@ export function renderLlmsFullTxt(site, articles) {
 }
 
 export function renderContentIndex(site, { articles, projects, gear, podcasts }) {
+  const localize = (value) => pick(value, site.localeCode);
+
   return JSON.stringify({
     site: {
       name: site.name,
       url: site.url,
+      lang: site.lang,
       tagline: site.tagline,
       description: site.description,
       social: site.social,
       career: site.career,
     },
     articles: articles.map((a) => ({
+      key: a.key,
       slug: a.slug,
       title: a.title,
       date: a.date,
       description: a.description,
       tags: a.tags,
-      url: absoluteUrl(site.url, `/articles/${a.slug}/`),
+      url: absoluteUrl(site.url, localeUrl(site, `/articles/${a.slug}/`)),
       markdown: a.markdown,
     })),
-    projects,
-    gear,
-    podcasts,
+    projects: projects.map((p) => ({ ...p, description: localize(p.description) })),
+    gear: gear.map((category) => ({
+      ...category,
+      items: (category.items ?? []).map((item) => ({
+        ...item,
+        description: localize(item.description),
+      })),
+    })),
+    podcasts: podcasts.map((p) => ({ ...p, description: localize(p.description) })),
   });
 }

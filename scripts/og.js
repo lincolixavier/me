@@ -7,6 +7,7 @@ import { promisify } from "node:util";
 
 import { parseFrontMatter } from "./lib/front-matter.js";
 import { escape } from "./lib/html.js";
+import { LOCALES } from "./lib/i18n.js";
 
 const run = promisify(execFile);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -227,18 +228,29 @@ function hash(value) {
   return h;
 }
 
-async function readArticles() {
-  const dir = path.join(ROOT, "content", "articles");
-  const entries = await fs.readdir(dir, { withFileTypes: true });
+// Cards carry the title, so each language needs its own. They are keyed by the
+// article's file name rather than its slug, which is what the build looks up.
+async function readArticles(locale) {
+  const dir = locale.default
+    ? path.join(ROOT, "content", "articles")
+    : path.join(ROOT, "content", "articles", locale.code);
+
+  let entries;
+  try {
+    entries = await fs.readdir(dir, { withFileTypes: true });
+  } catch (err) {
+    if (err.code !== "ENOENT") throw err;
+    return [];
+  }
 
   return Promise.all(
     entries
       .filter((e) => e.isFile() && e.name.endsWith(".md"))
       .map(async (file) => {
-        const slug = path.basename(file.name, ".md");
+        const key = path.basename(file.name, ".md");
         const raw = await fs.readFile(path.join(dir, file.name), "utf-8");
         const { attributes } = parseFrontMatter(raw);
-        return { slug, title: attributes.title ?? slug };
+        return { key, title: attributes.title ?? key };
       })
   );
 }
@@ -255,40 +267,53 @@ async function main() {
   const site = JSON.parse(await fs.readFile(path.join(ROOT, "content", "site.json"), "utf-8"));
   const host = site.url.replace(/^https?:\/\//, "");
 
-  await fs.mkdir(OUT, { recursive: true });
-
   const network = await fs.readFile(path.join(ROOT, "scripts", "lib", "og-network.browser.js"), "utf-8");
 
-  const jobs = [
-    {
-      file: "default.png",
+  // Default locale writes to assets/og/, the others to assets/og/<code>/, which
+  // is the same shape the build resolves an article's card from.
+  const jobs = [];
+
+  for (const locale of LOCALES) {
+    const dict = JSON.parse(
+      await fs.readFile(path.join(ROOT, "content", "i18n", `${locale.code}.json`), "utf-8")
+    );
+    const dir = locale.default ? OUT : path.join(OUT, locale.code);
+    await fs.mkdir(dir, { recursive: true });
+
+    jobs.push({
+      file: path.join(dir, "default.png"),
+      label: `${locale.code}/default`,
       html: template({
         title: site.name,
-        meta: site.tagline,
+        meta: dict.tagline,
         kicker: null,
-        seed: "lincoli.me",
+        seed: `lincoli.me-${locale.code}`,
         network,
       }),
-    },
-    ...(await readArticles()).map((article) => ({
-      file: `${article.slug}.png`,
-      html: template({
-        title: article.title,
-        meta: host,
-        kicker: "Article",
-        seed: article.slug,
-        network,
-      }),
-    })),
-  ];
+    });
+
+    for (const article of await readArticles(locale)) {
+      jobs.push({
+        file: path.join(dir, `${article.key}.png`),
+        label: `${locale.code}/${article.key}`,
+        html: template({
+          title: article.title,
+          meta: host,
+          kicker: dict.ui.ogKicker,
+          // Same seed across languages, so a pair shares one network backdrop.
+          seed: article.key,
+          network,
+        }),
+      });
+    }
+  }
 
   const filter = process.argv[2];
-  const selected = filter ? jobs.filter((job) => job.file.includes(filter)) : jobs;
+  const selected = filter ? jobs.filter((job) => job.label.includes(filter)) : jobs;
 
   for (const job of selected) {
-    const png = path.join(OUT, job.file);
-    await shoot(chrome, job.html, png);
-    await compress(png);
+    await shoot(chrome, job.html, job.file);
+    await compress(job.file);
     process.stdout.write(".");
   }
 

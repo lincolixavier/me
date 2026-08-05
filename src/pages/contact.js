@@ -1,3 +1,5 @@
+import { t } from "../lib/i18n.js";
+
 const form = document.querySelector("[data-contact]");
 
 if (form) {
@@ -10,15 +12,15 @@ if (form) {
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const RULES = {
-    name: (v) => (v.trim() ? "" : "Please tell me your name."),
+    name: (v) => (v.trim() ? "" : t.nameRequired),
     email: (v) =>
       !v.trim()
-        ? "An email is needed so I can reply."
+        ? t.emailRequired
         : EMAIL.test(v.trim())
           ? ""
-          : "That address does not look right.",
+          : t.badEmail,
     message: (v) =>
-      v.trim().length >= 10 ? "" : "A few more words would help.",
+      v.trim().length >= 10 ? "" : t.messageTooShort,
   };
 
   const fieldOf = (input) => input.closest("[data-field]");
@@ -74,7 +76,7 @@ if (form) {
   const loading = (on) => {
     submit.disabled = on;
     submit.toggleAttribute("data-loading", on);
-    buttonLabel.textContent = on ? "Sending" : "Send message";
+    buttonLabel.textContent = on ? t.sending : t.sendMessage;
   };
 
   form.addEventListener("submit", async (event) => {
@@ -90,7 +92,7 @@ if (form) {
     }
 
     loading(true);
-    say("Sending…", "pending");
+    say(t.sendingEllipsis, "pending");
 
     try {
       const response = await fetch("/api/contact", {
@@ -109,12 +111,12 @@ if (form) {
         form.reset();
         for (const input of inputs) fieldOf(input).removeAttribute("data-valid");
         if (counter) counter.textContent = "0";
-        say("Sent. I'll get back to you.", "ok");
+        say(t.contactSent, "ok");
       } else {
-        say(body.error || "Something went wrong. Email me directly instead.", "error");
+        say(body.error || t.contactFailed, "error");
       }
     } catch {
-      say("Could not reach the server. Email me directly instead.", "error");
+      say(t.contactUnreachable, "error");
     } finally {
       loading(false);
     }

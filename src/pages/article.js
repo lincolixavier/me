@@ -1,3 +1,5 @@
+import { t } from "../lib/i18n.js";
+
 const rail = document.querySelector(".article-rail");
 const slug = rail?.dataset.slug;
 
@@ -18,7 +20,7 @@ if (shareButton) {
       label.textContent = text;
       clearTimeout(resetTimer);
       resetTimer = setTimeout(() => {
-        label.textContent = "share";
+        label.textContent = t.share;
         shareButton.classList.remove("rail-btn--done");
       }, 2000);
     };
@@ -39,9 +41,9 @@ if (shareButton) {
       try {
         await navigator.clipboard.writeText(url);
         shareButton.classList.add("rail-btn--done");
-        flash("link copied");
+        flash(t.linkCopied);
       } catch {
-        flash("could not copy");
+        flash(t.couldNotCopy);
       }
     });
   }

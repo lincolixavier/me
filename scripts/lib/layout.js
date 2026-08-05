@@ -1,4 +1,5 @@
 import { escape, attrs, absoluteUrl, indent } from "./html.js";
+import { LOCALES, DEFAULT_LOCALE, url } from "./i18n.js";
 
 export const SPLASH_SCRIPT = `try{if(sessionStorage.getItem("splash-seen"))document.documentElement.dataset.splash="seen";else sessionStorage.setItem("splash-seen","1")}catch(e){}`;
 
@@ -38,7 +39,25 @@ export const CANVAS = {
   article: CLOSE_FRAMING,
 };
 
-function renderNav(site, active) {
+// One link per other locale, pointing at the same page when it exists in that
+// language and at that language's home page when it does not.
+function renderLanguageSwitch(site, translations) {
+  const others = LOCALES.filter((locale) => locale.code !== site.localeCode);
+  if (!others.length) return "";
+
+  const links = others
+    .map((locale) => {
+      const href = translations?.[locale.code] ?? `${locale.prefix}/`;
+      const untranslated = !translations?.[locale.code];
+      const cls = ["lang-link", untranslated && "lang-link--fallback"].filter(Boolean).join(" ");
+      return `<a href="${escape(href)}" class="${cls}" hreflang="${escape(locale.hreflang)}" lang="${escape(locale.htmlLang)}" title="${escape(site.ui.switchTo)}">${escape(locale.label)}</a>`;
+    })
+    .join("");
+
+  return `<nav class="lang-switch" aria-label="${escape(site.ui.languageNav)}">${links}</nav>`;
+}
+
+function renderNav(site, active, translations) {
   const items = [{ id: "home", href: "/" }, ...site.nav];
   const links = items
     .map((item) => {
@@ -48,23 +67,25 @@ function renderNav(site, active) {
         .filter(Boolean)
         .join(" ");
       const current = isActive ? ' aria-current="page"' : "";
-      return `<a href="${escape(item.href)}" class="${cls}"${current}>${escape(item.id)}</a>`;
+      const label = site.navLabels?.[item.id] ?? item.id;
+      return `<a href="${escape(url(site, item.href))}" class="${cls}"${current}>${escape(label)}</a>`;
     })
     .join("");
 
   return `<header class="site-header" data-header>
-  <a class="wordmark" href="/" aria-label="${escape(site.name)}, home">LX</a>
+  <a class="wordmark" href="${escape(url(site, "/"))}" aria-label="${escape(site.name)}, ${escape(site.ui.homeAria)}">LX</a>
   <button
     class="nav-toggle"
     type="button"
     data-nav-toggle
     aria-expanded="false"
     aria-controls="site-nav"
-    aria-label="Open menu"
+    aria-label="${escape(site.ui.openMenu)}"
   >
     <span class="nav-toggle-bars" aria-hidden="true"></span>
   </button>
-  <nav class="nav" id="site-nav" aria-label="Primary">${links}</nav>
+  <nav class="nav" id="site-nav" aria-label="${escape(site.ui.primaryNav)}">${links}</nav>
+  ${renderLanguageSwitch(site, translations)}
 </header>`;
 }
 
@@ -78,7 +99,7 @@ function renderFooter(site) {
     .join("");
 
   return `<footer class="footer">
-  <nav class="nav" aria-label="Social">${links}</nav>
+  <nav class="nav" aria-label="${escape(site.ui.socialNav)}">${links}</nav>
 </footer>
 ${renderMcpDialog(site)}`;
 }
@@ -86,39 +107,64 @@ ${renderMcpDialog(site)}`;
 // Opened with showModal(), but :target keeps it reachable without JavaScript.
 function renderMcpDialog(site) {
   const endpoint = absoluteUrl(site.url, "/api/mcp");
+  const t = site.mcp;
 
   return `<dialog class="modal" id="mcp" aria-labelledby="mcp-title">
   <div class="modal-panel">
-    <a class="modal-close" href="#" aria-label="Close" data-modal-close>&times;</a>
+    <a class="modal-close" href="#" aria-label="${escape(t.close)}" data-modal-close>&times;</a>
 
-    <p class="modal-kicker">Model Context Protocol</p>
-    <h2 class="modal-title" id="mcp-title">Talk to this site<span class="accent">.</span></h2>
+    <p class="modal-kicker">${escape(t.kicker)}</p>
+    <h2 class="modal-title" id="mcp-title">${escape(t.title)}<span class="accent">.</span></h2>
 
     <p class="modal-lede">
-      Every article, project and role here is readable by an AI client as tools
-      rather than as pages. Point yours at the endpoint below.
+      ${escape(t.lede)}
     </p>
 
     <div class="modal-endpoint">
       <code>${escape(endpoint)}</code>
-      <button type="button" class="modal-copy" autofocus data-copy="${escape(endpoint)}">copy</button>
+      <button type="button" class="modal-copy" autofocus data-copy="${escape(endpoint)}">${escape(t.copy)}</button>
     </div>
 
     <ol class="modal-steps">
-      <li>Open your client's settings: Claude Desktop, Cursor, or anything that speaks MCP.</li>
-      <li>Add a remote MCP server and paste the URL.</li>
-      <li>Ask it something, for instance <em>"what has Lincoli written about Go worker pools?"</em></li>
+      <li>${escape(t.step1)}</li>
+      <li>${escape(t.step2)}</li>
+      <li>${escape(t.step3Before)} <em>${escape(t.step3Example)}</em></li>
     </ol>
 
     <p class="modal-foot">
-      Five tools: search the writing, read one piece in full, list it by tag,
-      list the projects, read the profile. Nothing to install, nothing to sign in to.
+      ${escape(t.foot)}
     </p>
   </div>
 </dialog>`;
 }
 
-function renderMeta(site, { path, title, description, type = "website", published, modified, ogImage }) {
+// hreflang is only honoured when the set is reciprocal, so a page that exists in
+// one language alone gets no alternates at all rather than a dangling half-pair.
+function renderAlternates(site, translations) {
+  if (!translations) return [];
+
+  const present = LOCALES.filter((locale) => translations[locale.code]);
+  if (present.length < 2) return [];
+
+  const tags = present.map(
+    (locale) =>
+      `<link rel="alternate" hreflang="${escape(locale.hreflang)}" href="${escape(absoluteUrl(site.url, translations[locale.code]))}" />`
+  );
+
+  const fallback = translations[DEFAULT_LOCALE.code];
+  if (fallback) {
+    tags.push(
+      `<link rel="alternate" hreflang="x-default" href="${escape(absoluteUrl(site.url, fallback))}" />`
+    );
+  }
+
+  return tags;
+}
+
+function renderMeta(
+  site,
+  { path, title, description, type = "website", published, modified, ogImage, translations }
+) {
   const canonical = absoluteUrl(site.url, path);
   const desc = description || site.description;
   const tags = [
@@ -126,6 +172,12 @@ function renderMeta(site, { path, title, description, type = "website", publishe
     `<link rel="canonical" href="${escape(canonical)}" />`,
     `<meta name="author" content="${escape(site.name)}" />`,
     `<meta name="theme-color" content="${escape(site.themeColor)}" />`,
+  ];
+
+  const alternates = renderAlternates(site, translations);
+  if (alternates.length) tags.push("", ...alternates);
+
+  tags.push(
     "",
     `<meta property="og:type" content="${escape(type)}" />`,
     `<meta property="og:site_name" content="${escape(site.name)}" />`,
@@ -136,8 +188,8 @@ function renderMeta(site, { path, title, description, type = "website", publishe
     "",
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escape(title)}" />`,
-    `<meta name="twitter:description" content="${escape(desc)}" />`,
-  ];
+    `<meta name="twitter:description" content="${escape(desc)}" />`
+  );
 
   if (site.twitterHandle) {
     tags.push(`<meta name="twitter:creator" content="${escape(site.twitterHandle)}" />`);
@@ -180,6 +232,7 @@ export function renderPage({
   published,
   modified,
   ogImage = null,
+  translations = null,
 }) {
   const scriptTags = [
     "/src/pages/splash.js",
@@ -204,6 +257,13 @@ export function renderPage({
     ? `\n  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`
     : "";
 
+  // application/json is data, not script, so it needs no CSP hash even though it
+  // changes per locale. src/lib/i18n.js reads it.
+  const clientStrings = `<script type="application/json" id="i18n">${JSON.stringify({
+    lang: site.lang,
+    ...site.client,
+  })}</script>`;
+
   return `<!DOCTYPE html>
 <html lang="${escape(site.lang)}">
 <head>
@@ -211,13 +271,13 @@ export function renderPage({
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="${csp}" />
   <title>${escape(title)}</title>
-  ${renderMeta(site, { path, title, description, type, published, modified, ogImage })}
+  ${renderMeta(site, { path, title, description, type, published, modified, ogImage, translations })}
 
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-400.woff2" crossorigin />
   <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/outfit-700.woff2" crossorigin />
   <link rel="stylesheet" href="/src/styles/main.css${site.styleHash ? `?v=${site.styleHash}` : ""}" />
-  <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} · articles" href="/feed.xml" />${
+  <link rel="alternate" type="application/rss+xml" title="${escape(site.name)} · ${escape(site.ui.feedTitle)}" href="${escape(url(site, "/feed.xml"))}" />${
     type === "article"
       ? `\n  <link rel="alternate" type="text/markdown" href="${escape(path.replace(/\/$/, ""))}.md" />`
       : ""
@@ -236,13 +296,14 @@ export function renderPage({
   <div class="left-fade" aria-hidden="true"></div>
 
   <div class="page">
-    ${fades}${indent(renderNav(site, active), 4).trimStart()}
+    ${fades}${indent(renderNav(site, active, translations), 4).trimStart()}
 
 ${indent(main, 4)}
 
     ${indent(renderFooter(site), 4).trimStart()}
   </div>
 
+  ${clientStrings}
   <script type="importmap">${IMPORT_MAP_JSON}</script>
   ${scriptTags}
 </body>

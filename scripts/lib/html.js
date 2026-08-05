@@ -1,4 +1,7 @@
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTHS = {
+  en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  pt: ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
+};
 
 export function escape(value) {
   if (value == null) return "";
@@ -17,15 +20,21 @@ export function attrs(map) {
     .join("");
 }
 
-export function formatDate(raw) {
+export function formatDate(raw, lang = "en") {
   if (!raw) return "";
   const d = new Date(`${raw}T00:00:00Z`);
   if (Number.isNaN(d.getTime())) return raw;
-  return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+
+  const months = MONTHS[lang] ?? MONTHS.en;
+  const month = months[d.getUTCMonth()];
+
+  return lang === "pt"
+    ? `${d.getUTCDate()} ${month} ${d.getUTCFullYear()}`
+    : `${month} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 }
 
-export function formatDateShort(raw) {
-  return formatDate(raw).toUpperCase();
+export function formatDateShort(raw, lang = "en") {
+  return formatDate(raw, lang).toUpperCase();
 }
 
 export function absoluteUrl(base, path = "/") {

@@ -1,0 +1,205 @@
+{
+  "_comment": "Every translatable string on the site. Keys mirror content/i18n/pt.json exactly; a missing key falls back to English at build time.",
+  "title": "Lincoli Xavier",
+  "tagline": "software engineer • digital nomad",
+  "description": "Software engineer and digital nomad. I build software that delivers real value.",
+  "hero": {
+    "kicker": "hello, i'm",
+    "always": "always",
+    "something": "something",
+    "rotatingWords": [
+      "building",
+      "coding",
+      "crafting",
+      "shipping"
+    ]
+  },
+  "navLabels": {
+    "home": "home",
+    "about": "about",
+    "articles": "articles",
+    "projects": "projects",
+    "podcasts": "podcasts",
+    "gear": "gear",
+    "contact": "contact",
+    "life": "life"
+  },
+  "listings": {
+    "articles": {
+      "title": "articles",
+      "subhead": "Writing on tech, design and building things.",
+      "empty": "No articles yet. Check back soon."
+    },
+    "projects": {
+      "title": "projects",
+      "subhead": "Things I've built, shipped, contributed to, plus a few that did not make it.",
+      "empty": "No projects yet. Check back soon."
+    },
+    "podcasts": {
+      "title": "podcasts",
+      "subhead": "Conversations on building, technology and the road.",
+      "empty": "No episodes yet. Check back soon."
+    },
+    "gear": {
+      "title": "gear",
+      "subhead": "Tools and setup I use to build and create.",
+      "empty": "No gear listed yet. Check back soon."
+    }
+  },
+  "status": {
+    "active": "active",
+    "wip": "wip",
+    "past": "past",
+    "failed": "failed",
+    "stealth": "stealth"
+  },
+  "pages": {
+    "about": {
+      "title": "about",
+      "accent": "me"
+    },
+    "life": {
+      "navTitle": "Life",
+      "titleStart": "be",
+      "accent": "here",
+      "titleEnd": "now.",
+      "description": "On staying present without giving up ambition."
+    },
+    "articles": {
+      "navTitle": "Articles"
+    },
+    "projects": {
+      "navTitle": "Projects"
+    },
+    "podcasts": {
+      "navTitle": "Podcasts"
+    },
+    "gear": {
+      "navTitle": "Gear",
+      "disclosure": "Some links on this page are affiliate links. Buying through them costs you nothing extra."
+    },
+    "contact": {
+      "navTitle": "Contact",
+      "title": "contact",
+      "subhead": "Work, writing, or anything worth a conversation.",
+      "description": "Get in touch about work, writing, or anything worth a conversation.",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "send": "Send message",
+      "fallbackBefore": "Or write straight to",
+      "fallbackAfter": "."
+    },
+    "subscribed": {
+      "navTitle": "Newsletter",
+      "title": "newsletter",
+      "checking": "Checking that link…",
+      "back": "Back to the articles",
+      "description": "Subscription confirmation."
+    },
+    "notFound": {
+      "navTitle": "Not found",
+      "description": "Page not found.",
+      "body": "This page does not exist, or it moved.",
+      "home": "Back home",
+      "articles": "Read something instead"
+    }
+  },
+  "ui": {
+    "career": "Career",
+    "humanBadge": "100% human-written",
+    "keepReading": "Keep reading",
+    "backToArticles": "← all articles",
+    "pagination": "Pagination",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "filterByTag": "Filter by tag",
+    "allTags": "all",
+    "noArticlesWithTag": "No articles with that tag.",
+    "openMenu": "Open menu",
+    "primaryNav": "Primary",
+    "socialNav": "Social",
+    "homeAria": "home",
+    "articleActions": "Article actions",
+    "views": "views",
+    "likeArticle": "Like this article",
+    "shareArticle": "Share this article",
+    "feedTitle": "articles",
+    "languageNav": "Language",
+    "switchTo": "Read this page in Portuguese",
+    "translationNote": "This article has no Portuguese version yet.",
+    "ogKicker": "Article"
+  },
+  "newsletter": {
+    "heading": "Get new posts by email",
+    "note": "No schedule, no spam. Unsubscribe whenever.",
+    "label": "Your email",
+    "placeholder": "you@example.com",
+    "submit": "Subscribe"
+  },
+  "mcp": {
+    "kicker": "Model Context Protocol",
+    "title": "Talk to this site",
+    "lede": "Every article, project and role here is readable by an AI client as tools rather than as pages. Point yours at the endpoint below.",
+    "copy": "copy",
+    "close": "Close",
+    "step1": "Open your client's settings: Claude Desktop, Cursor, or anything that speaks MCP.",
+    "step2": "Add a remote MCP server and paste the URL.",
+    "step3Before": "Ask it something, for instance",
+    "step3Example": "\"what has Lincoli written about Go worker pools?\"",
+    "foot": "Five tools: search the writing, read one piece in full, list it by tag, list the projects, read the profile. Nothing to install, nothing to sign in to."
+  },
+  "client": {
+    "share": "share",
+    "linkCopied": "copied",
+    "couldNotCopy": "failed",
+    "copied": "copied",
+    "pressToCopy": "press ⌘C",
+    "sending": "Sending",
+    "sendMessage": "Send message",
+    "subscribe": "Subscribe",
+    "sendingEllipsis": "Sending…",
+    "nameRequired": "Please tell me your name.",
+    "badEmail": "That address does not look right.",
+    "contactSent": "Sent. I'll get back to you.",
+    "contactFailed": "Something went wrong. Email me directly instead.",
+    "contactUnreachable": "Could not reach the server. Email me directly instead.",
+    "subscribeCheckInbox": "Check your inbox to confirm. The link lasts 48 hours.",
+    "subscribeFailed": "Could not subscribe you right now.",
+    "subscribeUnreachable": "Could not reach the server. Try again in a moment.",
+    "confirmOk": "You are on the list. New posts will arrive by email.",
+    "confirmExpired": "That link has expired or was already used. Subscribe again and I will send a fresh one.",
+    "confirmInvalid": "That link does not look right. Subscribe again to get a new one.",
+    "confirmError": "Something went wrong on my side. Try again in a moment.",
+    "emailRequired": "An email is needed so I can reply.",
+    "messageTooShort": "A few more words would help."
+  },
+  "llms": {
+    "intro": "Personal site of a software engineer and digital nomad. Everything below is written by hand. Each article is also served as Markdown at the same path with a `.md` extension, and the whole site is available in one file at",
+    "articles": "Articles",
+    "projects": "Projects",
+    "pages": "Pages",
+    "optional": "Optional",
+    "status": "Status",
+    "aboutPage": "About and career",
+    "aboutPageDesc": "Background, and the roles behind it.",
+    "lifePage": "Be here now",
+    "lifePageDesc": "On gratitude and the present moment.",
+    "gearPage": "Gear",
+    "gearPageDesc": "The cameras, lenses and hardware in use.",
+    "podcastsPage": "Podcasts",
+    "podcastsPageDesc": "Recorded appearances, in English and Portuguese.",
+    "contactPage": "Contact",
+    "contactPageDesc": "How to get in touch.",
+    "rss": "RSS feed",
+    "rssDesc": "Every article, newest first.",
+    "mcp": "MCP server",
+    "mcpDesc": "The same content as tools, over Model Context Protocol.",
+    "fullIntro": "Every article from",
+    "fullCount": "newest first.",
+    "fullTotal": "in total.",
+    "published": "Published",
+    "tags": "Tags",
+    "source": "Source"
+  }
+}

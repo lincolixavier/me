@@ -1,3 +1,5 @@
+import { t } from "../lib/i18n.js";
+
 const form = document.querySelector("[data-subscribe]");
 
 if (form) {
@@ -17,7 +19,7 @@ if (form) {
   const loading = (on) => {
     submit.disabled = on;
     submit.toggleAttribute("data-loading", on);
-    label.textContent = on ? "Sending" : "Subscribe";
+    label.textContent = on ? t.sending : t.subscribe;
   };
 
   form.addEventListener("submit", async (event) => {
@@ -26,7 +28,7 @@ if (form) {
     const email = input.value.trim();
 
     if (!EMAIL.test(email)) {
-      say("That address does not look right.", "error");
+      say(t.badEmail, "error");
       input.focus();
       return;
     }
@@ -45,12 +47,12 @@ if (form) {
 
       if (response.ok) {
         form.hidden = true;
-        say("Check your inbox to confirm. The link lasts 48 hours.", "ok");
+        say(t.subscribeCheckInbox, "ok");
       } else {
-        say(body.error || "Could not subscribe you right now.", "error");
+        say(body.error || t.subscribeFailed, "error");
       }
     } catch {
-      say("Could not reach the server. Try again in a moment.", "error");
+      say(t.subscribeUnreachable, "error");
     } finally {
       loading(false);
     }

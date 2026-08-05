@@ -83,6 +83,42 @@
   display: none;
 }
 
+/* ----- Language switch ----- */
+/* .page is click-through, so this has to opt back in like the nav does. */
+.lang-switch {
+  position: absolute;
+  top: var(--nav-top);
+  right: var(--content-padding-x);
+  display: flex;
+  gap: 2px;
+  z-index: 7;
+  pointer-events: auto;
+}
+
+.lang-link {
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-wide);
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: color 200ms ease, border-color 200ms ease;
+}
+
+.lang-link:hover,
+.lang-link:focus-visible {
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+/* No counterpart in that language yet: the link lands on its home page instead. */
+.lang-link--fallback {
+  opacity: 0.55;
+}
+
 .link {
   cursor: pointer;
   font-size: var(--font-size-sm);
@@ -931,6 +967,19 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.4);
+}
+
+/* The rail is a fixed 46px column that the article's left padding is measured
+   against, so a label can never be allowed to widen or spill out of it: past
+   that width it truncates inside the button instead of overlapping the prose.
+   Tracking is tighter here than on the views label to buy a character or two,
+   because the share button also carries the transient copy feedback. */
+.rail-btn .rail-label {
+  max-width: 100%;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .rail-btn {

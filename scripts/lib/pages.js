@@ -1,5 +1,6 @@
 import { escape, formatDate, absoluteUrl } from "./html.js";
 import { renderPage, CANVAS } from "./layout.js";
+import { url, outputPath } from "./i18n.js";
 import {
   renderArticleCard,
   renderProjectCard,
@@ -7,7 +8,7 @@ import {
   renderGearCard,
 } from "./cards.js";
 
-function renderListing({ heading, subhead, cards, empty, pageSize, badge = null, extras = "" }) {
+function renderListing({ site, heading, subhead, cards, empty, pageSize, badge = null, extras = "" }) {
   if (!cards.length) {
     return `<div class="cards-grid"><p class="listing-empty">${escape(empty)}</p></div>`;
   }
@@ -22,10 +23,10 @@ function renderListing({ heading, subhead, cards, empty, pageSize, badge = null,
   const pagination =
     cards.length > pageSize
       ? `
-<nav class="pagination" data-pagination data-page-size="${pageSize}" aria-label="Pagination" hidden>
-  <button class="pagination-btn" type="button" data-prev aria-label="Previous page">←</button>
+<nav class="pagination" data-pagination data-page-size="${pageSize}" aria-label="${escape(site.ui.pagination)}" hidden>
+  <button class="pagination-btn" type="button" data-prev aria-label="${escape(site.ui.previousPage)}">←</button>
   <span class="pagination-info" data-info></span>
-  <button class="pagination-btn" type="button" data-next aria-label="Next page">→</button>
+  <button class="pagination-btn" type="button" data-next aria-label="${escape(site.ui.nextPage)}">→</button>
 </nav>`
       : "";
 
@@ -69,7 +70,7 @@ function renderCareer(site) {
 
   return `
       <section class="career" aria-labelledby="career-heading">
-        <h2 class="career-heading" id="career-heading">Career</h2>
+        <h2 class="career-heading" id="career-heading">${escape(site.ui.career)}</h2>
         ${site.careerNote ? `<p class="career-note">${escape(site.careerNote)}</p>` : ""}
         <ul class="career-list">
         ${rows}
@@ -77,7 +78,7 @@ function renderCareer(site) {
       </section>`;
 }
 
-export function buildHome({ site, aboutHtml }) {
+export function buildHome({ site, aboutHtml, translations }) {
   const words = site.hero.rotatingWords
     .map((w) => `<span class="word">${escape(w)}</span>`)
     .join("\n                  ");
@@ -88,7 +89,7 @@ export function buildHome({ site, aboutHtml }) {
       <div class="kicker">${escape(site.hero.kicker)} <span class="name">${escape(site.name.toLowerCase())}</span></div>
       <h1 class="headline">
         <span class="headline-line">
-          <span class="muted">always</span>
+          <span class="muted">${escape(site.hero.always)}</span>
           <span class="highlight">
             <span class="rotating-words">
               <span class="rotating-words-inner">
@@ -97,7 +98,7 @@ export function buildHome({ site, aboutHtml }) {
             </span>
           </span>
         </span>
-        <span class="muted">something</span> <span class="underscore">_</span>
+        <span class="muted">${escape(site.hero.something)}</span> <span class="underscore">_</span>
       </h1>
       <div class="subhead">${escape(site.tagline)}</div>
     </section>
@@ -106,7 +107,7 @@ export function buildHome({ site, aboutHtml }) {
 
   <main class="main-content page-section" id="section-about" aria-hidden="true">
     <section class="about-content">
-      <h1 class="page-title">about <span class="accent">me</span></h1>
+      <h1 class="page-title">${escape(site.pages.about.title)} <span class="accent">${escape(site.pages.about.accent)}</span></h1>
       <div class="prose">
 ${aboutHtml.trimEnd()}
       </div>
@@ -117,10 +118,10 @@ ${renderCareer(site)}
 </div>`;
 
   return {
-    path: "index.html",
+    path: outputPath(site.prefix, "index.html"),
     html: renderPage({
       site,
-      path: "/",
+      path: url(site, "/"),
       title: site.title,
       description: site.description,
       main,
@@ -129,14 +130,16 @@ ${renderCareer(site)}
       scripts: ["/src/pages/home.js"],
       jsonLd: personJsonLd(site),
       scrollFades: true,
+      translations,
     }),
   };
 }
 
-export function buildLife({ site, lifeHtml }) {
+export function buildLife({ site, lifeHtml, translations }) {
+  const t = site.pages.life;
   const main = `<main class="main-content page-section">
   <section class="life-text">
-    <h1 class="life-title">be <span class="accent">here</span> now.</h1>
+    <h1 class="life-title">${escape(t.titleStart)} <span class="accent">${escape(t.accent)}</span> ${escape(t.titleEnd)}</h1>
     <div class="prose life-prose">
 ${lifeHtml.trimEnd()}
     </div>
@@ -144,21 +147,22 @@ ${lifeHtml.trimEnd()}
 </main>`;
 
   return {
-    path: "life/index.html",
+    path: outputPath(site.prefix, "life/index.html"),
     html: renderPage({
       site,
-      path: "/life/",
-      title: `Life · ${site.name}`,
-      description: "On staying present without giving up ambition.",
+      path: url(site, "/life/"),
+      title: `${t.navTitle} · ${site.name}`,
+      description: t.description,
       main,
       active: "life",
+      translations,
     }),
   };
 }
 
 const MAX_TAG_CHIPS = 6;
 
-function renderTagFilter(articles) {
+function renderTagFilter(site, articles) {
   const counts = new Map();
   for (const article of articles) {
     for (const tag of article.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1);
@@ -166,49 +170,53 @@ function renderTagFilter(articles) {
 
   if (counts.size < 2) return "";
 
+  const base = url(site, "/articles/");
+
   const tags = [...counts.entries()]
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .slice(0, MAX_TAG_CHIPS)
     .map(
       ([tag, count]) =>
-        `<a class="tag-chip" href="/articles/?tag=${encodeURIComponent(tag)}" data-tag="${escape(tag)}">
+        `<a class="tag-chip" href="${escape(base)}?tag=${encodeURIComponent(tag)}" data-tag="${escape(tag)}">
           ${escape(tag)}<span class="tag-count">${count}</span>
         </a>`
     )
     .join("\n        ");
 
   return `
-<nav class="tag-filter" data-tag-filter aria-label="Filter by tag">
-  <a class="tag-chip tag-chip--on" href="/articles/" data-tag="">all<span class="tag-count">${articles.length}</span></a>
+<nav class="tag-filter" data-tag-filter aria-label="${escape(site.ui.filterByTag)}">
+  <a class="tag-chip tag-chip--on" href="${escape(base)}" data-tag="">${escape(site.ui.allTags)}<span class="tag-count">${articles.length}</span></a>
   ${tags}
 </nav>
-<p class="tag-empty" hidden data-tag-empty>No articles with that tag.</p>`;
+<p class="tag-empty" hidden data-tag-empty>${escape(site.ui.noArticlesWithTag)}</p>`;
 }
 
-export function buildArticlesIndex({ site, articles }) {
+export function buildArticlesIndex({ site, articles, translations }) {
   const config = site.listings.articles;
   const main = `<main class="listing-page">
 ${renderListing({
+  site,
   heading: config.title,
   subhead: config.subhead,
-  cards: articles.map(renderArticleCard),
+  cards: articles.map((article) => renderArticleCard(article, site)),
   empty: config.empty,
   pageSize: site.pageSize,
-  badge: "100% human-written",
-  extras: renderTagFilter(articles),
+  badge: site.ui.humanBadge,
+  extras: renderTagFilter(site, articles),
 })}
 </main>`;
 
   return {
-    path: "articles/index.html",
+    path: outputPath(site.prefix, "articles/index.html"),
     html: renderPage({
       site,
-      path: "/articles/",
-      title: `Articles · ${site.name}`,
+      path: url(site, "/articles/"),
+      title: `${site.pages.articles.navTitle} · ${site.name}`,
       description: config.subhead,
       main,
       active: "articles",
       scripts: ["/src/pages/listing.js", "/src/pages/tags.js"],
+      translations,
     }),
   };
 }
@@ -218,7 +226,7 @@ function relatedTo(article, all) {
   if (!tags.size) return [];
 
   return all
-    .filter((other) => other.slug !== article.slug)
+    .filter((other) => other.key !== article.key)
     .map((other) => ({ other, shared: other.tags.filter((t) => tags.has(t)).length }))
     .filter(({ shared }) => shared > 0)
     .sort((a, b) => b.shared - a.shared || String(b.other.date).localeCompare(String(a.other.date)))
@@ -226,17 +234,18 @@ function relatedTo(article, all) {
     .map(({ other }) => other);
 }
 
-function renderNewsletter(slug) {
+function renderNewsletter(site, slug) {
   const id = `sub-${slug}`;
+  const t = site.newsletter;
 
   return `
     <section class="newsletter" aria-labelledby="newsletter-heading">
-      <h2 class="newsletter-heading" id="newsletter-heading">Get new posts by email</h2>
-      <p class="newsletter-note">No schedule, no spam. Unsubscribe whenever.</p>
+      <h2 class="newsletter-heading" id="newsletter-heading">${escape(t.heading)}</h2>
+      <p class="newsletter-note">${escape(t.note)}</p>
 
       <form class="newsletter-form" data-subscribe novalidate>
         <div class="newsletter-field">
-          <label class="visually-hidden" for="${escape(id)}">Your email</label>
+          <label class="visually-hidden" for="${escape(id)}">${escape(t.label)}</label>
           <input
             class="newsletter-input"
             id="${escape(id)}"
@@ -244,12 +253,12 @@ function renderNewsletter(slug) {
             name="email"
             required
             autocomplete="email"
-            placeholder="you@example.com"
+            placeholder="${escape(t.placeholder)}"
           />
         </div>
 
         <button class="btn btn--primary btn--sm" type="submit" data-sub-submit>
-          <span class="btn-label" data-sub-label>Subscribe</span>
+          <span class="btn-label" data-sub-label>${escape(t.submit)}</span>
           <span class="btn-spinner" aria-hidden="true"></span>
         </button>
       </form>
@@ -258,28 +267,28 @@ function renderNewsletter(slug) {
     </section>`;
 }
 
-function renderRelated(articles) {
+function renderRelated(site, articles) {
   if (!articles.length) return "";
 
   const items = articles
     .map(
       (a) =>
-        `<li><a href="/articles/${escape(a.slug)}/">${escape(a.title)}</a></li>`
+        `<li><a href="${escape(url(site, `/articles/${a.slug}/`))}">${escape(a.title)}</a></li>`
     )
     .join("\n        ");
 
   return `
     <nav class="related" aria-labelledby="related-heading">
-      <h2 class="related-heading" id="related-heading">Keep reading</h2>
+      <h2 class="related-heading" id="related-heading">${escape(site.ui.keepReading)}</h2>
       <ul class="related-list">
         ${items}
       </ul>
     </nav>`;
 }
 
-export function buildArticle({ site, article, body, allArticles = [] }) {
+export function buildArticle({ site, article, body, allArticles = [], translations }) {
   const dateEl = article.date
-    ? `<time class="article-date" datetime="${escape(article.date)}">${escape(formatDate(article.date))}</time>`
+    ? `<time class="article-date" datetime="${escape(article.date)}">${escape(formatDate(article.date, site.localeCode))}</time>`
     : "";
 
   const tagsEl = article.tags.length
@@ -288,18 +297,18 @@ export function buildArticle({ site, article, body, allArticles = [] }) {
         .join("")}</div>`
     : "";
 
-  const rail = `<aside class="article-rail" data-slug="${escape(article.slug)}" aria-label="Article actions">
+  const rail = `<aside class="article-rail" data-slug="${escape(article.key)}" aria-label="${escape(site.ui.articleActions)}">
     <span class="rail-metric" hidden data-views>
       <span class="rail-value" data-views-count>0</span>
-      <span class="rail-label">views</span>
+      <span class="rail-label">${escape(site.ui.views)}</span>
     </span>
-    <button class="rail-btn" type="button" hidden data-like aria-pressed="false" aria-label="Like this article">
+    <button class="rail-btn" type="button" hidden data-like aria-pressed="false" aria-label="${escape(site.ui.likeArticle)}">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5 4.2 13a4.6 4.6 0 1 1 6.5-6.5l1.3 1.3 1.3-1.3A4.6 4.6 0 1 1 19.8 13z"/></svg>
       <span class="rail-value" data-likes-count>0</span>
     </button>
-    <button class="rail-btn" type="button" hidden data-share data-title="${escape(article.title)}" aria-label="Share this article">
+    <button class="rail-btn" type="button" hidden data-share data-title="${escape(article.title)}" aria-label="${escape(site.ui.shareArticle)}">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L8 8m4-4 4 4M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
-      <span class="rail-label" data-share-label>share</span>
+      <span class="rail-label" data-share-label>${escape(site.client.share)}</span>
     </button>
   </aside>`;
 
@@ -314,21 +323,22 @@ export function buildArticle({ site, article, body, allArticles = [] }) {
     <div class="prose article-body">
 ${body}
     </div>
-${renderNewsletter(article.slug)}
-${renderRelated(relatedTo(article, allArticles))}
+${renderNewsletter(site, article.key)}
+${renderRelated(site, relatedTo(article, allArticles))}
     <footer class="article-footer">
-      <a class="back-link" href="/articles/">← all articles</a>
+      <a class="back-link" href="${escape(url(site, "/articles/"))}">${escape(site.ui.backToArticles)}</a>
     </footer>
   </article>
 </main>`;
 
-  const url = absoluteUrl(site.url, `/articles/${article.slug}/`);
+  const path = url(site, `/articles/${article.slug}/`);
+  const canonical = absoluteUrl(site.url, path);
 
   return {
-    path: `articles/${article.slug}/index.html`,
+    path: outputPath(site.prefix, `articles/${article.slug}/index.html`),
     html: renderPage({
       site,
-      path: `/articles/${article.slug}/`,
+      path,
       title: `${article.title} · ${site.name}`,
       description: article.description,
       main,
@@ -338,6 +348,7 @@ ${renderRelated(relatedTo(article, allArticles))}
       type: "article",
       ogImage: article.ogImage,
       published: article.date || undefined,
+      translations,
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
@@ -345,76 +356,81 @@ ${renderRelated(relatedTo(article, allArticles))}
         description: article.description,
         datePublished: article.date || undefined,
         keywords: article.tags.join(", ") || undefined,
-        url,
-        mainEntityOfPage: url,
+        inLanguage: site.lang,
+        url: canonical,
+        mainEntityOfPage: canonical,
         author: { "@type": "Person", name: site.name, url: site.url },
       },
     }),
   };
 }
 
-export function buildProjects({ site, projects }) {
+export function buildProjects({ site, projects, translations }) {
   const config = site.listings.projects;
   const main = `<main class="listing-page">
 ${renderListing({
+  site,
   heading: config.title,
   subhead: config.subhead,
-  cards: projects.map(renderProjectCard),
+  cards: projects.map((project) => renderProjectCard(project, site)),
   empty: config.empty,
   pageSize: site.pageSize,
 })}
 </main>`;
 
   return {
-    path: "projects/index.html",
+    path: outputPath(site.prefix, "projects/index.html"),
     html: renderPage({
       site,
-      path: "/projects/",
-      title: `Projects · ${site.name}`,
+      path: url(site, "/projects/"),
+      title: `${site.pages.projects.navTitle} · ${site.name}`,
       description: config.subhead,
       main,
       active: "projects",
       scripts: ["/src/pages/listing.js", "/src/pages/tags.js"],
+      translations,
     }),
   };
 }
 
-export function buildPodcasts({ site, podcasts }) {
+export function buildPodcasts({ site, podcasts, translations }) {
   const config = site.listings.podcasts;
   const sorted = [...podcasts].sort((a, b) =>
     String(b.date ?? "").localeCompare(String(a.date ?? ""))
   );
   const main = `<main class="listing-page">
 ${renderListing({
+  site,
   heading: config.title,
   subhead: config.subhead,
-  cards: sorted.map(renderPodcastCard),
+  cards: sorted.map((episode) => renderPodcastCard(episode, site)),
   empty: config.empty,
   pageSize: site.pageSize,
 })}
 </main>`;
 
   return {
-    path: "podcasts/index.html",
+    path: outputPath(site.prefix, "podcasts/index.html"),
     html: renderPage({
       site,
-      path: "/podcasts/",
-      title: `Podcasts · ${site.name}`,
+      path: url(site, "/podcasts/"),
+      title: `${site.pages.podcasts.navTitle} · ${site.name}`,
       description: config.subhead,
       main,
       active: "podcasts",
       scripts: ["/src/pages/listing.js", "/src/pages/tags.js"],
+      translations,
     }),
   };
 }
 
-export function buildGear({ site, categories }) {
+export function buildGear({ site, categories, translations }) {
   const config = site.listings.gear;
 
   const items = categories.flatMap((cat) => cat.items || []);
 
   const sections = items.length
-    ? `<div class="gear-list">\n${items.map(renderGearCard).join("\n")}\n</div>`
+    ? `<div class="gear-list">\n${items.map((item) => renderGearCard(item, site)).join("\n")}\n</div>`
     : `<p class="listing-empty">${escape(config.empty)}</p>`;
 
   const main = `<main class="listing-page">
@@ -425,30 +441,32 @@ export function buildGear({ site, categories }) {
 
 <div class="gear-content">
 ${sections}
-<p class="disclosure">Some links on this page are affiliate links. Buying through them costs you nothing extra.</p>
+<p class="disclosure">${escape(site.pages.gear.disclosure)}</p>
 </div>
 </main>`;
 
   return {
-    path: "gear/index.html",
+    path: outputPath(site.prefix, "gear/index.html"),
     html: renderPage({
       site,
-      path: "/gear/",
-      title: `Gear · ${site.name}`,
+      path: url(site, "/gear/"),
+      title: `${site.pages.gear.navTitle} · ${site.name}`,
       description: config.subhead,
       main,
       active: "gear",
+      translations,
     }),
   };
 }
 
-export function buildContact({ site }) {
+export function buildContact({ site, translations }) {
   const email = site.email;
+  const t = site.pages.contact;
 
   const main = `<main class="listing-page">
 <header class="listing-header">
-  <h1 class="page-title">contact</h1>
-  <p class="listing-subhead">Work, writing, or anything worth a conversation.</p>
+  <h1 class="page-title">${escape(t.title)}</h1>
+  <p class="listing-subhead">${escape(t.subhead)}</p>
 </header>
 
 <div class="contact-wrap">
@@ -456,27 +474,27 @@ export function buildContact({ site }) {
     <div class="field" data-field="name">
       <input class="field-input" id="f-name" type="text" name="name" required maxlength="80"
              autocomplete="name" placeholder=" " />
-      <label class="field-label" for="f-name">Name</label>
+      <label class="field-label" for="f-name">${escape(t.name)}</label>
       <p class="field-error" data-error></p>
     </div>
 
     <div class="field" data-field="email">
       <input class="field-input" id="f-email" type="email" name="email" required maxlength="160"
              autocomplete="email" placeholder=" " />
-      <label class="field-label" for="f-email">Email</label>
+      <label class="field-label" for="f-email">${escape(t.email)}</label>
       <p class="field-error" data-error></p>
     </div>
 
     <div class="field" data-field="message">
       <textarea class="field-input field-input--area" id="f-message" name="message" required
                 maxlength="4000" rows="6" placeholder=" "></textarea>
-      <label class="field-label" for="f-message">Message</label>
+      <label class="field-label" for="f-message">${escape(t.message)}</label>
       <p class="field-hint"><span data-count>0</span>/4000</p>
       <p class="field-error" data-error></p>
     </div>
 
     <button class="btn btn--primary" type="submit" data-submit>
-      <span class="btn-label" data-btn-label>Send message</span>
+      <span class="btn-label" data-btn-label>${escape(t.send)}</span>
       <span class="btn-spinner" aria-hidden="true"></span>
     </button>
 
@@ -484,68 +502,72 @@ export function buildContact({ site }) {
   </form>
 
   <p class="contact-fallback">
-    Or write straight to <a href="mailto:${escape(email)}">${escape(email)}</a>.
+    ${escape(t.fallbackBefore)} <a href="mailto:${escape(email)}">${escape(email)}</a>${escape(t.fallbackAfter)}
   </p>
 </div>
 </main>`;
 
   return {
-    path: "contact/index.html",
+    path: outputPath(site.prefix, "contact/index.html"),
     html: renderPage({
       site,
-      path: "/contact/",
-      title: `Contact · ${site.name}`,
-      description: "Get in touch about work, writing, or anything worth a conversation.",
+      path: url(site, "/contact/"),
+      title: `${t.navTitle} · ${site.name}`,
+      description: t.description,
       main,
       active: "contact",
       scripts: ["/src/pages/contact.js"],
+      translations,
     }),
   };
 }
 
-export function buildSubscribed({ site }) {
+export function buildSubscribed({ site, translations }) {
+  const t = site.pages.subscribed;
   const main = `<main class="main-content page-section">
   <section class="about-content">
-    <h1 class="page-title">newsletter</h1>
+    <h1 class="page-title">${escape(t.title)}</h1>
     <div class="prose">
-      <p data-subscribed-message>Checking that link…</p>
-      <p><a href="/articles/">Back to the articles</a></p>
+      <p data-subscribed-message>${escape(t.checking)}</p>
+      <p><a href="${escape(url(site, "/articles/"))}">${escape(t.back)}</a></p>
     </div>
   </section>
 </main>`;
 
   return {
-    path: "subscribed/index.html",
+    path: outputPath(site.prefix, "subscribed/index.html"),
     html: renderPage({
       site,
-      path: "/subscribed/",
-      title: `Newsletter · ${site.name}`,
-      description: "Subscription confirmation.",
+      path: url(site, "/subscribed/"),
+      title: `${t.navTitle} · ${site.name}`,
+      description: t.description,
       main,
       active: "",
       scripts: ["/src/pages/subscribed.js"],
+      translations,
     }),
   };
 }
 
 export function build404({ site }) {
+  const t = site.pages.notFound;
   const main = `<main class="main-content page-section">
   <section class="about-content">
     <h1 class="page-title">404 <span class="accent">_</span></h1>
     <div class="prose">
-      <p>This page does not exist, or it moved.</p>
-      <p><a href="/">Back home</a> · <a href="/articles/">Read something instead</a></p>
+      <p>${escape(t.body)}</p>
+      <p><a href="${escape(url(site, "/"))}">${escape(t.home)}</a> · <a href="${escape(url(site, "/articles/"))}">${escape(t.articles)}</a></p>
     </div>
   </section>
 </main>`;
 
   return {
-    path: "404.html",
+    path: outputPath(site.prefix, "404.html"),
     html: renderPage({
       site,
-      path: "/404.html",
-      title: `Not found · ${site.name}`,
-      description: "Page not found.",
+      path: url(site, "/404.html"),
+      title: `${t.navTitle} · ${site.name}`,
+      description: t.description,
       main,
       active: "",
     }),
