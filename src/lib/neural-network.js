@@ -729,7 +729,17 @@ export function initNeuralNetwork(options = {}, root = null) {
     let lastFrameTime = 0;
     let parked = false;
 
-    const redraw = () => draw();
+    // draw() runs controls.update(), which dispatches "change" again while damping
+    // settles. Going through a frame keeps that from recursing into itself.
+    let frameQueued = false;
+    const redraw = () => {
+      if (frameQueued) return;
+      frameQueued = true;
+      requestAnimationFrame(() => {
+        frameQueued = false;
+        draw();
+      });
+    };
 
     function considerQuality(now) {
       if (lastFrameTime) {
@@ -799,7 +809,7 @@ export function initNeuralNetwork(options = {}, root = null) {
   createNetworkVisualization();
 
   if (staticScene) {
-    controls.addEventListener("change", () => draw());
+    controls.addEventListener("change", redraw);
     draw();
   } else {
     animate();
