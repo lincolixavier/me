@@ -3,7 +3,10 @@
     {
       "id": "arki",
       "name": "Arki",
-      "description": "Fullstack SaaS starter kit with auth, payments, emails and dashboard already wired up.",
+      "description": {
+        "en": "Fullstack SaaS starter kit with auth, payments, emails and dashboard already wired up.",
+        "pt": "Starter kit SaaS fullstack com auth, pagamentos, e-mails e dashboard já prontos."
+      },
       "url": "https://www.usearki.dev",
       "tags": [
         "saas",
@@ -14,7 +17,10 @@
     {
       "id": "talkbud",
       "name": "TalkBud",
-      "description": "AI-powered language learning companion.",
+      "description": {
+        "en": "AI-powered language learning companion.",
+        "pt": "Companheiro de aprendizado de idiomas com IA."
+      },
       "url": "https://talkbud.app",
       "tags": [
         "ai",
@@ -25,7 +31,10 @@
     {
       "id": "nomadz",
       "name": "Nomadz",
-      "description": "Community and tools for digital nomads on the road.",
+      "description": {
+        "en": "Community and tools for digital nomads on the road.",
+        "pt": "Comunidade e ferramentas para nômades digitais na estrada."
+      },
       "url": "https://gonomadz.com",
       "tags": [
         "community",
@@ -36,7 +45,10 @@
     {
       "id": "hypealead",
       "name": "Hype A Lead",
-      "description": "Real estate platform for B2B.",
+      "description": {
+        "en": "Real estate platform for B2B.",
+        "pt": "Plataforma imobiliária para B2B."
+      },
       "url": "",
       "tags": [
         "saas",
@@ -47,7 +59,10 @@
     {
       "id": "upgas",
       "name": "Upgas",
-      "description": "Compare gas prices nearby and get a bottle delivered.",
+      "description": {
+        "en": "Compare gas prices nearby and get a bottle delivered.",
+        "pt": "Compare o preço do gás por perto e receba um botijão em casa."
+      },
       "url": "https://www.upgas.com.br/",
       "tags": [
         "app",
@@ -59,7 +74,10 @@
     {
       "id": "efficacy",
       "name": "Efficacy",
-      "description": "Warehouse management for B2B operations.",
+      "description": {
+        "en": "Warehouse management for B2B operations.",
+        "pt": "Gestão de armazém para operações B2B."
+      },
       "url": "",
       "tags": [
         "wms",
@@ -70,7 +88,10 @@
     {
       "id": "macroinsight",
       "name": "MacroInsight",
-      "description": "Macro-economic analysis platform for investors.",
+      "description": {
+        "en": "Macro-economic analysis platform for investors.",
+        "pt": "Plataforma de análise macroeconômica para investidores."
+      },
       "url": "https://github.com/lincolixavier",
       "tags": [
         "finance",
@@ -81,7 +102,10 @@
     {
       "id": "voyaudio",
       "name": "Voyaudio",
-      "description": "Platform for guided experiences and local tourism.",
+      "description": {
+        "en": "Platform for guided experiences and local tourism.",
+        "pt": "Plataforma para experiências guiadas e turismo local."
+      },
       "url": "",
       "tags": [
         "travel",
@@ -92,7 +116,10 @@
     {
       "id": "librium",
       "name": "Librium",
-      "description": "A book tracker.",
+      "description": {
+        "en": "A book tracker.",
+        "pt": "Um rastreador de livros."
+      },
       "url": "",
       "tags": [
         "app",
@@ -104,7 +131,10 @@
     {
       "id": "wynd",
       "name": "Wynd…",
-      "description": "Cooking…",
+      "description": {
+        "en": "Cooking…",
+        "pt": "Cozinhando…"
+      },
       "url": "",
       "tags": [
         "saas",
@@ -115,7 +145,10 @@
     {
       "id": "ret",
       "name": "Ret…",
-      "description": "Cooking…",
+      "description": {
+        "en": "Cooking…",
+        "pt": "Cozinhando…"
+      },
       "url": "",
       "tags": [
         "saas",
@@ -126,7 +159,10 @@
     {
       "id": "petb",
       "name": "Petb…",
-      "description": "Cooking…",
+      "description": {
+        "en": "Cooking…",
+        "pt": "Cozinhando…"
+      },
       "url": "",
       "tags": [
         "app",
@@ -138,7 +174,10 @@
     {
       "id": "teamculture",
       "name": "TeamCulture",
-      "description": "I was Head of Frontend here.",
+      "description": {
+        "en": "I was Head of Frontend here.",
+        "pt": "Fui Head de Frontend aqui."
+      },
       "url": "",
       "tags": [
         "saas",
@@ -149,7 +188,10 @@
     {
       "id": "o-novo-mercado",
       "name": "O Novo Mercado",
-      "description": "I was technical lead here.",
+      "description": {
+        "en": "I was technical lead here.",
+        "pt": "Fui líder técnico aqui."
+      },
       "url": "",
       "tags": [
         "saas",
@@ -160,7 +202,10 @@
     {
       "id": "bellagestao",
       "name": "BellaGestão",
-      "description": "Platform for salon and beauty business management.",
+      "description": {
+        "en": "Platform for salon and beauty business management.",
+        "pt": "Plataforma de gestão para salões e negócios de beleza."
+      },
       "url": "",
       "tags": [
         "saas",
@@ -171,7 +216,10 @@
     {
       "id": "pixelpdf",
       "name": "PixelPDF",
-      "description": "PDF tools for everyday documents.",
+      "description": {
+        "en": "PDF tools for everyday documents.",
+        "pt": "Ferramentas de PDF para documentos do dia a dia."
+      },
       "url": "",
       "tags": [
         "web",
@@ -182,13 +230,75 @@
     {
       "id": "fotoemdesenho",
       "name": "FotoEmDesenho",
-      "description": "Turned photos into drawings.",
+      "description": {
+        "en": "Turned photos into drawings.",
+        "pt": "Transformava fotos em desenhos."
+      },
       "url": "",
       "tags": [
         "web",
         "photo"
       ],
       "status": "failed"
+    },
+    {
+      "id": "tranpo",
+      "name": "Tranpo",
+      "description": {
+        "en": "UI and web design for Tranpo, built with Vue and Bulma.",
+        "pt": "UI e design web da Tranpo, feito com Vue e Bulma."
+      },
+      "url": "https://www.behance.net/gallery/93092637/Ui-Web-Tranpo",
+      "tags": [
+        "ui/ux",
+        "frontend",
+        "react"
+      ],
+      "status": "past"
+    },
+    {
+      "id": "solar-system-svg",
+      "name": "Solar System SVG",
+      "description": {
+        "en": "The solar system animated in pure SVG. Mankind's future is bright.",
+        "pt": "O sistema solar animado em SVG puro. O futuro da humanidade é brilhante."
+      },
+      "url": "https://github.com/lincolixavier/solar-system-svg-animated",
+      "tags": [
+        "open-source",
+        "frontend",
+        "svg"
+      ],
+      "status": "past"
+    },
+    {
+      "id": "defensoria",
+      "name": "Defensoria Pública da Bahia",
+      "description": {
+        "en": "Frontend and backend of the web portal for the public defender's office of Bahia.",
+        "pt": "Frontend e backend do portal web da Defensoria Pública do Estado da Bahia."
+      },
+      "url": "http://www.defensoria.ba.def.br/",
+      "tags": [
+        "frontend",
+        "backend",
+        "wordpress"
+      ],
+      "status": "past"
+    },
+    {
+      "id": "senac",
+      "name": "Senac Bahia",
+      "description": {
+        "en": "Frontend of the Senac Bahia web portal.",
+        "pt": "Frontend do portal web do Senac Bahia."
+      },
+      "url": "https://www.ba.senac.br/",
+      "tags": [
+        "frontend",
+        "javascript"
+      ],
+      "status": "past"
     }
   ]
 }

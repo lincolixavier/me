@@ -4,7 +4,10 @@
     {
       "id": "product-gurus-ai",
       "title": "A IA não vai roubar seu trabalho (mesmo que seu CTO acredite nisso)",
-      "description": "A talk on what AI actually changes in engineering work, and what it does not.",
+      "description": {
+        "en": "A talk on what AI actually changes in engineering work, and what it does not.",
+        "pt": "Um papo sobre o que a IA muda de fato no trabalho de engenharia, e o que não muda."
+      },
       "show": "Product Guru's",
       "date": "2025-04-16",
       "duration": "49m",
@@ -15,7 +18,10 @@
     {
       "id": "augusto-galego-nomad",
       "title": "O dev que viaja o mundo com R$5.000 por mês",
-      "description": "On the numbers behind full-time travel as a developer.",
+      "description": {
+        "en": "On the numbers behind full-time travel as a developer.",
+        "pt": "Sobre os números por trás de viajar em tempo integral sendo desenvolvedor."
+      },
       "show": "Augusto Galego",
       "date": "2025-03-27",
       "duration": "45m",
@@ -26,7 +32,10 @@
     {
       "id": "engineering-sessions-efficiency",
       "title": "Efficiency · Engineering Sessions S02E06",
-      "description": "A conversation about engineering efficiency and how teams actually measure it.",
+      "description": {
+        "en": "A conversation about engineering efficiency and how teams actually measure it.",
+        "pt": "Uma conversa sobre eficiência em engenharia e como os times realmente medem isso."
+      },
       "show": "Engineering Sessions",
       "date": "2023-06-26",
       "duration": "51m",
@@ -37,7 +46,10 @@
     {
       "id": "dev-amigo-12",
       "title": "Tech Lead e Nômade Digital · Dev Amigo #12",
-      "description": "Leading a team while living on the road.",
+      "description": {
+        "en": "Leading a team while living on the road.",
+        "pt": "Liderar um time enquanto vive na estrada."
+      },
       "show": "Dev Amigo",
       "date": "2023-05-10",
       "duration": "2h 19m",
@@ -48,7 +60,10 @@
     {
       "id": "devariacast-12",
       "title": "Dev e nômade: como é viver trabalhando remotamente?",
-      "description": "What remote work looks like when it is not tied to one address.",
+      "description": {
+        "en": "What remote work looks like when it is not tied to one address.",
+        "pt": "Como é o trabalho remoto quando ele não está preso a um endereço só."
+      },
       "show": "Devariacast",
       "date": "2022-09-07",
       "duration": "1h 51m",
@@ -59,7 +74,10 @@
     {
       "id": "pilhacheia-10",
       "title": "O verdadeiro pilhacheia · do Junior ao Senior",
-      "description": "With Entria Tech, on what actually moves a developer from junior to senior.",
+      "description": {
+        "en": "With Entria Tech, on what actually moves a developer from junior to senior.",
+        "pt": "Com a Entria Tech, sobre o que realmente leva um dev de júnior a sênior."
+      },
       "show": "PilhaCheia",
       "date": "2022-04-27",
       "duration": "1h 27m",
@@ -70,7 +88,10 @@
     {
       "id": "pilhacheia-09",
       "title": "Sandy & Junior · início da carreira dev",
-      "description": "On the first steps of a development career.",
+      "description": {
+        "en": "On the first steps of a development career.",
+        "pt": "Sobre os primeiros passos de uma carreira em desenvolvimento."
+      },
       "show": "PilhaCheia",
       "date": "2022-01-05",
       "duration": "1h 14m",
@@ -81,7 +102,10 @@
     {
       "id": "pilhacheia-08",
       "title": "Ensinando programação na academia",
-      "description": "Teaching programming inside universities.",
+      "description": {
+        "en": "Teaching programming inside universities.",
+        "pt": "Ensinar programação dentro da universidade."
+      },
       "show": "PilhaCheia",
       "date": "2021-11-09",
       "duration": "1h 5m",
@@ -92,7 +116,10 @@
     {
       "id": "pilhacheia-07",
       "title": "Fazer um pouco de tudo, ou tudo de um pouco?",
-      "description": "Specialist or generalist, and the cost of each.",
+      "description": {
+        "en": "Specialist or generalist, and the cost of each.",
+        "pt": "Especialista ou generalista, e o custo de cada escolha."
+      },
       "show": "PilhaCheia",
       "date": "2021-10-16",
       "duration": "1h 6m",
@@ -103,7 +130,10 @@
     {
       "id": "pilhacheia-06",
       "title": "A beleza dos paradigmas de programação",
-      "description": "Programming paradigms and why more than one is worth knowing.",
+      "description": {
+        "en": "Programming paradigms and why more than one is worth knowing.",
+        "pt": "Paradigmas de programação e por que vale conhecer mais de um."
+      },
       "show": "PilhaCheia",
       "date": "2021-08-23",
       "duration": "1h 17m",
@@ -114,7 +144,10 @@
     {
       "id": "pilhacheia-05",
       "title": "Será que a pilha está cheia demais? Dev workaholic",
-      "description": "On overwork, burnout and knowing when the stack is too full.",
+      "description": {
+        "en": "On overwork, burnout and knowing when the stack is too full.",
+        "pt": "Sobre excesso de trabalho, burnout e saber a hora em que a pilha está cheia demais."
+      },
       "show": "PilhaCheia",
       "date": "2021-08-04",
       "duration": "1h 15m",
@@ -125,7 +158,10 @@
     {
       "id": "pilhacheia-04",
       "title": "Quanto tempo vai levar? O terror de estimar",
-      "description": "Estimates, and why they are so consistently wrong.",
+      "description": {
+        "en": "Estimates, and why they are so consistently wrong.",
+        "pt": "Estimativas, e por que elas erram com tanta constância."
+      },
       "show": "PilhaCheia",
       "date": "2021-07-19",
       "duration": "1h 19m",
@@ -136,7 +172,10 @@
     {
       "id": "pilhacheia-03",
       "title": "O caminho do dev pilhacheia · lógica de programação",
-      "description": "Where to start: programming logic as the foundation.",
+      "description": {
+        "en": "Where to start: programming logic as the foundation.",
+        "pt": "Por onde começar: lógica de programação como alicerce."
+      },
       "show": "PilhaCheia",
       "date": "2021-07-02",
       "duration": "1h 28m",
@@ -147,7 +186,10 @@
     {
       "id": "pilhacheia-02",
       "title": "Dev pilhacheia, desenvolvimento de ponta a ponta",
-      "description": "End-to-end development, from the database to the interface.",
+      "description": {
+        "en": "End-to-end development, from the database to the interface.",
+        "pt": "Desenvolvimento de ponta a ponta, do banco de dados até a interface."
+      },
       "show": "PilhaCheia",
       "date": "2021-06-19",
       "duration": "1h 31m",
@@ -158,7 +200,10 @@
     {
       "id": "pilhacheia-01",
       "title": "Deixando o acampamento mais limpo · refactoring",
-      "description": "Refactoring, and leaving the codebase better than you found it.",
+      "description": {
+        "en": "Refactoring, and leaving the codebase better than you found it.",
+        "pt": "Refatoração, e deixar o codebase melhor do que você encontrou."
+      },
       "show": "PilhaCheia",
       "date": "2021-06-05",
       "duration": "1h 17m",
@@ -169,7 +214,10 @@
     {
       "id": "sinform-2021",
       "title": "SINFORM 2021.1 · Palestra Lincoli Xavier",
-      "description": "A talk given at SINFORM 2021.1.",
+      "description": {
+        "en": "A talk given at SINFORM 2021.1.",
+        "pt": "Palestra dada no SINFORM 2021.1."
+      },
       "show": "SINFORM",
       "date": "2021-05-22",
       "duration": "50m",
@@ -180,7 +228,10 @@
     {
       "id": "pilhacheia-00",
       "title": "Piloto · sejam bem-vindos!",
-      "description": "The pilot episode, and what the show set out to be.",
+      "description": {
+        "en": "The pilot episode, and what the show set out to be.",
+        "pt": "O episódio piloto, e o que o programa se propunha a ser."
+      },
       "show": "PilhaCheia",
       "date": "2021-05-22",
       "duration": "58m",
