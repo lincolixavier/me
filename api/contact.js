@@ -4,7 +4,22 @@ import { sendEmail, emailShell } from "./_email.js";
 const TO = "hi@lincoli.me";
 
 const LIMITS = { name: 80, email: 160, message: 4000 };
+const MIN_MESSAGE = 10;
+const MIN_ELAPSED_MS = 3000;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Spam gets a fake success so bots can't probe for what tripped them.
+function drop(res) {
+  return json(res, 200, { ok: true });
+}
+
+function sameOrigin(req) {
+  try {
+    return new URL(req.headers.origin).host === req.headers.host;
+  } catch {
+    return false;
+  }
+}
 
 function escapeHtml(value) {
   return String(value)
@@ -28,12 +43,22 @@ export default async function handler(req, res) {
     return json(res, 503, { error: "email is not configured" });
   }
 
+  if (!sameOrigin(req)) return drop(res);
+
   const body = typeof req.body === "string" ? safeParse(req.body) : req.body || {};
+
+  // Honeypot: humans never see this field, bots fill it.
+  if (body.website) return drop(res);
+
+  // Time trap: the page sets `elapsed`; direct API posts miss it, bots rush it.
+  const elapsed = Number(body.elapsed);
+  if (!Number.isFinite(elapsed) || elapsed < MIN_ELAPSED_MS) return drop(res);
+
   const name = clean(body.name, LIMITS.name);
   const email = clean(body.email, LIMITS.email);
   const message = clean(body.message, LIMITS.message);
 
-  if (!name || !message || !EMAIL.test(email)) {
+  if (!name || !EMAIL.test(email) || message.length < MIN_MESSAGE) {
     return json(res, 400, { error: "name, a valid email and a message are required" });
   }
 

@@ -471,6 +471,11 @@ export function buildContact({ site, translations }) {
 
 <div class="contact-wrap">
   <form class="contact-form" data-contact novalidate>
+    <div class="field field--trap" aria-hidden="true">
+      <label for="f-website">Website</label>
+      <input id="f-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+
     <div class="field" data-field="name">
       <input class="field-input" id="f-name" type="text" name="name" required maxlength="80"
              autocomplete="name" placeholder=" " />

@@ -1309,6 +1309,16 @@
   flex-direction: column;
 }
 
+/* Honeypot: kept out of sight and out of the tab order; bots still fill it. */
+.field--trap {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 .field-input {
   width: 100%;
   font-family: var(--font-sans);

@@ -3,6 +3,7 @@ import { t } from "../lib/i18n.js";
 const form = document.querySelector("[data-contact]");
 
 if (form) {
+  const openedAt = Date.now();
   const status = form.querySelector("[data-status]");
   const submit = form.querySelector("[data-submit]");
   const buttonLabel = form.querySelector("[data-btn-label]");
@@ -102,6 +103,8 @@ if (form) {
           name: form.elements.name.value,
           email: form.elements.email.value,
           message: form.elements.message.value,
+          website: form.elements.website ? form.elements.website.value : "",
+          elapsed: Date.now() - openedAt,
         }),
       });
 
