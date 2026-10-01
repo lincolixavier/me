@@ -31,4 +31,11 @@ It is a long journey. Recognise yourself, reward yourself, study a lot, get your
 
 ---
 
-[Nomadz community](https://www.patreon.com/nomadz/membership)
+[Join the Nomadz community](https://community.gonomadz.com/)
+
+Want to talk? Find me here:
+
+- [Instagram](https://instagram.com/lincoli.xavier)
+- [TikTok](https://www.tiktok.com/@lincoli.xavier)
+- [Twitter](https://twitter.com/lincolixavier)
+- [YouTube](https://youtube.com/@lincoli.xavier)

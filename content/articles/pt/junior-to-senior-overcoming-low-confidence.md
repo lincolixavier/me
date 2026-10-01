@@ -21,25 +21,21 @@ Outra coisa que você deve pensar: a necessidade de autorreflexão. Juniors muit
 
 **A confiança não se trata apenas de habilidade técnica**, mas também de articular ideias e soluções com clareza. Tente na medida do possível participar ativamente nas discussões da equipe, apresentar seu trabalho e buscar feedback. Algumas dicas para aprimorar as habilidades de comunicação, como preparar apresentações concisas e impactantes e ouvir ativamente os colegas.
 
-Além disso, o papel do fracasso na jornada rumo à confiança. Todo engenheiro, independentemente do seu nível de experiência, enfrenta contratempos. O fracasso é o famoso "passo pra trás pra pegar impulso" para o sucesso, e isso incentiva todos a verem os desafios como oportunidades de crescimento, em vez de obstáculos intransponíveis. Adotar [uma mentalidade resiliente](https://dev.to/lincolixavier/para-de-culpar-e-comece-a-resolver-bgm) promove a confiança necessária para enfrentar problemas complexos e aprender com os erros.
+Além disso, o papel do fracasso na jornada rumo à confiança. Todo engenheiro, independentemente do seu nível de experiência, enfrenta contratempos. O fracasso é o famoso "passo pra trás pra pegar impulso" para o sucesso, e isso incentiva todos a verem os desafios como oportunidades de crescimento, em vez de obstáculos intransponíveis. Adotar [uma mentalidade resiliente](/pt/articles/pare-de-culpar-e-comece-a-resolver/) promove a confiança necessária para enfrentar problemas complexos e aprender com os erros.
 
 Vou finalizar com as mesmas palavras de um tweet que fiz esses dias:
 ## Você será júnior em tecnologia TI apenas uma vez.
 Essa é um jornada bem grande, se reconheça, se recompensa, estude muito, coloque muito a mão na massa e você colherá os frutos.
 
 ## Aproveite ser júnior
-.
-.
-.
-.
-.
 
-✨ Conheça a Comunidade Nomadz  ✨
-👉🏻 https://www.patreon.com/nomadz/membership
+---
+
+[Conheça a Comunidade Nomadz](https://community.gonomadz.com/)
 
 Quer falar comigo? Tô por aqui:
-https://instagram.com/lincoli.xavier
-https://www.tiktok.com/@lincoli.xavier
-https://twitter.com/lincolixavier
-https://youtube.com/@lincoli.xavier/
-https://www.lincolixavier.com/
+
+- [Instagram](https://instagram.com/lincoli.xavier)
+- [TikTok](https://www.tiktok.com/@lincoli.xavier)
+- [Twitter](https://twitter.com/lincolixavier)
+- [YouTube](https://youtube.com/@lincoli.xavier)
