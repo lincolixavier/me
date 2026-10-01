@@ -102,7 +102,6 @@ Se quiser trocar ideia, tô por aqui:
 - [Instagram](https://instagram.com/lincoli.xavier)
 - [TikTok](https://www.tiktok.com/@lincoli.xavier)
 - [YouTube](https://youtube.com/@lincoli.xavier/)
-- [Website](https://www.lincolixavier.com/)
 
 ---
 

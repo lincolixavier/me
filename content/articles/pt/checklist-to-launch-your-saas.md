@@ -140,19 +140,16 @@ Comece simples, entregue valor e ouça seus primeiros usuários.
 
 ------------
 
-.
-.
-.
-.
+---
 
-✨ Conheça a Comunidade Nomadz ✨
-👉🏻 https://www.patreon.com/nomadz/membership
+[Conheça a Comunidade Nomadz](https://community.gonomadz.com/)
 
 Quer falar comigo? Tô por aqui:
-https://instagram.com/lincoli.xavier
-https://twitter.com/lincolixavier
-https://youtube.com/@lincoli.xavier/
-https://www.lincolixavier.com/
+
+- [Instagram](https://instagram.com/lincoli.xavier)
+- [TikTok](https://www.tiktok.com/@lincoli.xavier)
+- [Twitter](https://twitter.com/lincolixavier)
+- [YouTube](https://youtube.com/@lincoli.xavier)
 
 ---
 

@@ -23,7 +23,7 @@ I have meditated since 2020 using Headspace, and I want to deepen the practice w
 
 In 2023 I created my community for backpacking digital nomads. Plenty of people joined the Discord for free, I recorded two long classes and posted some free material. I want to give it proper attention.
 
-[Nomadz](https://www.patreon.com/nomadz)
+[Nomadz](https://community.gonomadz.com/)
 
 **Write Librium in Go**
 

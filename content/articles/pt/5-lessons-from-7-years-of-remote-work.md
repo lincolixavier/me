@@ -29,21 +29,16 @@ O trabalho remoto vai além de estar em casa; trata-se de liberdade para trabalh
 Trabalhar remotamente é um processo de aprendizado e adaptação. Com o tempo, você e seu time podem desenvolver práticas mais eficientes e alinhadas às necessidades de todos. E você, já experimentou o trabalho remoto? Compartilhe suas experiências e ideias para continuarmos aprendendo juntos!
 
 ## Feliz trabalho remoto \o/
-.
-.
-.
-.
-.
+---
 
-✨ Conheça a Comunidade Nomadz  ✨
-👉🏻 https://www.patreon.com/nomadz/membership
+[Conheça a Comunidade Nomadz](https://community.gonomadz.com/)
 
 Quer falar comigo? Tô por aqui:
-https://instagram.com/lincoli.xavier
-https://www.tiktok.com/@lincoli.xavier
-https://twitter.com/lincolixavier
-https://youtube.com/@lincoli.xavier/
-https://www.lincolixavier.com/
+
+- [Instagram](https://instagram.com/lincoli.xavier)
+- [TikTok](https://www.tiktok.com/@lincoli.xavier)
+- [Twitter](https://twitter.com/lincolixavier)
+- [YouTube](https://youtube.com/@lincoli.xavier)
 
 ---
 

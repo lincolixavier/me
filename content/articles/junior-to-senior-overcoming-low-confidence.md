@@ -40,6 +40,4 @@ Want to talk? Find me here:
 - [Twitter](https://twitter.com/lincolixavier)
 - [YouTube](https://youtube.com/@lincoli.xavier)
 
----
-
 [extremeloop.club](https://extremeloop.club): software engineering community

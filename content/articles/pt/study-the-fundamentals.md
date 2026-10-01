@@ -54,16 +54,14 @@ Livros de obrigatórios:
 - [Designing Data-Intensive Applications](https://amzn.to/3G3KlgJ)
 - [Algoritmos](https://amzn.to/3RzaSFv)
 - [Design Patterns](https://amzn.to/4jO1eef)
-.
-.
-.
-.
-Estou por aqui:
-**[https://instagram.com/lincoli.xavier](https://instagram.com/lincoli.xavier)[
-](https://www.tiktok.com/@lincoli.xavier)[https://twitter.com/lincolixavier](https://twitter.com/lincolixavier)
-[https://www.lincolixavier.com/](https://www.lincolixavier.com/)
 
-Minha Comunidade → [gonomadz.com](http://www.gonomadz.com)**
+Estou por aqui:
+
+- [Instagram](https://instagram.com/lincoli.xavier)
+- [TikTok](https://www.tiktok.com/@lincoli.xavier)
+- [Twitter](https://twitter.com/lincolixavier)
+
+[Minha comunidade](https://community.gonomadz.com/)
 
 ## Parte III
 

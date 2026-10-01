@@ -62,20 +62,16 @@ O ciclo de feedback é preciso ser curto, É de bom tom avisar no chat sobre o P
 Seguindo esse modelo cada dia, e refinando junto com seu time o trabalho vai fluir e todos terão o que eu acho que é mais importante: um bom equilíbrio entre sua vida pessoal e seu trabalho. Dando a cada um a devida importância.
 
 ## Feliz trabalho async \o/
-.
-.
-.
-.
-.
-Quer falar comigo? Tô por aqui:
-https://instagram.com/lincoli.xavier
-https://www.tiktok.com/@lincolixavier
-https://twitter.com/lincolixavier
-https://youtube.com/@lincoli.xavier/
-https://www.lincolixavier.com/
+---
 
-✨ Conheça a Comunidade Nomadz  ✨
-👉🏻 [GoNomadz](https://gonomadz.com)
+Quer falar comigo? Tô por aqui:
+
+- [Instagram](https://instagram.com/lincoli.xavier)
+- [TikTok](https://www.tiktok.com/@lincoli.xavier)
+- [Twitter](https://twitter.com/lincolixavier)
+- [YouTube](https://youtube.com/@lincoli.xavier)
+
+[Conheça a Comunidade Nomadz](https://community.gonomadz.com/)
 
 ✨ Lance seu SaaS mais rápido  ✨
 👉🏻 [Arki](https://usearki.com)

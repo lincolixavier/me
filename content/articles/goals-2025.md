@@ -23,7 +23,7 @@ I made it in 2024 and I want to keep it this year. I have meditated since 2020 u
 
 My focus this year is not subscriber count, it is consistency. In 2023 I created my community for backpacking digital nomads. Plenty of people joined the Discord for free, I recorded two long classes and posted some free material.
 
-[Nomadz](https://www.patreon.com/nomadz/membership)
+[Nomadz](https://community.gonomadz.com/)
 
 **Librium MVP**
 
@@ -59,8 +59,13 @@ I hope you land yours too. Happy 2025.
 
 ---
 
-[Nomadz community](https://www.patreon.com/nomadz/membership)
+[Join the Nomadz community](https://community.gonomadz.com/)
 
----
+Want to talk? Find me here:
+
+- [Instagram](https://instagram.com/lincoli.xavier)
+- [TikTok](https://www.tiktok.com/@lincoli.xavier)
+- [Twitter](https://twitter.com/lincolixavier)
+- [YouTube](https://youtube.com/@lincoli.xavier)
 
 [extremeloop.club](https://extremeloop.club): software engineering community

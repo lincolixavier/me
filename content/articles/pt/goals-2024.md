@@ -20,7 +20,7 @@ Eu medito desde 2020 usando headspace, quero melhorar ainda mais essa prática e
 
 ## 🔹 20 membros na Nomadz
 Em 2023 criei minha comunidade para nomades digitais mochileiros :) entrou bastante no discord de graça, gravei 2 super aulas e postei alguns conteúdo free. Quero me dedicar a isso também :)
->> [Nomadz](https://www.patreon.com/nomadz)
+[Nomadz](https://community.gonomadz.com/)
 
 ## 🔹 Escrever a Librium em Go
 A Librium é outro projeto bem legal que já tirei do papel, criar uma rede social pra substituir o skoob/goodreads que como leitor eu detesto a usabilidade, quero juntar o grande crescimento da comunidade de Go pra experimentar essa lang nova nessa empreitada. E meu amigo Erick Tasheshi vai colar comigo nessa.
@@ -58,21 +58,16 @@ Vamos ver quantas dessas vou conquistar nesse ano!
 
 Desejo que você conquiste as suas também o/
 
-.
-.
-.
-.
-.
+---
 
-✨ Conheça a Comunidade Nomadz  ✨
-👉🏻 https://www.patreon.com/nomadz/membership
+[Conheça a Comunidade Nomadz](https://community.gonomadz.com/)
 
 Quer falar comigo? Tô por aqui:
-https://instagram.com/lincoli.xavier
-https://www.tiktok.com/@lincoli.xavier
-https://twitter.com/lincolixavier
-https://youtube.com/@lincoli.xavier/
-https://www.lincolixavier.com/
+
+- [Instagram](https://instagram.com/lincoli.xavier)
+- [TikTok](https://www.tiktok.com/@lincoli.xavier)
+- [Twitter](https://twitter.com/lincolixavier)
+- [YouTube](https://youtube.com/@lincoli.xavier)
 
 ---
 

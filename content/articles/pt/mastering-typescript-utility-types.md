@@ -202,15 +202,14 @@ Gostou do artigo? Comente quais utility types você mais usa ou quer começar a 
 Referência: [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/utility-types.html)
 
 ---
-✨ Conheça a Comunidade Nomadz ✨
-👉🏻 [Patreon](https://www.patreon.com/nomadz/membership)
+[Conheça a Comunidade Nomadz](https://community.gonomadz.com/)
 
 Quer falar comigo? Tô por aqui:
+
 - [Instagram](https://instagram.com/lincoli.xavier)
 - [TikTok](https://www.tiktok.com/@lincoli.xavier)
 - [Twitter](https://twitter.com/lincolixavier)
-- [YouTube](https://youtube.com/@lincoli.xavier/)
-- [Website](https://www.lincolixavier.com/)
+- [YouTube](https://youtube.com/@lincoli.xavier)
 
 ---
 

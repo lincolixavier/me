@@ -109,18 +109,14 @@ Já tinha visto esse conceito? O que ficou em dúvida? Vamos discutir nos coment
 
 Ref: [Doc MDN](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)
 
-.
-.
-.
-.
-.
+---
 
 Quer falar comigo? Tô por aqui:
-https://instagram.com/lincoli.xavier
-https://www.tiktok.com/@lincoli.xavier
-https://twitter.com/lincolixavier
-https://youtube.com/@lincoli.xavier/
-https://www.lincolixavier.com/
+
+- [Instagram](https://instagram.com/lincoli.xavier)
+- [TikTok](https://www.tiktok.com/@lincoli.xavier)
+- [Twitter](https://twitter.com/lincolixavier)
+- [YouTube](https://youtube.com/@lincoli.xavier)
 
 ---
 

@@ -20,7 +20,7 @@ Em 2024 consegui! Quero manter esse ano. Eu medito desde 2020 usando headspace, 
 
 ## 🔹 Publicar com frequencia na Nomadz
 Meu foco esse ano não será quantidade de assinantes e sim consistência de conteúdo! Em 2023 criei minha comunidade para nômades digitais mochileiros :) entrou bastante no discord de graça, gravei 2 super aulas e postei alguns conteúdo free.
->> [Nomadz](https://www.patreon.com/nomadz/membership)
+[Nomadz](https://community.gonomadz.com/)
 
 ## 🔹 MVP Librium
 Ano passo consegui evoluir alguns scripts dos livros, espero evoluir o suficiente pra lançar o MVP esse ano! Minha rede social de leitura =D
@@ -49,21 +49,16 @@ Desejo que você conquiste as suas também
 
 Feliz 2025! o/
 
-.
-.
-.
-.
-.
+---
 
-✨ Conheça a Comunidade Nomadz  ✨
-👉🏻 https://www.patreon.com/nomadz/membership
+[Conheça a Comunidade Nomadz](https://community.gonomadz.com/)
 
 Quer falar comigo? Tô por aqui:
-https://instagram.com/lincoli.xavier
-https://www.tiktok.com/@lincoli.xavier
-https://twitter.com/lincolixavier
-https://youtube.com/@lincoli.xavier/
-https://www.lincolixavier.com/
+
+- [Instagram](https://instagram.com/lincoli.xavier)
+- [TikTok](https://www.tiktok.com/@lincoli.xavier)
+- [Twitter](https://twitter.com/lincolixavier)
+- [YouTube](https://youtube.com/@lincoli.xavier)
 
 ---
 
