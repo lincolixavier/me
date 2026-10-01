@@ -31,3 +31,7 @@ Co-working spaces help. So does having a small group of people you talk to every
 You get to design your environment. The right music, the right light, the right chair. No open-plan office noise. No commute eating two hours of your day.
 
 That's the actual superpower: control over your context.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

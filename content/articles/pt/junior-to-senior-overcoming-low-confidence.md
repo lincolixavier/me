@@ -39,3 +39,7 @@ Quer falar comigo? Tô por aqui:
 - [TikTok](https://www.tiktok.com/@lincoli.xavier)
 - [Twitter](https://twitter.com/lincolixavier)
 - [YouTube](https://youtube.com/@lincoli.xavier)
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

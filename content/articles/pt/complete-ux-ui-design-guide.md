@@ -215,3 +215,7 @@ Aqui juntei lições, dicas práticas, referências (livros, vídeos, artigos), 
 [Repositório](https://github.com/lincolixavier/guia-final-ux-ui/) que vou atualizar sempre que possível com novos materiais.
 
 Aproveite e bons estudos.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

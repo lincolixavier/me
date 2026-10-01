@@ -65,3 +65,7 @@ Livro do Nagle - [https://amzn.to/4aGcMym](https://amzn.to/4aGcMym)
 Artigo da Rebbeca Sadwick - [https://forbes.com/sites/rebeccasadwick/2020/06/22/how-to-price-products/](https://forbes.com/sites/rebeccasadwick/2020/06/22/how-to-price-products/)
 
 Valeu!
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

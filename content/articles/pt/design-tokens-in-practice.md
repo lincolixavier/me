@@ -46,3 +46,7 @@ Nada de `--blue-500`. Nada de `--space-4`. O nome descreve o propósito, não o 
 Com os tokens no lugar, construir componente novo fica rápido. Você para de pensar em pixel e passa a pensar em relação. Tudo se alinha porque as restrições são compartilhadas.
 
 Pouca disciplina, muito retorno.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

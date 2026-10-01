@@ -42,3 +42,7 @@ Have you worked remotely? Share your experiences so we can keep learning togethe
 ---
 
 [Nomadz community](https://www.patreon.com/nomadz/membership)
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

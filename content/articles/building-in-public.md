@@ -37,3 +37,7 @@ Nobody needs another success story. They need proof that the messy middle is nor
 ## Start small
 
 Pick one channel. Post once a week. Share something real. You don't need an audience to start. The audience comes from the consistency.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

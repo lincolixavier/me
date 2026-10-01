@@ -79,3 +79,7 @@ https://www.lincolixavier.com/
 
 ✨ Lance seu SaaS mais rápido  ✨
 👉🏻 [Arki](https://usearki.com)
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

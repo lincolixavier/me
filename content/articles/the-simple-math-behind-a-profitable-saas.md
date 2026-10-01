@@ -70,3 +70,7 @@ Customers × Price = Revenue
 ```
 
 From there, the goal stops being infinite growth. It becomes finding the balance point of the formula.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

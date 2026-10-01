@@ -16,3 +16,7 @@ Temos que parar de fazer juízo de valor e jogar conforme o jogo:
 "Como posso entregar MAIS valor?"
 
 🎯
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

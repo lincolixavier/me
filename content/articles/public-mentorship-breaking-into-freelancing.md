@@ -220,3 +220,7 @@ Finally, know that being a freelancer means constant learning. The market change
 You do not need to start perfect. You just need to start with clarity.
 
 I hope this helps. Many sales to you.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

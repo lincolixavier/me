@@ -57,3 +57,7 @@ All of this happens very quickly, usually within a fraction of a second, so page
 ---
 
 [Nomadz community](https://www.patreon.com/nomadz/membership)
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

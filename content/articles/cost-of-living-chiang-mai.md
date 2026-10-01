@@ -26,3 +26,7 @@ On average, running economically for one month:
 **Comfortable, with coworking, a scooter and leisure:** R$5,000 to R$6,500
 
 So, do those prices look good to you, or expensive?
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

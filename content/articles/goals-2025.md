@@ -60,3 +60,7 @@ I hope you land yours too. Happy 2025.
 ---
 
 [Nomadz community](https://www.patreon.com/nomadz/membership)
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

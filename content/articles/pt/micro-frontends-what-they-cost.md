@@ -59,3 +59,7 @@ Micro-frontends são uma solução organizacional vestida de fantasia técnica.
 Eles resolvem um problema de gente (times se bloqueando) pagando em complexidade. Quando você genuinamente tem esse problema de gente, é uma boa troca. Quando não tem, você comprou a complexidade e não levou nada em troca.
 
 Pergunte o que está lento de verdade antes de escolher a arquitetura que já assume a resposta.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

@@ -70,3 +70,7 @@ tags: ["books", "career", "programming"]
 Liked it? If you want more books, let me know.
 
 And if you want to read along, come to the [dev book club](https://github.com/lincolixavier/clube-do-livro-dev).
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

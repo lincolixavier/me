@@ -98,3 +98,7 @@ Sanitização de inputs: Prevenir XSS e injeção de código.
 Esse checklist cobre um projeto robusto em Nuxt.js com foco em boas práticas, escalabilidade e performance.
 
 Acho que essa lista cobre quase tudo pra um projeto de ponta de linha hoje em dia! O que faltou? Comenta ai pra gente trocar ideia!
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

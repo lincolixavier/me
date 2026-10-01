@@ -34,3 +34,7 @@ Polish after traction. If people are using it and asking for more, that's when y
 Ship something every week. Even if it's small. A bug fix, a micro-feature, a blog post. The muscle of finishing and releasing is more valuable than any single piece of code.
 
 Done is a feature.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

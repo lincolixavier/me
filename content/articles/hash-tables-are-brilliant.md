@@ -43,3 +43,7 @@ Fast, direct, no detours.
 - Data indexing in stores like Redis
 
 Hash tables are remarkable because they turn the slow, laborious problem of searching for something into a simple piece of arithmetic.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

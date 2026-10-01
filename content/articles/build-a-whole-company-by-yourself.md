@@ -52,3 +52,7 @@ Here is a list of AI tools for generating every essential element of a brand.
 ---
 
 And yes, you do need to study a bit of each of these fields to know what you are getting into. A little marketing has never hurt anyone either.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

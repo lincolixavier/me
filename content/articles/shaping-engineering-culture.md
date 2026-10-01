@@ -60,3 +60,7 @@ Next time you join a new team, before suggesting anything, spend a few weeks jus
 The answers will tell you more about the real culture than any internal document.
 
 Then you start acting. With context, with allies, and by example.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

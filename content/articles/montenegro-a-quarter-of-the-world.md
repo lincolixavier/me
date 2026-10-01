@@ -16,3 +16,7 @@ Do not fall for the company line that remote does not work. What does not work i
 Yes, some do. And that is also the company's fault for not educating people and for hiring badly. Yes, hiring and firing are expensive. But having processes, culture and great environments is expensive too. That line about everyone paying for the sins of a few is nonsense.
 
 I proved it at the companies I have worked for, and I will keep proving it at Unlocd Solutions.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

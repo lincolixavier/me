@@ -110,3 +110,7 @@ In essence: the Shadow DOM provides style and behaviour encapsulation for reusab
 Reference: [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)
 
 Thanks for reading this far.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

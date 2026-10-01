@@ -208,3 +208,7 @@ Espero que esse texto tenha te ajudado, muitas vendas pra você! Qualquer dúvid
 Vamos papear no [Twitter](https://x.com/lincolixavier) e se inscreva no substack pra ver os próximos posts =D
 
 Subscrever
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

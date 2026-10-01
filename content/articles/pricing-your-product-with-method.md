@@ -51,3 +51,7 @@ Launch, charge, and only adjust when you get a real signal: either a lot of pric
 With fifteen conversations and three plans you are already doing better than 90% of SaaS products, which price on pure intuition or by copying a competitor.
 
 References: Nagle's [*The Strategy and Tactics of Pricing*](https://amzn.to/4aGcMym), and Rebecca Sadwick's [article on pricing products](https://forbes.com/sites/rebeccasadwick/2020/06/22/how-to-price-products/) in Forbes.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

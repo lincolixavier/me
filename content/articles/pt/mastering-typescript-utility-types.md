@@ -213,3 +213,5 @@ Quer falar comigo? Tô por aqui:
 - [Website](https://www.lincolixavier.com/)
 
 ---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

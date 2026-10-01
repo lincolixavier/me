@@ -91,3 +91,7 @@ Exemplo:
 Essa abordagem muda completamente o jogo. Em vez de tentar vender algo, você ajuda o cliente a entender o que ele precisa — e mostra como sua solução resolve isso. É venda com propósito, não empurro.
 
 Boas vendas. o/
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

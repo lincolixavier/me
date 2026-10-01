@@ -35,3 +35,7 @@ My store: Horizontes
 I have travelled and photographed since 2016. They are my two great passions. Every place has a story, a particular light, a moment worth making permanent, and that is what I am doing. Now those images become exclusive works of art.
 
 Go and have a look. Feedback welcome.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

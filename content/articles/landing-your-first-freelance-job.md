@@ -109,3 +109,7 @@ Landing your first freelance job as a web developer is a challenge, but with the
 The most important thing is not to give up. Even when it looks hard at the start, the effort pays off once the first doors open and new opportunities appear.
 
 Thanks for reading this far.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

@@ -104,3 +104,7 @@ Teste os handlers com `httptest`, e a camada de banco contra um banco de verdade
 A maior parte dessa lista é sobre o que acontece quando algo dá errado: um cliente desconecta, o banco está lento, um deploy cai no meio de uma requisição, uma entrada é hostil.
 
 O handler que devolve 200 é a parte fácil, e é a parte que todo tutorial cobre. Tudo acima é o que separa código que funciona na sua máquina de um serviço que você pode deixar rodando.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

@@ -33,3 +33,7 @@ O link aqui:  [https://talkbud.app/](https://talkbud.app/?utm_soucer=substack)
 ---
 
 Vamos praticar!
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

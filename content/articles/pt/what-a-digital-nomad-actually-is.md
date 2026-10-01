@@ -50,3 +50,7 @@ Só quem sente isso vai entender um pouco, e como disse, é uma escolha apenas. 
 **Agora pra quem vive isso, é a melhor vida possível e uma realização de um sonho a cada dia.**
 
 Escrevi um pouco mais aqui: https://www.patreon.com/posts/101161912**
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

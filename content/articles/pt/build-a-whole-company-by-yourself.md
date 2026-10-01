@@ -63,3 +63,7 @@ slug: voce-pode-construir-uma-empresa-inteira-sozinho
 - [🔹 Hypotenuse AI](https://www.hypotenuse.ai/) – Textos para e-commerce e marketing.
 
 Nem o céu é o limite.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

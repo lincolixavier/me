@@ -149,3 +149,7 @@ Start simple, deliver value, and listen to your first users.
 ---
 
 [Nomadz community](https://www.patreon.com/nomadz/membership)
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

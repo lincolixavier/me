@@ -19,3 +19,7 @@ Se a evolução de agents continuar no ritmo atual, é fácil imaginar que, em a
 Porque no momento em que alguém consegue descrever um problema em linguagem natural e obter uma solução em linguagem natural — sem termos técnicos, sem modelos mentais de implementação — já não existe mais “programar” no sentido profissional. **Dá para esticar o conceito e dizer que ainda é programação, mas aí o termo perde precisão.**
 
 Talvez sejamos, de fato, a última geração de programadores. Não porque a computação esteja acabando, mas porque ela está deixando de exigir que humanos pensem com modelos mentais formais pra solucionar problemas técnicos.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

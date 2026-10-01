@@ -99,3 +99,7 @@ Here are the main points that may be needed.
 This checklist covers a robust Nuxt.js project with a focus on good practices, scalability and performance.
 
 I think it covers nearly everything for a top-tier project today. What did I miss?
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

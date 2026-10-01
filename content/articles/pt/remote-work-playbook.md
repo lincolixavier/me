@@ -32,3 +32,7 @@ Coworking ajuda. Ter um grupo pequeno de gente com quem você conversa toda sema
 Você desenha o seu ambiente. A música certa, a luz certa, a cadeira certa. Sem barulho de escritório aberto. Sem deslocamento comendo duas horas do seu dia.
 
 Esse é o superpoder de verdade: controle sobre o seu contexto.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

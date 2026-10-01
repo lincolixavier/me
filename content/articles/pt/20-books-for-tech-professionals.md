@@ -71,3 +71,7 @@ slug: 20-livros-para-profissionais-de-tecnologia
 Gostou? Se quiser mais livros comenta aqui.
 
 E se quiser ler comigo, vem pro [clube do livro dev](https://github.com/lincolixavier/clube-do-livro-dev) :)
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

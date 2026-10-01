@@ -40,3 +40,7 @@ Few people are like that. It is neither good nor bad. You simply have to underst
 A nomad only wants freedom and to see the world, and you cannot do that while financing an apartment over 300 instalments.
 
 Only people who feel it will understand it, and as I said, it is just a choice. Different, neither better nor worse. For those living it, it is the best life possible and the fulfilment of a dream, every single day.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

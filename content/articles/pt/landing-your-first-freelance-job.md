@@ -103,3 +103,7 @@ Se quiser trocar ideia, tô por aqui:
 - [TikTok](https://www.tiktok.com/@lincoli.xavier)
 - [YouTube](https://youtube.com/@lincoli.xavier/)
 - [Website](https://www.lincolixavier.com/)
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

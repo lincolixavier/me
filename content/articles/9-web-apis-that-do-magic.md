@@ -165,3 +165,7 @@ Source: [MDN web docs](https://developer.mozilla.org/en-US/docs/Web/API)
 ---
 
 [Nomadz community](https://www.patreon.com/nomadz/membership)
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

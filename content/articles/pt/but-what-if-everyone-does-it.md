@@ -22,3 +22,7 @@ Criação não é sobre quantidade de gente tentando. É sobre **perfil, estôma
 Se você tem isso, crie.
 
 O “todo mundo” nunca chega até o fim.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

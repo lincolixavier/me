@@ -17,3 +17,7 @@ Now that you understand the concept, get to work: use [Namelix](https://namelix.
 ---
 
 [Nomadz, my community for travellers](https://gonomadz.com)
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

@@ -16,3 +16,7 @@ We have to stop making value judgements about it and play the game as it is:
 *What is this market's perception of value?*
 
 *How can I deliver more of it?*
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

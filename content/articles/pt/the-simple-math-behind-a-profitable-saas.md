@@ -99,3 +99,7 @@ A partir daí, o objetivo deixa de ser crescimento infinito.
 O objetivo passa a ser **encontrar o ponto de equilíbrio da fórmula**.
 
 #HappyBuilding
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

@@ -35,3 +35,7 @@ Polir depois da tração. Se as pessoas estão usando e pedindo mais, é aí que
 Lança alguma coisa toda semana. Mesmo que seja pequena. Uma correção de bug, uma micro-feature, um post. O músculo de terminar e publicar vale mais do que qualquer pedaço isolado de código.
 
 Pronto é uma feature.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

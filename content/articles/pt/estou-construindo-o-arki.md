@@ -25,3 +25,7 @@ Tudo o que é necessário  para construir um SaaS moderno.
 Inclusive se tiverem sugestões de ferramentas, features interessantes, terei prazer em implementar :)
 
 [Use Arki](http://www.usearki.dev)
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

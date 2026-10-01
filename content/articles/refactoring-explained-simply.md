@@ -91,3 +91,7 @@ Refactoring keeps what works and improves what is underneath.
 It is not a cleanup marathon. It is many small, constant changes. Once it becomes part of the day rather than a project you have to ask permission for, the code stays clean and stays easy to evolve.
 
 Thanks for reading this far.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

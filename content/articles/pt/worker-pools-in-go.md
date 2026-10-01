@@ -146,3 +146,7 @@ Se as tarefas são poucas, ou rápidas, ou já vêm agrupadas por qualquer coisa
 O padrão ganha seu lugar quando há muitas tarefas, cada uma espera por alguma coisa, e essa coisa tem um limite que você consegue nomear.
 
 Se você não consegue nomear o limite, ainda não está pronto pra escolher o número de workers.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

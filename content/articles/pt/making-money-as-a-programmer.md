@@ -40,3 +40,7 @@ Não há fórmula mágica para ganhar dinheiro. Não tem receita de bolo pra gan
 
 ## Muito obrigado por ler até aqui. :) Grande abraço!
 *Essa é a primeira vez que escrevo, o que achou ? Vamos continuar o papo nos comentários, no meu [**twitter**](https://twitter.com/lincolixavier), ia curtir muito trocar essa idéia. :)*
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

@@ -22,3 +22,7 @@ On a solid fullstack architecture: monorepo, TypeScript, Node, Postgres, Drizzle
 If you have suggestions for tools or features worth having, I would be glad to implement them.
 
 [usearki.dev](https://www.usearki.dev/)
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

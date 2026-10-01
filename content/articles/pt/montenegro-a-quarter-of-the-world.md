@@ -18,3 +18,7 @@ Não caia em papo de empresa que diz que o remoto não funciona. O que não func
 Sim, tem, e é culpa da empresa também não educar e contratar errado. (Sim contratar e demitir é caro) Mas ter procesos, cultura e ambientes incríveis custam caro.
 
 Esse papo de "todos pagam por alguns" é pura balela. Provei isso nas empresas que passei, e continuarei provando na **[Unlocd Solutions](https://www.linkedin.com/company/unlocd-solutions/)**.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

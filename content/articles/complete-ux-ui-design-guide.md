@@ -246,3 +246,7 @@ I gathered lessons, practical tips, references (books, videos, articles) and sug
 There is a [repository](https://github.com/lincolixavier/guia-final-ux-ui/) I update whenever I can with new material.
 
 Enjoy, and good studies.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

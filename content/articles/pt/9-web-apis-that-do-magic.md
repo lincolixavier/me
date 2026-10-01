@@ -186,3 +186,7 @@ https://www.tiktok.com/@lincoli.xavier
 https://twitter.com/lincolixavier
 https://youtube.com/@lincoli.xavier/
 https://www.lincolixavier.com/
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

@@ -106,3 +106,7 @@ Como funciona um container?
 .
 .
 Não pare de estudar.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

@@ -72,3 +72,7 @@ Want to talk? I am around:
 
 - [Nomadz community](https://gonomadz.com)
 - [Arki: ship your SaaS faster](https://www.usearki.dev)
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

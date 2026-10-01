@@ -18,3 +18,7 @@ Creating is work. It is a *lot* of work. Even now, with AI.
 Creating is not about how many people are trying. It is about temperament, stomach and persistence.
 
 If you have those, create. "Everyone" never makes it to the end.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

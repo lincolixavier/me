@@ -38,3 +38,7 @@ You need passion. Love your code. Do it with pleasure. Because then everything y
 **Thank you for reading this far.**
 
 *This is the first time I have written anything like this. What did you think?*
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

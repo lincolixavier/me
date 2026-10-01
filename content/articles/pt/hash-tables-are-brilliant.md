@@ -59,3 +59,7 @@ Subscrevere:
 [Deixe um comentário](https://lincolixavier.substack.com/p/hash-tables-sao-geniais/comments)
 
 =D
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

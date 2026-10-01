@@ -70,3 +70,7 @@ Another travel project. As I travel I meet a lot of wonderful people worth remem
 Let's see how many of these I get.
 
 I hope you land yours too.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

@@ -45,3 +45,7 @@ No `--blue-500`. No `--space-4`. Names describe purpose, not value.
 Once tokens are in place, building new components is fast. You stop thinking about pixels and start thinking about relationships. Everything aligns because the constraints are shared.
 
 Small discipline, big payoff.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

@@ -43,3 +43,7 @@ R$3.000 – R$4.000
 R$5.000 – R$6.500
 
 Eai achou bom os preços? Ou caro?
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

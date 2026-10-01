@@ -73,3 +73,7 @@ Aí sim, você começa a agir. Com contexto, com aliados, e pelo exemplo.
 Vamos papear no [Twitter](https://x.com/lincolixavier)
 
 Subscrever
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

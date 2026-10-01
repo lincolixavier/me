@@ -56,3 +56,7 @@ In short, SPIN Selling is:
 ---
 
 This approach changes the game completely. Instead of trying to sell something, you help the customer understand what they need, and show how your solution addresses it. Selling with purpose, not pushing.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

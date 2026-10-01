@@ -103,3 +103,7 @@ Test the handlers with `httptest`, and the database layer against a real databas
 Most of this list is about what happens when something goes wrong: a client disconnects, the database is slow, a deploy lands mid-request, an input is hostile.
 
 The handler that returns 200 is the easy part, and it is the part every tutorial covers. Everything above is what makes the difference between code that works on your machine and a service you can leave running.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

@@ -58,3 +58,7 @@ Micro-frontends are an organisational solution wearing a technical costume.
 They fix a people problem (teams blocking each other) by paying in complexity. When you genuinely have that people problem, it is a good trade. When you do not, you have bought the complexity and got nothing back.
 
 Ask what is actually slow before you pick the architecture that assumes the answer.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

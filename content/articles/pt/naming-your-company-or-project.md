@@ -18,3 +18,7 @@ Agora que você entendeu o conceito, mãos à obra: usa o [Namelix](https://name
 ---
 
 [Nomadz, minha comunidade pra viajantes](https://gonomadz.com)
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

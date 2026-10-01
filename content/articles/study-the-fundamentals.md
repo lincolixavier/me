@@ -50,3 +50,7 @@ There are a good few months of study in this section alone.
 ---
 
 Do not stop studying.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

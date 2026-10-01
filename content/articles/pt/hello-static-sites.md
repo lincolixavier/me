@@ -24,3 +24,7 @@ Quando cada página é um documento, você pensa diferente. Se importa com estru
 ## Experimenta
 
 Escolhe um tema, adiciona umas páginas e faz o deploy. Talvez você descubra que não precisa de mais nada.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

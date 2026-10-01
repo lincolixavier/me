@@ -34,3 +34,7 @@ Minha Loja → [https://horizontesquadros.com](https://horizontesquadros.com)
 Viajo e Fotografo desde 2016. Minhas maiores paixões. Cada lugar tem uma história, uma luz única, um momento que merece ser eternizado e estou fazendo isso Agora, essas imagens serão obras de arte exclusivas.
 
 Vão lá conferir, aceito feedbacks também <3
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

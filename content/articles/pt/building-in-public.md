@@ -38,3 +38,7 @@ Ninguém precisa de mais uma história de sucesso. As pessoas precisam de prova 
 ## Comece pequeno
 
 Escolhe um canal. Posta uma vez por semana. Compartilha alguma coisa real. Você não precisa de audiência pra começar. A audiência vem da consistência.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

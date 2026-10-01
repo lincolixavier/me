@@ -26,3 +26,7 @@ We are at launch. 50% off forever for anyone joining now.
 If you freeze when it is time to speak English even though you know the theory, what you are missing is probably consistency, not content.
 
 [talkbud.app](https://talkbud.app/)
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

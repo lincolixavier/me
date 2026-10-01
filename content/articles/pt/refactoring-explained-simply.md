@@ -92,3 +92,7 @@ Refatoração mantém o que funciona e melhora o que está por baixo.
 Não é maratona de faxina. São muitas mudanças pequenas e constantes. Quando isso vira parte do dia em vez de um projeto pelo qual você precisa pedir permissão, o código fica limpo e continua fácil de evoluir.
 
 Obrigado por ler até aqui.
+
+---
+
+[extremeloop.club](https://extremeloop.club): comunidade sobre engenharia de software

@@ -23,3 +23,7 @@ That’s it. No React, no Vue, no Next, unless you want them. For a personal sit
 ## Try it
 
 Pick a theme, add a few pages, and deploy. You might find you don’t need more.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community

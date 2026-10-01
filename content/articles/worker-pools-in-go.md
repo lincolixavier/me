@@ -145,3 +145,7 @@ If the tasks are few, or fast, or already batched by whatever you are calling, a
 The pattern earns its place when there are many tasks, each one waits on something, and that something has a limit you can name.
 
 If you cannot name the limit, you are not ready to pick the number of workers yet.
+
+---
+
+[extremeloop.club](https://extremeloop.club): software engineering community
