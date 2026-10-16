@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Pagamento confirmado · Guia do Nômade Digital</title>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script defer src="https://cdn.himetrica.com/tracker.js" data-api-key="hm_5a05ff35165d80fe418a44efa57335af00c7f813188cdeeb"></script>
+<style>
+:root{
+  --paper:#f5f3f8; --card:#fdfcff; --ink:#16131f; --ink-2:#3a3544; --muted:#736c86;
+  --rule:#d6cfe3; --sign:#a065ff; --on-sign:#0d0b14;
+  --display:"Arial Narrow", "Roboto Condensed", Impact, sans-serif;
+  --sans:"Helvetica Neue", Arial, sans-serif;
+  --mono:ui-monospace, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh;display:grid;place-items:center;padding:40px 16px}
+.card{max-width:560px;width:100%;background:var(--card);border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
+.bar{background:var(--sign);color:var(--on-sign);font:600 12px/1 var(--mono);text-transform:uppercase;letter-spacing:.12em;padding:14px 24px;display:flex;justify-content:space-between;gap:12px}
+.body{padding:32px 24px 28px;display:grid;gap:18px}
+h1{font:900 clamp(40px,9vw,64px)/.9 var(--display);text-transform:uppercase;margin:0}
+p{margin:0;color:var(--ink-2)}
+.label{font:500 12px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+a{color:inherit}
+.back{display:inline-block;font:600 13px/1 var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-top:6px}
+[hidden]{display:none}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="bar"><span>Cartão de embarque</span><span>Guia do Nômade Digital</span></div>
+  <div class="body" id="ok">
+    <span class="label">Status: confirmado</span>
+    <h1>Embarque liberado</h1>
+    <p>Pagamento recebido. O link para baixar o PDF está a caminho do e-mail que você usou no pagamento. Com PIX e cartão ele chega em poucos minutos.</p>
+    <p>Não achou? Confira o spam e a aba Promoções. Se em 15 minutos nada chegar, escreva para <a href="mailto:hi@lincoli.me">hi@lincoli.me</a> que eu envio na mão.</p>
+    <a class="back" href="/guia/">Voltar para o guia</a>
+  </div>
+  <div class="body" id="expired" hidden>
+    <span class="label">Status: link expirado</span>
+    <h1>Link vencido</h1>
+    <p>Esse link de download expirou ou passou do limite de acessos. Escreva para <a href="mailto:hi@lincoli.me">hi@lincoli.me</a> com o e-mail da compra que eu mando um novo.</p>
+    <a class="back" href="/guia/">Voltar para o guia</a>
+  </div>
+</main>
+<script>
+(function () {
+  var expired = new URLSearchParams(location.search).get('link') === 'expirado';
+  if (expired) {
+    document.getElementById('ok').hidden = true;
+    document.getElementById('expired').hidden = false;
+  }
+  var name = expired ? 'guia_download_expired' : 'guia_purchase';
+  var tries = 0;
+  (function send() {
+    if (window.himetrica) { try { window.himetrica.track(name, expired ? {} : { value: 67, currency: 'BRL' }); } catch (e) {} return; }
+    if (++tries < 20) setTimeout(send, 250);
+  })();
+})();
+</script>
+</body>
+</html>

@@ -8,5 +8,8 @@
     "watch": "node --watch-path=./content --watch-path=./src --watch-path=./scripts scripts/build.js",
     "test": "node --test \"scripts/test/*.test.js\"",
     "og": "node scripts/og.js"
+  },
+  "dependencies": {
+    "@vercel/blob": "2.8.2"
   }
 }

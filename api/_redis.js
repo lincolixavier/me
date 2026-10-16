@@ -32,6 +32,8 @@ export const redis = {
   expire: (key, seconds) => command("EXPIRE", key, String(seconds)),
   del: (key) => command("DEL", key),
   set: (key, value, seconds) => command("SET", key, value, "EX", String(seconds)),
+  claim: async (key, value, seconds) =>
+    (await command("SET", key, value, "NX", "EX", String(seconds))) === "OK",
   mget: (...keys) => command("MGET", ...keys),
 };
 
