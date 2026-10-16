@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H4VK93Z4C0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H4VK93Z4C0');
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta property="og:title" content="Guia do Nômade Digital">
@@ -523,7 +530,10 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     var q = new URLSearchParams(forward); q.set('src', where);
     a.href = '/api/guia/checkout?' + q.toString();
     a.rel = 'nofollow';
-    a.addEventListener('click', function () { track('guia_checkout_click', { location: where }); });
+    a.addEventListener('click', function () {
+      track('guia_checkout_click', { location: where });
+      try { gtag('event', 'begin_checkout', { currency: 'BRL', value: 67, items: [{ item_id: 'guia-nomade-digital', item_name: 'Guia do Nômade Digital', price: 67, quantity: 1 }] }); } catch (e) {}
+    });
   });
   var seen = false;
   var offer = document.getElementById('oferta');

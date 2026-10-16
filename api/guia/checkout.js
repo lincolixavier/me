@@ -25,12 +25,17 @@ export default async function handler(req, res) {
   const query = req.query || {};
   const pick = (key) => (typeof query[key] === "string" ? query[key].slice(0, 120) : undefined);
 
+  const ref = [...crypto.getRandomValues(new Uint8Array(12))]
+    .map((n) => n.toString(16).padStart(2, "0"))
+    .join("");
+
   try {
     const checkout = await createCheckout({
-      completionUrl: `${siteUrl()}/guia/obrigado/`,
+      completionUrl: `${siteUrl()}/guia/obrigado/?ref=${ref}`,
       returnUrl: `${siteUrl()}/guia/`,
       metadata: {
         product: "guia-nomade-digital",
+        ref,
         source: pick("src"),
         utm_source: pick("utm_source"),
         utm_medium: pick("utm_medium"),
