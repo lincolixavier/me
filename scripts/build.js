@@ -12,7 +12,7 @@ import {
   renderLlmsFullTxt,
   renderContentIndex,
 } from "./lib/machine-readable.js";
-import { SPLASH_SCRIPT, IMPORT_MAP_JSON, ANALYTICS_HOST } from "./lib/layout.js";
+import { SPLASH_SCRIPT, IMPORT_MAP_JSON, ANALYTICS_HOST, GOOGLE_TAG_HOST, googleTagScript } from "./lib/layout.js";
 import {
   LOCALES,
   DEFAULT_LOCALE,
@@ -172,19 +172,25 @@ function minifyCss(css) {
     .trim();
 }
 
-function contentSecurityPolicy() {
+function contentSecurityPolicy(site) {
+  const googleTag = googleTagScript(site.analytics?.googleTagIds);
   // The import map is governed by script-src too, so it needs its own hash.
-  const hashes = [SPLASH_SCRIPT, IMPORT_MAP_JSON]
+  const hashes = [SPLASH_SCRIPT, IMPORT_MAP_JSON, googleTag]
+    .filter(Boolean)
     .map((source) => `'sha256-${crypto.createHash("sha256").update(source).digest("base64")}'`)
     .join(" ");
+  const google = googleTag
+    ? " https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.google.com https://*.google.com.br https://*.doubleclick.net"
+    : "";
 
   return [
     "default-src 'self'",
-    `script-src 'self' https://cdn.jsdelivr.net ${ANALYTICS_HOST} ${hashes}`,
+    `script-src 'self' https://cdn.jsdelivr.net ${ANALYTICS_HOST}${googleTag ? ` ${GOOGLE_TAG_HOST} https://*.google.com https://*.doubleclick.net` : ""} ${hashes}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data:",
+    `img-src 'self' data:${google}`,
     "font-src 'self'",
-    "connect-src 'self' https://*.himetrica.com",
+    `connect-src 'self' https://*.himetrica.com${google}`,
+    ...(google ? [`frame-src 'self'${google}`] : []),
     "form-action 'self'",
     "base-uri 'self'",
     "object-src 'none'",
@@ -275,7 +281,7 @@ async function build() {
   await fs.mkdir(DIST, { recursive: true });
 
   site.styleHash = styles.hash;
-  site.csp = contentSecurityPolicy();
+  site.csp = contentSecurityPolicy(site);
 
   const projects = projectsData.projects ?? [];
   const podcasts = podcastsData.podcasts ?? [];

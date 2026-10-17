@@ -16,14 +16,34 @@ export const ANALYTICS_HOST = "https://cdn.himetrica.com";
 
 const ANALYTICS_SCRIPTS = ["tracker.js", "vitals.js", "errors.js"];
 
+export const GOOGLE_TAG_HOST = "https://www.googletagmanager.com";
+
+export function googleTagScript(ids = []) {
+  if (!ids.length) return "";
+  const configs = ids.map((id) => `gtag("config",${JSON.stringify(id)});`).join("");
+  return `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());${configs}`;
+}
+
+function renderGoogleTag(site) {
+  const ids = site.analytics?.googleTagIds ?? [];
+  if (!ids.length) return "";
+
+  return (
+    `\n  <script async src="${GOOGLE_TAG_HOST}/gtag/js?id=${escape(ids[0])}"></script>` +
+    `\n  <script>${googleTagScript(ids)}</script>`
+  );
+}
+
 function renderAnalytics(site) {
   const key = site.analytics?.himetricaKey;
-  if (!key) return "";
+  const himetrica = key
+    ? ANALYTICS_SCRIPTS.map(
+        (file) =>
+          `\n  <script defer src="${ANALYTICS_HOST}/${file}" data-api-key="${escape(key)}"></script>`
+      ).join("")
+    : "";
 
-  return ANALYTICS_SCRIPTS.map(
-    (file) =>
-      `\n  <script defer src="${ANALYTICS_HOST}/${file}" data-api-key="${escape(key)}"></script>`
-  ).join("");
+  return renderGoogleTag(site) + himetrica;
 }
 
 const CLOSE_FRAMING = {

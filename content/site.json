@@ -106,7 +106,8 @@
   "email": "hi@lincoli.me",
   "_analyticsComment": "Himetrica runs entirely in the browser. The key is a public, client-side one and is meant to be visible in the HTML. Remove the key to remove the scripts.",
   "analytics": {
-    "himetricaKey": "hm_5a05ff35165d80fe418a44efa57335af00c7f813188cdeeb"
+    "himetricaKey": "hm_5a05ff35165d80fe418a44efa57335af00c7f813188cdeeb",
+    "googleTagIds": ["G-H4VK93Z4C0", "AW-16956482704"]
   },
   "_i18nComment": "Translatable copy lives in content/i18n/<locale>.json. Nav ids below are keys into that file's `nav` map."
 }
