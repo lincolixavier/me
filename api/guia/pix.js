@@ -54,13 +54,7 @@ async function create(req, res) {
     metadata: { product: "guia-nomade-digital", ref, name, email, ...fields },
   };
 
-  let charge;
-  try {
-    charge = await createPix({ ...request, customer: { name, email } });
-  } catch (err) {
-    console.warn("[guia/pix] customer rejected, retrying without it", err.message);
-    charge = await createPix(request);
-  }
+  const charge = await createPix(request);
 
   await redis.set(`guia:pix:${charge.id}`, JSON.stringify({ name, email, ref }), BUYER_TTL_SECONDS);
 
