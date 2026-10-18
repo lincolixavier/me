@@ -1,10 +1,6 @@
 import { redis, isConfigured, json } from "../_redis.js";
-import { sendEmail, siteUrl, emailShell } from "../_email.js";
 import { verifySignature, secretMatches } from "./_abacatepay.js";
-
-const OWNER = "hi@lincoli.me";
-const DOWNLOAD_TTL_SECONDS = 60 * 60 * 24 * 30;
-const CLAIM_TTL_SECONDS = 60 * 60 * 24 * 365;
+import { fulfill } from "./_fulfill.js";
 
 // Vercel only parses the body when req.body is read, so the raw stream stays intact for the HMAC.
 async function readRaw(req) {
@@ -13,58 +9,38 @@ async function readRaw(req) {
   return Buffer.concat(chunks).toString("utf8");
 }
 
-function randomToken() {
-  return [...crypto.getRandomValues(new Uint8Array(24))]
-    .map((n) => n.toString(16).padStart(2, "0"))
-    .join("");
+async function fromCheckout(event) {
+  const checkout = event.data?.checkout;
+  const productId = process.env.ABACATEPAY_PRODUCT_ID;
+  if (!checkout?.id || !checkout.items?.some((item) => item.id === productId)) return null;
+
+  return {
+    id: checkout.id,
+    email: event.data?.customer?.email,
+    name: event.data?.customer?.name,
+    amount: checkout.paidAmount ?? checkout.amount,
+  };
 }
 
-function escapeHtml(value) {
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+async function fromTransparent(event) {
+  const charge = event.data?.transparent;
+  if (!charge?.id || charge.metadata?.product !== "guia-nomade-digital") return null;
+
+  const stored = await redis.get(`guia:pix:${charge.id}`).catch(() => null);
+  const buyer = stored ? JSON.parse(stored) : {};
+
+  return {
+    id: charge.id,
+    email: buyer.email || charge.metadata?.email || event.data?.customer?.email,
+    name: buyer.name || charge.metadata?.name || event.data?.customer?.name,
+    amount: charge.paidAmount ?? charge.amount,
+  };
 }
 
-async function deliver({ email, name, token }) {
-  const link = `${siteUrl()}/api/guia/download?token=${token}`;
-  const first = (name || "").trim().split(/\s+/)[0];
-  const greeting = first ? `Oi, ${first}!` : "Oi!";
-  const footnote =
-    "O link vale por 30 dias. Dúvidas ou pedido de reembolso dentro da garantia de 7 dias: " +
-    "é só responder este e-mail.";
-
-  await sendEmail({
-    to: email,
-    replyTo: OWNER,
-    subject: "Seu Guia do Nômade Digital chegou",
-    text: [
-      greeting,
-      "",
-      "Pagamento confirmado. Baixe o Guia do Nômade Digital aqui:",
-      link,
-      "",
-      footnote,
-      "",
-      "Lincoli",
-    ].join("\n"),
-    html: emailShell({
-      heading: "Seu guia chegou",
-      body: `${escapeHtml(greeting)} Pagamento confirmado. Clique abaixo para baixar o PDF do Guia do Nômade Digital. Boa viagem.`,
-      action: { href: link, label: "Baixar o guia" },
-      footnote,
-    }),
-  });
-}
-
-async function notifyOwner(subject, lines) {
-  try {
-    await sendEmail({ to: OWNER, subject, text: lines.join("\n") });
-  } catch (err) {
-    console.error("[guia/webhook] owner notification failed", err);
-  }
-}
+const HANDLERS = {
+  "checkout.completed": fromCheckout,
+  "transparent.completed": fromTransparent,
+};
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -88,51 +64,26 @@ export default async function handler(req, res) {
     return json(res, 400, { error: "invalid json" });
   }
 
-  if (event.event !== "checkout.completed") return json(res, 200, { ignored: true });
-
-  const checkout = event.data?.checkout;
-  const customer = event.data?.customer;
-  const productId = process.env.ABACATEPAY_PRODUCT_ID;
-
-  if (!checkout?.id || !checkout.items?.some((item) => item.id === productId)) {
-    return json(res, 200, { ignored: true });
-  }
+  const pick = HANDLERS[event.event];
+  if (!pick) return json(res, 200, { ignored: true });
 
   if (!process.env.RESEND_API_KEY || !isConfigured()) {
-    console.error("[guia/webhook] delivery is not configured", checkout.id);
+    console.error("[guia/webhook] delivery is not configured", event.id);
     return json(res, 503, { error: "delivery is not configured" });
   }
 
-  const claimKey = `guia:paid:${checkout.id}`;
-  if (!(await redis.claim(claimKey, "1", CLAIM_TTL_SECONDS))) {
-    return json(res, 200, { duplicate: true });
-  }
-
-  const email = typeof customer?.email === "string" ? customer.email.trim().toLowerCase() : "";
-  const amount = ((checkout.paidAmount ?? checkout.amount ?? 0) / 100).toFixed(2);
-  const summary = [
-    `Checkout: ${checkout.id}`,
-    `Cliente: ${customer?.name ?? "?"} <${email || "sem e-mail"}>`,
-    `Valor: R$ ${amount}`,
-    `Método: ${event.data?.payerInformation?.method ?? "?"}`,
-    `Dev mode: ${event.devMode ? "sim" : "não"}`,
-  ];
-
-  if (!email) {
-    await notifyOwner("Guia: venda sem e-mail do cliente", [...summary, "", "Entregar manualmente."]);
-    return json(res, 200, { ok: true, delivered: false });
-  }
+  const sale = await pick(event);
+  if (!sale) return json(res, 200, { ignored: true });
 
   try {
-    const token = randomToken();
-    await redis.set(`guia:dl:${token}`, checkout.id, DOWNLOAD_TTL_SECONDS);
-    await deliver({ email, name: customer?.name, token });
+    const result = await fulfill({
+      ...sale,
+      method: event.data?.payerInformation?.method,
+      devMode: event.devMode,
+    });
+    return json(res, 200, { ok: true, result });
   } catch (err) {
-    console.error("[guia/webhook] delivery failed", checkout.id, err);
-    await redis.del(claimKey).catch(() => {});
+    console.error("[guia/webhook] delivery failed", sale.id, err);
     return json(res, 502, { error: "delivery failed" });
   }
-
-  await notifyOwner(`Guia vendido: R$ ${amount}${event.devMode ? " (teste)" : ""}`, summary);
-  return json(res, 200, { ok: true, delivered: true });
 }

@@ -10,28 +10,48 @@ export function isConfigured() {
   return Boolean(process.env.ABACATEPAY_API_KEY && process.env.ABACATEPAY_PRODUCT_ID);
 }
 
-export async function createCheckout({ completionUrl, returnUrl, metadata }) {
-  const response = await fetch(`${API}/checkouts/create`, {
-    method: "POST",
+async function call(path, { method = "GET", body } = {}) {
+  const response = await fetch(`${API}${path}`, {
+    method,
     headers: {
       Authorization: `Bearer ${process.env.ABACATEPAY_API_KEY}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok || !payload.success || !payload.data) {
+    throw new Error(`abacatepay ${path} ${response.status}: ${JSON.stringify(payload.error ?? payload)}`);
+  }
+
+  return payload.data;
+}
+
+export function createPix({ amount, description, expiresIn, externalId, metadata }) {
+  return call("/transparents/create", {
+    method: "POST",
+    body: { method: "PIX", data: { amount, description, expiresIn, externalId, metadata } },
+  });
+}
+
+export function checkPix(id) {
+  return call(`/transparents/check?id=${encodeURIComponent(id)}`);
+}
+
+export async function createCheckout({ completionUrl, returnUrl, metadata }) {
+  const data = await call("/checkouts/create", {
+    method: "POST",
+    body: {
       items: [{ id: process.env.ABACATEPAY_PRODUCT_ID, quantity: 1 }],
       methods: ["PIX", "CARD"],
       completionUrl,
       returnUrl,
       metadata,
-    }),
+    },
   });
-
-  const body = await response.json().catch(() => ({}));
-  if (!response.ok || !body.success || !body.data?.url) {
-    throw new Error(`abacatepay ${response.status}: ${JSON.stringify(body.error ?? body)}`);
-  }
-
-  return body.data;
+  if (!data.url) throw new Error("abacatepay checkout without url");
+  return data;
 }
 
 export function verifySignature(rawBody, signature) {

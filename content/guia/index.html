@@ -302,7 +302,69 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   .faq details p{font-size:16px}
   .final{padding-block:88px 104px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* pay modal */
+.pay{width:min(520px,calc(100vw - 32px));max-height:calc(100dvh - 32px);padding:0;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);box-shadow:10px 10px 0 var(--ink);overflow:auto;overscroll-behavior:contain}
+.pay::backdrop{background:rgba(13,11,20,.62)}
+.pay[open]{animation:pay-in .18s ease-out}
+@keyframes pay-in{from{opacity:0;transform:translateY(12px)}}
+.pay .bar{position:sticky;top:0;z-index:1;background:var(--board);color:#f5f3f8;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 12px 12px 22px;font:600 12px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.14em}
+.pay .bar b{color:var(--sign);font-weight:600}
+.pay .x{appearance:none;border:0;background:none;color:#f5f3f8;width:36px;height:36px;display:grid;place-items:center;cursor:pointer;font:inherit}
+.pay .x:focus-visible{outline:2px solid var(--sign);outline-offset:2px}
+.pay .step{padding:24px 22px 22px;display:grid;gap:16px}
+.pay h2{font:900 30px/1.05 var(--display);letter-spacing:-.025em}
+.pay p{margin:0;color:var(--ink-2);font-size:16px;line-height:1.5}
+.pay .sum{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1.5px dashed var(--rule);background:var(--paper)}
+.pay .sum span{display:grid;gap:2px}
+.pay .sum b{font:800 17px/1.2 var(--display)}
+.pay .sum strong{font:900 30px/1 var(--display);letter-spacing:-.02em;white-space:nowrap}
+.pay .sum s{display:block;font:500 13px var(--mono);color:var(--muted);text-align:right}
+.pay form{display:grid;gap:14px}
+.pay label{display:grid;gap:6px;font:600 12px/1.2 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2)}
+.pay input{font:500 17px/1.3 var(--sans);color:var(--ink);background:#fff;border:1.5px solid var(--ink);padding:13px 14px;width:100%;box-sizing:border-box;border-radius:0}
+.pay input:focus-visible{outline:3px solid var(--sign);outline-offset:0}
+.pay input[aria-invalid="true"]{border-color:#c4223f;outline-color:#c4223f}
+.pay .err{color:#a3142f;font-size:14px;font-weight:600;margin:0}
+.pay .buy{width:100%;cursor:pointer}
+.pay .buy[disabled]{opacity:.6;cursor:progress;transform:none;box-shadow:5px 5px 0 var(--btn-edge)}
+.pay .alt{font-size:14px;color:var(--muted);text-align:center}
+.pay .alt a{color:var(--ink);font-weight:700}
+.pay .qr{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center}
+.pay .qr img{width:176px;height:176px;border:1.5px solid var(--ink);padding:6px;background:#fff;image-rendering:pixelated}
+.pay ol{margin:0;padding-left:20px;display:grid;gap:6px;font-size:15px;color:var(--ink-2)}
+.pay .code{display:flex;gap:0;border:1.5px solid var(--ink)}
+.pay .code input{border:0;font:500 13px/1.3 var(--mono);text-overflow:ellipsis;min-width:0;background:var(--paper)}
+.pay .copy{appearance:none;border:0;border-left:1.5px solid var(--ink);background:var(--sign);color:var(--on-sign);font:900 14px/1 var(--display);text-transform:uppercase;letter-spacing:.04em;padding:0 18px;cursor:pointer;white-space:nowrap}
+.pay .copy:focus-visible{outline:3px solid var(--ink);outline-offset:-4px}
+.pay .wait{display:flex;align-items:center;justify-content:space-between;gap:12px;font:600 12px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2);padding:12px 14px;background:var(--board);color:var(--board-txt)}
+.pay .wait span{display:flex;align-items:center;gap:10px}
+.pay .dot{width:8px;height:8px;border-radius:50%;background:var(--board-txt);animation:pay-blink 1.2s infinite}
+@keyframes pay-blink{50%{opacity:.25}}
+.pay .link{appearance:none;border:0;background:none;padding:0;font:600 14px var(--sans);color:var(--ink);text-decoration:underline;cursor:pointer;justify-self:start}
+.pay .done{justify-items:center;text-align:center}
+.pay .done .stamp{transform:rotate(-6deg)}
+.pay .secure{border-top:1.5px dashed var(--rule);padding:16px 22px 18px;display:grid;gap:12px;background:var(--paper)}
+.pay .by{display:flex;align-items:center;justify-content:center;gap:10px;font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+.pay .abacate{height:24px;width:auto;color:var(--ink)}
+.pay .seals{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;font:500 11px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+.pay .seals li{display:flex;align-items:center;gap:6px}
+.pay .seals .ic{width:14px;height:14px}
+@media (max-width:760px){
+  .pay{width:100vw;max-width:100vw;max-height:94dvh;margin:auto 0 0;border-width:1.5px 0 0;box-shadow:none}
+  .pay[open]{animation:pay-up .22s ease-out}
+  @keyframes pay-up{from{transform:translateY(40px);opacity:0}}
+  .pay .step{padding:20px 16px}
+  .pay .secure{padding:14px 16px calc(16px + env(safe-area-inset-bottom))}
+  .pay h2{font-size:26px}
+  .pay .qr{grid-template-columns:1fr}
+  .pay .qr img{width:150px;height:150px;justify-self:center;order:2}
+  .pay .code{order:1}
+  .pay .wait{order:2}
+  .pay .qr{order:3}
+  .pay [data-step="pix"] .link{order:4}
+  .pay .bar{padding-left:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 <style>body{margin:0}[hidden]{display:none!important}</style>
 </head>
@@ -513,6 +575,63 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   <span class="label">Dúvidas: <a href="mailto:hi@lincoli.me">hi@lincoli.me</a> · <a href="/">lincoli.me</a></span>
 </div></footer>
 
+<dialog class="pay" id="pay" aria-labelledby="pay-title">
+  <div class="bar"><span>Embarque · <b>Guia do Nômade Digital</b></span><button type="button" class="x" data-close aria-label="Fechar"><svg aria-hidden="true" class="ic" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
+
+  <div class="step" data-step="form">
+    <h2 id="pay-title">Receba o guia no seu e-mail</h2>
+    <div class="sum"><span><b>Guia do Nômade Digital</b><span class="label">PDF · 69 páginas</span></span><span><s>R$&nbsp;127</s><strong>R$&nbsp;67</strong></span></div>
+    <form id="pay-form" novalidate>
+      <label>Nome<input name="name" autocomplete="name" required minlength="2" maxlength="80"></label>
+      <label>E-mail<input name="email" type="email" inputmode="email" autocomplete="email" required maxlength="160"></label>
+      <p class="err" id="pay-err" role="alert" hidden></p>
+      <button class="buy" type="submit">Gerar PIX de R$&nbsp;67</button>
+    </form>
+    <p class="alt">O PDF chega nesse e-mail assim que o PIX cair. Prefere cartão? <a href="/api/guia/checkout?src=modal-card" rel="nofollow" id="pay-card">Pagar com cartão</a></p>
+  </div>
+
+  <div class="step" data-step="pix" hidden>
+    <h2>Pague com PIX</h2>
+    <div class="qr">
+      <img id="pay-qr" alt="QR Code do PIX de R$ 67" width="176" height="176">
+      <ol><li>Abra o app do seu banco e escolha PIX.</li><li>Escaneie o QR Code ou use o PIX copia e cola.</li><li>Confirme R$&nbsp;67. O guia vai para <b id="pay-to"></b>.</li></ol>
+    </div>
+    <div class="code"><input id="pay-code" readonly aria-label="Código PIX copia e cola"><button type="button" class="copy" id="pay-copy">Copiar código</button></div>
+    <div class="wait" role="status"><span><i class="dot" aria-hidden="true"></i>Aguardando pagamento</span><span id="pay-timer"></span></div>
+    <button type="button" class="link" data-restart><svg aria-hidden="true" class="ic" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg> Corrigir nome ou e-mail</button>
+  </div>
+
+  <div class="step done" data-step="paid" hidden>
+    <div class="stamp" aria-hidden="true">Pago<b>R$&nbsp;67</b></div>
+    <h2>Embarque liberado</h2>
+    <p>Pagamento confirmado. O link do PDF está chegando em <b id="pay-sent"></b>.</p>
+  </div>
+
+  <div class="step done" data-step="expired" hidden>
+    <h2>Esse PIX expirou</h2>
+    <p>O código vale 30 minutos. Gere outro, leva um segundo.</p>
+    <button type="button" class="buy" data-restart>Gerar novo PIX</button>
+  </div>
+
+  <div class="secure">
+    <div class="by">Pagamento processado por <svg class="abacate" width="95" height="32" viewBox="0 0 95 32" fill="none" aria-label="AbacatePay" role="img" focusable="false">
+<path d="M29.9137 17.7706C30.0292 16.4601 29.6753 15.1911 30.6432 14.2619L31.2426 13.6864C32.0612 12.8986 32.5209 11.8313 32.5209 10.7185C32.5209 9.60573 32.0612 8.53846 31.2426 7.75066L29.8991 6.46094L28.9313 7.39013C27.8551 7.41786 26.7862 7.827 25.9628 8.61746L25.8111 8.75613C24.845 9.68373 23.5683 10.2535 22.207 10.3649C20.4013 10.5105 18.7112 11.2663 17.4255 12.5007C16.4071 13.4768 15.7013 14.7127 15.3915 16.0621C15.0818 17.4113 15.1811 18.8176 15.6777 20.1143L15.1865 20.5859L17.0283 22.3541C17.7286 23.0269 18.5601 23.5607 19.4754 23.9248C20.3905 24.2889 21.3716 24.4764 22.3623 24.4764C23.353 24.4764 24.334 24.2889 25.2492 23.9248C26.1644 23.5607 26.996 23.0269 27.6963 22.3541C28.9746 21.1267 29.7619 19.5041 29.9137 17.7706Z" fill="#244C4E" />
+<path d="M26.8073 6.1655C27.5797 6.16608 28.3345 6.39575 28.9765 6.8255C29.6185 7.2553 30.119 7.8659 30.4145 8.58016C30.7101 9.29443 30.7876 10.0804 30.6373 10.8388C30.4868 11.5972 30.1154 12.2939 29.5697 12.841L29.433 12.9778C28.5688 13.8422 28.0387 14.9852 27.9368 16.2039C27.7993 17.8194 27.0962 19.3344 25.9513 20.4814C25.3259 21.1098 24.5826 21.6082 23.7641 21.948C22.9456 22.2878 22.0682 22.4624 21.1821 22.4617C19.4557 22.4617 17.7292 21.7992 16.4128 20.4814C15.7868 19.855 15.2902 19.1113 14.9514 18.2927C14.6125 17.4741 14.4381 16.5967 14.4381 15.7106C14.4381 14.8246 14.6125 13.9472 14.9514 13.1286C15.2902 12.31 15.7868 11.5662 16.4128 10.9398C17.5578 9.79283 19.0716 9.0887 20.6857 8.95236C21.9014 8.85156 23.0451 8.31863 23.9084 7.4545L24.0451 7.3177C24.406 6.9517 24.8362 6.66133 25.3105 6.46352C25.7847 6.2657 26.2936 6.16439 26.8073 6.1655ZM26.8073 5.10694C25.4838 5.10694 24.2322 5.62542 23.2969 6.56157L23.1675 6.69837C22.4841 7.3825 21.5705 7.80736 20.5994 7.89376C18.7363 8.05223 16.9883 8.86596 15.6719 10.1838C14.9454 10.9078 14.3693 11.7686 13.9767 12.7165C13.5841 13.6645 13.3828 14.6809 13.3843 15.707C13.3843 17.7954 14.1972 19.7541 15.6719 21.2303C17.1465 22.7066 19.1032 23.5203 21.1893 23.5203C23.2753 23.5203 25.232 22.7066 26.7067 21.2303C28.0231 19.9125 28.8431 18.1555 29.0014 16.2975C29.0818 15.3258 29.5051 14.4144 30.1955 13.7267L30.3322 13.5899C30.794 13.1291 31.1602 12.5814 31.4095 11.9782C31.6589 11.375 31.7866 10.7285 31.7853 10.0757C31.7853 8.7507 31.2673 7.4977 30.3322 6.56157C29.3962 5.62831 28.1284 5.10512 26.8073 5.10694Z" fill="#337D63" />
+<path d="M29.4375 12.9794L29.5741 12.8426C29.937 12.4795 30.2248 12.0483 30.4211 11.5739C30.6174 11.0994 30.7185 10.5908 30.7185 10.0773C30.7185 9.56377 30.6174 9.05524 30.4211 8.58077C30.2248 8.1063 29.937 7.67517 29.5741 7.3121C29.2115 6.9489 28.7808 6.66079 28.3068 6.46424C27.8329 6.26767 27.3249 6.1665 26.8118 6.1665C26.2988 6.1665 25.7908 6.26767 25.3169 6.46424C24.8429 6.66079 24.4123 6.9489 24.0495 7.3121L23.913 7.4489C23.0494 8.31397 21.9076 8.8447 20.6902 8.94677C19.0761 9.0831 17.5623 9.78717 16.4173 10.9343C15.7913 11.5607 15.2947 12.3044 14.9558 13.123C14.617 13.9416 14.4426 14.819 14.4426 15.705C14.4426 16.5911 14.617 17.4685 14.9558 18.287C15.2947 19.1056 15.7913 19.8494 16.4173 20.4758C17.043 21.1025 17.786 21.5996 18.6037 21.9388C19.4214 22.278 20.2978 22.4526 21.183 22.4526C22.0681 22.4526 22.9445 22.278 23.7623 21.9388C24.58 21.5996 25.3229 21.1025 25.9487 20.4758C27.0945 19.3296 27.7979 17.8142 27.9341 16.1984C28.0419 14.9886 28.5743 13.8435 29.4375 12.9794Z" fill="#89BA4F" />
+<path d="M29.4375 12.9794L29.5741 12.8426C29.937 12.4795 30.2248 12.0483 30.4211 11.5739C30.6174 11.0994 30.7185 10.5908 30.7185 10.0773C30.7185 9.56377 30.6174 9.05524 30.4211 8.58077C30.2248 8.1063 29.937 7.67517 29.5741 7.3121C29.2115 6.9489 28.7808 6.66079 28.3068 6.46424C27.8329 6.26767 27.3249 6.1665 26.8118 6.1665C26.2988 6.1665 25.7908 6.26767 25.3169 6.46424C24.8429 6.66079 24.4123 6.9489 24.0495 7.3121L23.913 7.4489C23.0494 8.31397 21.9076 8.8447 20.6902 8.94677C19.0761 9.0831 17.5623 9.78717 16.4173 10.9343C15.7913 11.5607 15.2947 12.3044 14.9558 13.123C14.617 13.9416 14.4426 14.819 14.4426 15.705C14.4426 16.5911 14.617 17.4685 14.9558 18.287C15.2947 19.1056 15.7913 19.8494 16.4173 20.4758C17.043 21.1025 17.786 21.5996 18.6037 21.9388C19.4214 22.278 20.2978 22.4526 21.183 22.4526C22.0681 22.4526 22.9445 22.278 23.7623 21.9388C24.58 21.5996 25.3229 21.1025 25.9487 20.4758C27.0945 19.3296 27.7979 17.8142 27.9341 16.1984C28.0419 14.9886 28.5743 13.8435 29.4375 12.9794Z" fill="#9EEA6C" />
+<path d="M21.5047 18.5685C22.3366 18.5685 23.1344 18.2377 23.7225 17.6489C24.3107 17.0601 24.6412 16.2615 24.6412 15.4288C24.6412 14.5961 24.3107 13.7975 23.7225 13.2087C23.1344 12.6199 22.3366 12.2891 21.5047 12.2891C20.673 12.2891 19.8752 12.6199 19.2871 13.2087C18.6988 13.7975 18.3684 14.5961 18.3684 15.4288C18.3684 16.2615 18.6988 17.0601 19.2871 17.6489C19.8752 18.2377 20.673 18.5685 21.5047 18.5685Z" fill="#804B35" />
+<path d="M43.286 4.94531H50.0921C53.3835 4.94531 56.0334 7.62393 56.0334 10.8885C56.0334 14.181 53.3835 16.8597 50.0921 16.8597H45.7406V23.9189H43.286V4.94531ZM45.7406 14.4042H50.0641C52.0167 14.4042 53.5788 12.8417 53.5788 10.9164C53.5788 8.96326 52.0167 7.40073 50.0641 7.40073H45.7406V14.4042Z" fill="currentColor" />
+<path d="M61.9159 10.9722C65.5978 10.9722 68.5825 13.9578 68.6103 17.6688V23.9468H66.1557V22.8307C64.8726 23.8631 63.3942 24.3374 61.9717 24.3374C58.5129 24.3374 55.2214 21.6309 55.2214 17.6688C55.2214 13.9578 58.206 10.9722 61.9159 10.9722ZM66.1557 17.6967C66.1557 15.5203 64.4821 13.4276 61.9159 13.4276C59.5728 13.4276 57.6761 15.325 57.6761 17.6688C57.6761 20.2079 59.7681 21.882 61.9438 21.882C64.2311 21.882 66.1557 19.9847 66.1557 17.6967Z" fill="currentColor" />
+<path d="M76.7039 25.3935C72.994 25.3935 70.0093 22.4079 70.0093 18.7248V12.4468H72.464V18.7248C72.4919 21.0407 74.3886 22.9102 76.7039 22.9102C79.0192 22.9102 80.9159 21.0407 80.9439 18.7248V12.4468H83.3984V18.7248C83.3704 22.4079 80.3861 25.3935 76.7039 25.3935ZM83.3984 24.975C83.3984 27.6257 81.1112 31.1135 76.7039 31.1135H74.7512V28.6581H76.7039C80.1908 28.6581 80.9439 25.7004 80.9439 24.975H83.3984Z" fill="currentColor" />
+</svg></div>
+    <ul class="seals">
+      <li><svg aria-hidden="true" class="ic" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Conexão segura</li>
+      <li><svg aria-hidden="true" class="ic" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg> Garantia de 7 dias</li>
+      <li><svg aria-hidden="true" class="ic" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> Entrega por e-mail</li>
+    </ul>
+  </div>
+</dialog>
+
 <div class="sticky off" id="sticky" aria-label="Comprar">
   <div class="p"><s>R$&nbsp;127</s>R$&nbsp;67</div>
   <a class="buy buy-link" href="#oferta">Comprar</a>
@@ -526,16 +645,140 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   var params = new URLSearchParams(location.search);
   var forward = new URLSearchParams();
   ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) { if (params.get(k)) forward.set(k, params.get(k)); });
+  var ITEM = { item_id: 'guia-nomade-digital', item_name: 'Guia do Nômade Digital', price: 67, quantity: 1 };
+  function gt(name, props) { try { gtag('event', name, props); } catch (e) {} }
+  var openPay = initPay();
   document.querySelectorAll('.buy-link').forEach(function (a) {
     var where = a.id || (a.closest('.sticky') ? 'sticky' : a.closest('.top') ? 'top' : a.closest('.final') ? 'final' : 'other');
     var q = new URLSearchParams(forward); q.set('src', where);
     a.href = '/api/guia/checkout?' + q.toString();
     a.rel = 'nofollow';
-    a.addEventListener('click', function () {
+    a.addEventListener('click', function (e) {
       track('guia_checkout_click', { location: where });
-      try { gtag('event', 'begin_checkout', { currency: 'BRL', value: 67, items: [{ item_id: 'guia-nomade-digital', item_name: 'Guia do Nômade Digital', price: 67, quantity: 1 }] }); } catch (e) {}
+      if (!openPay || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      e.preventDefault();
+      openPay(where);
     });
   });
+
+  function initPay() {
+    var dlg = document.getElementById('pay');
+    if (!dlg || typeof dlg.showModal !== 'function' || !window.fetch) return null;
+    var form = document.getElementById('pay-form');
+    var err = document.getElementById('pay-err');
+    var submit = form.querySelector('button[type=submit]');
+    var source = 'other', charge = null, poll = null, tick = null;
+    var STORE = 'guia_pix';
+
+    try { charge = JSON.parse(sessionStorage.getItem(STORE)); } catch (e) {}
+    if (charge && new Date(charge.expiresAt) < new Date()) charge = null;
+
+    function show(step) {
+      dlg.querySelectorAll('[data-step]').forEach(function (el) { el.hidden = el.dataset.step !== step; });
+    }
+    function fail(msg, field) {
+      err.textContent = msg; err.hidden = false;
+      form.querySelectorAll('input').forEach(function (i) { i.removeAttribute('aria-invalid'); });
+      if (field && form.elements[field]) { form.elements[field].setAttribute('aria-invalid', 'true'); form.elements[field].focus(); }
+    }
+    function stop() { clearInterval(poll); clearInterval(tick); poll = tick = null; }
+    function save() { try { charge ? sessionStorage.setItem(STORE, JSON.stringify(charge)) : sessionStorage.removeItem(STORE); } catch (e) {} }
+
+    function showPix() {
+      document.getElementById('pay-qr').src = charge.qr;
+      document.getElementById('pay-code').value = charge.brCode;
+      document.getElementById('pay-to').textContent = charge.email;
+      show('pix');
+      stop();
+      var timer = document.getElementById('pay-timer');
+      function count() {
+        var left = Math.max(0, new Date(charge.expiresAt) - new Date());
+        var m = Math.floor(left / 60000), sec = Math.floor(left / 1000) % 60;
+        timer.textContent = 'expira em ' + m + ':' + (sec < 10 ? '0' : '') + sec;
+        if (!left) { stop(); charge = null; save(); show('expired'); }
+      }
+      count();
+      tick = setInterval(count, 1000);
+      poll = setInterval(check, 3000);
+    }
+
+    function check() {
+      if (!charge) return;
+      fetch('/api/guia/pix?id=' + encodeURIComponent(charge.id), { cache: 'no-store' })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (!charge) return;
+          if (d.status === 'PAID') {
+            stop();
+            document.getElementById('pay-sent').textContent = charge.email;
+            show('paid');
+            var ref = d.ref || charge.ref;
+            charge = null; save();
+            setTimeout(function () { location.href = '/guia/obrigado/?ref=' + encodeURIComponent(ref); }, 2200);
+          } else if (d.status === 'EXPIRED' || d.status === 'CANCELLED') {
+            stop(); charge = null; save(); show('expired');
+          }
+        })
+        .catch(function () {});
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      err.hidden = true;
+      var name = form.elements.name.value.trim(), email = form.elements.email.value.trim();
+      if (name.length < 2) return fail('Informe seu nome.', 'name');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('Confira o e-mail.', 'email');
+      submit.disabled = true; submit.textContent = 'Gerando PIX...';
+      var body = { name: name, email: email, src: source };
+      forward.forEach(function (v, k) { body[k] = v; });
+      fetch('/api/guia/pix', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (!res.ok || !res.d.brCode) {
+            track('guia_checkout_error', { step: 'pix' });
+            return fail(res.d.error || 'Não consegui gerar o PIX agora. Tente de novo.', res.d.field);
+          }
+          charge = { id: res.d.id, ref: res.d.ref, brCode: res.d.brCode, qr: res.d.qr, expiresAt: res.d.expiresAt, email: email };
+          save();
+          track('guia_pix_generated', { location: source });
+          gt('add_payment_info', { currency: 'BRL', value: 67, payment_type: 'PIX', items: [ITEM] });
+          showPix();
+        })
+        .catch(function () { fail('Sem conexão. Tente de novo.'); })
+        .finally(function () { submit.disabled = false; submit.innerHTML = 'Gerar PIX de R$&nbsp;67'; });
+    });
+
+    document.getElementById('pay-copy').addEventListener('click', function () {
+      var btn = this, input = document.getElementById('pay-code');
+      function done() { btn.textContent = 'Copiado'; setTimeout(function () { btn.textContent = 'Copiar código'; }, 2500); }
+      if (navigator.clipboard) navigator.clipboard.writeText(input.value).then(done, function () { input.select(); });
+      else { input.select(); document.execCommand('copy'); done(); }
+      track('guia_pix_copy');
+    });
+
+    dlg.querySelectorAll('[data-restart]').forEach(function (b) {
+      b.addEventListener('click', function () { stop(); charge = null; save(); show('form'); form.elements.name.focus(); });
+    });
+    dlg.querySelector('[data-close]').addEventListener('click', function () { dlg.close(); });
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('close', function () { document.documentElement.style.overflow = ''; });
+    document.getElementById('pay-card').addEventListener('click', function () {
+      var q = new URLSearchParams(forward); q.set('src', 'modal-card');
+      this.href = '/api/guia/checkout?' + q.toString();
+      track('guia_card_fallback');
+    });
+    document.addEventListener('visibilitychange', function () { if (!document.hidden && poll) check(); });
+
+    return function (where) {
+      source = where;
+      gt('begin_checkout', { currency: 'BRL', value: 67, items: [ITEM] });
+      track('guia_pay_open', { location: where });
+      document.documentElement.style.overflow = 'hidden';
+      dlg.showModal();
+      if (charge) { showPix(); check(); }
+      else { show('form'); form.elements.name.focus(); }
+    };
+  }
   var seen = false;
   var offer = document.getElementById('oferta');
   if (offer && 'IntersectionObserver' in window) {
