@@ -28,18 +28,15 @@ async function call(path, { method = "GET", body } = {}) {
   return payload.data;
 }
 
-export function createPix({ amount, description, expiresIn, externalId, metadata }) {
-  return call("/transparents/create", {
-    method: "POST",
-    body: { method: "PIX", data: { amount, description, expiresIn, externalId, metadata } },
-  });
+export function createPix(data) {
+  return call("/transparents/create", { method: "POST", body: { method: "PIX", data } });
 }
 
 export function checkPix(id) {
   return call(`/transparents/check?id=${encodeURIComponent(id)}`);
 }
 
-export async function createCheckout({ completionUrl, returnUrl, metadata }) {
+export async function createCheckout({ completionUrl, returnUrl, externalId, metadata }) {
   const data = await call("/checkouts/create", {
     method: "POST",
     body: {
@@ -47,6 +44,7 @@ export async function createCheckout({ completionUrl, returnUrl, metadata }) {
       methods: ["PIX", "CARD"],
       completionUrl,
       returnUrl,
+      externalId,
       metadata,
     },
   });

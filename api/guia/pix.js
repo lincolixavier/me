@@ -1,6 +1,7 @@
 import { redis, isConfigured as redisConfigured, withinRateLimit, clientIp, json } from "../_redis.js";
 import { isConfigured, createPix, checkPix } from "./_abacatepay.js";
 import { fulfill, PRICE_CENTS } from "./_fulfill.js";
+import { attribution, utm } from "./_attribution.js";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const CHARGE_ID = /^pix_char_[A-Za-z0-9]{8,64}$/;
@@ -43,24 +44,23 @@ async function create(req, res) {
   if (!EMAIL.test(email)) return json(res, 422, { error: "Confira o e-mail.", field: "email" });
 
   const ref = randomRef();
-  const pick = (key) => clean(body[key], 120) || undefined;
-
-  const charge = await createPix({
+  const fields = attribution(req, body);
+  const request = {
     amount: PRICE_CENTS,
     description: "Guia do Nômade Digital",
     expiresIn: EXPIRES_IN_SECONDS,
     externalId: ref,
-    metadata: {
-      product: "guia-nomade-digital",
-      ref,
-      name,
-      email,
-      source: pick("src"),
-      utm_source: pick("utm_source"),
-      utm_medium: pick("utm_medium"),
-      utm_campaign: pick("utm_campaign"),
-    },
-  });
+    utm: utm(fields),
+    metadata: { product: "guia-nomade-digital", ref, name, email, ...fields },
+  };
+
+  let charge;
+  try {
+    charge = await createPix({ ...request, customer: { name, email } });
+  } catch (err) {
+    console.warn("[guia/pix] customer rejected, retrying without it", err.message);
+    charge = await createPix(request);
+  }
 
   await redis.set(`guia:pix:${charge.id}`, JSON.stringify({ name, email, ref }), BUYER_TTL_SECONDS);
 

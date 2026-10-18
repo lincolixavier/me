@@ -644,7 +644,18 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
   }
   var params = new URLSearchParams(location.search);
   var forward = new URLSearchParams();
-  ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) { if (params.get(k)) forward.set(k, params.get(k)); });
+  var TRACKED = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid', 'fbclid'];
+  TRACKED.forEach(function (k) { if (params.get(k)) forward.set(k, params.get(k)); });
+  try {
+    var first = JSON.parse(localStorage.getItem('guia_attr') || 'null');
+    if (!first || forward.toString()) {
+      first = { q: forward.toString() || (first && first.q) || '', referrer: document.referrer.slice(0, 200), landing: location.pathname + location.search };
+      localStorage.setItem('guia_attr', JSON.stringify(first));
+    }
+    if (!forward.toString() && first.q) forward = new URLSearchParams(first.q);
+    if (first.referrer) forward.set('referrer', first.referrer);
+    forward.set('landing', first.landing.slice(0, 200));
+  } catch (e) {}
   var ITEM = { item_id: 'guia-nomade-digital', item_name: 'Guia do Nômade Digital', price: 67, quantity: 1 };
   function gt(name, props) { try { gtag('event', name, props); } catch (e) {} }
   var openPay = initPay();

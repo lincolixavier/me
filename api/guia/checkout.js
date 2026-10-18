@@ -1,6 +1,7 @@
 import { withinRateLimit, clientIp } from "../_redis.js";
 import { siteUrl } from "../_email.js";
 import { isConfigured, createCheckout } from "./_abacatepay.js";
+import { attribution } from "./_attribution.js";
 
 const FALLBACK = "/guia/?checkout=erro#oferta";
 
@@ -22,9 +23,6 @@ export default async function handler(req, res) {
     return redirect(res, FALLBACK);
   }
 
-  const query = req.query || {};
-  const pick = (key) => (typeof query[key] === "string" ? query[key].slice(0, 120) : undefined);
-
   const ref = [...crypto.getRandomValues(new Uint8Array(12))]
     .map((n) => n.toString(16).padStart(2, "0"))
     .join("");
@@ -33,14 +31,8 @@ export default async function handler(req, res) {
     const checkout = await createCheckout({
       completionUrl: `${siteUrl()}/guia/obrigado/?ref=${ref}`,
       returnUrl: `${siteUrl()}/guia/`,
-      metadata: {
-        product: "guia-nomade-digital",
-        ref,
-        source: pick("src"),
-        utm_source: pick("utm_source"),
-        utm_medium: pick("utm_medium"),
-        utm_campaign: pick("utm_campaign"),
-      },
+      externalId: ref,
+      metadata: { product: "guia-nomade-digital", ref, ...attribution(req, req.query || {}) },
     });
 
     return redirect(res, checkout.url);
