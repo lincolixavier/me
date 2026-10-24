@@ -41,7 +41,7 @@ export async function createCheckout({ completionUrl, returnUrl, externalId, met
     method: "POST",
     body: {
       items: [{ id: process.env.ABACATEPAY_PRODUCT_ID, quantity: 1 }],
-      methods: ["PIX", "CARD"],
+      methods: ["PIX"],
       completionUrl,
       returnUrl,
       externalId,

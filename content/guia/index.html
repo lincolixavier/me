@@ -587,7 +587,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
       <p class="err" id="pay-err" role="alert" hidden></p>
       <button class="buy" type="submit">Gerar PIX de R$&nbsp;67</button>
     </form>
-    <p class="alt">O PDF chega nesse e-mail assim que o PIX cair. Prefere cartão? <a href="/api/guia/checkout?src=modal-card" rel="nofollow" id="pay-card">Pagar com cartão</a></p>
+    <p class="alt">O PDF chega nesse e-mail assim que o PIX cair.</p>
   </div>
 
   <div class="step" data-step="pix" hidden>
@@ -773,11 +773,6 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
     dlg.querySelector('[data-close]').addEventListener('click', function () { dlg.close(); });
     dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
     dlg.addEventListener('close', function () { document.documentElement.style.overflow = ''; });
-    document.getElementById('pay-card').addEventListener('click', function () {
-      var q = new URLSearchParams(forward); q.set('src', 'modal-card');
-      this.href = '/api/guia/checkout?' + q.toString();
-      track('guia_card_fallback');
-    });
     document.addEventListener('visibilitychange', function () { if (!document.hidden && poll) check(); });
 
     return function (where) {
