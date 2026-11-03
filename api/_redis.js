@@ -35,6 +35,14 @@ export const redis = {
   claim: async (key, value, seconds) =>
     (await command("SET", key, value, "NX", "EX", String(seconds))) === "OK",
   mget: (...keys) => command("MGET", ...keys),
+  hset: (key, fields) => command("HSET", key, ...Object.entries(fields).flat()),
+  hdel: (key, ...fields) => command("HDEL", key, ...fields),
+  hgetall: async (key) => {
+    const flat = (await command("HGETALL", key)) ?? [];
+    const out = {};
+    for (let i = 0; i < flat.length; i += 2) out[flat[i]] = flat[i + 1];
+    return out;
+  },
 };
 
 export function toCount(value) {

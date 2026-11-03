@@ -7,7 +7,7 @@ export function siteUrl() {
   return "https://www.lincoli.me";
 }
 
-export function emailShell({ heading, body, action, footnote }) {
+export function emailShell({ heading, body, action, footnote, pasteHint = "Or paste this into your browser:" }) {
   const button = action
     ? `<tr><td style="padding:8px 0 4px">
          <a href="${action.href}"
@@ -17,7 +17,7 @@ export function emailShell({ heading, body, action, footnote }) {
          </a>
        </td></tr>
        <tr><td style="padding:14px 0 0;font-size:13px;line-height:1.6;color:#8a8a8a">
-         Or paste this into your browser:<br />
+         ${pasteHint}<br />
          <span style="color:#b9b9b9;word-break:break-all">${action.href}</span>
        </td></tr>`
     : "";

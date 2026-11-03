@@ -400,6 +400,8 @@ async function build() {
   await copyDir(path.join(ROOT, "content/guia"), path.join(DIST, "guia"));
   sitemapEntries.push({ path: "/guia/", priority: "0.9" });
 
+  await copyDir(path.join(ROOT, "content/china"), path.join(DIST, "china"));
+
   await writeFile("robots.txt", renderRobots(site));
   await writeFile("sitemap.xml", renderSitemap(site, sitemapEntries));
 
